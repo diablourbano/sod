@@ -1,13 +1,39 @@
 'use strict'
 
-height = window.innerHeight
-width = window.innerWidth
+sizeConstant = 5
+height = window.innerHeight - sizeConstant
+width = window.innerWidth - sizeConstant
+ratio = width/height
+baseRatio = 960/620
+
+# originalMapProperties = {
+#                           top: 130,
+#                           width: 960,
+#                           height: 620,
+#                           scale: 150
+#                         }
+
+proportionalTo = (comparedValue)->
+  (ratio * comparedValue) / baseRatio
+
+alignTopBasedOn = ->
+  top = switch
+          when ratio > 1.8 then 150
+          when ratio > 1.5 then 190
+          else 160
+
+whatScaleToUse = ->
+  scale = switch
+            when ratio > 1.8 then 180
+            when ratio > 1.7 then 210
+            when ratio > 1.5 then 220
+            else 230
 
 originalMapProperties = {
-                          top: 130,
-                          width: 960,
-                          height: 620,
-                          scale: 150
+                          top: proportionalTo(alignTopBasedOn())
+                          width: width,
+                          height: height,
+                          scale: proportionalTo(whatScaleToUse())
                         }
 
 svg = d3.select('body .map-container')
