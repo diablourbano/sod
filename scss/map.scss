@@ -1,27 +1,68 @@
+@import "variables";
+
 body {
+  background: $water;
+  font-family: 'Lato', sans-serif;
   margin: 0;
   padding: 0;
+}
+
+a, h1, h2, h3, p {
+  font-family: 'Lato', sans-serif;
 }
 
 .map-container {
   margin: 0 auto;
 
+  &.fixed {
+    position: fixed;
+    z-index: -1;
+  }
+
   .world-map {
 
     .country {
-      fill: #4c4c4c;
+      fill: $countries;
     }
   }
 }
 
 .dates-container {
-  background: green;
-  height: 600px;
+  background: $dates-container;
+  border-top: solid 1px $thin-separator;
+  height: auto;
+  padding: 10px 0;
 
-  .years-container {
-    height: 300px;
-    background: red;
-    margin-right: 5px;
-    margin-right: 5px;
+  .year-container {
+    border-right: solid 1px #dbdbdb;
+    border-left: solid 1px #a9a9a9;
+    height: 230px;
+    width: 32.333%;
+
+    &:first-child {
+      border-left: none;
+    }
+
+    &:last-child {
+      border-right: none;
+    }
+
+    .year {
+      cursor: pointer;
+
+      .title {
+        h3 {
+          color: $date-headline;
+          font-weight: 300;
+          font-size: 5em;
+          margin: 70px 0;
+          text-align: right;
+        }
+      }
+      
+      .total-qty {
+        fill: $qty;
+      }
+    }
   }
 }

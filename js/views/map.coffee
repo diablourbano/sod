@@ -1,65 +1,69 @@
 'use strict'
 
-sizeConstant = 5
-height = window.innerHeight - sizeConstant
-width = window.innerWidth - sizeConstant
-ratio = width/height
-baseRatio = 960/620
+class Map
 
-# originalMapProperties = {
-#                           top: 130,
-#                           width: 960,
-#                           height: 620,
-#                           scale: 150
-#                         }
+  utils = new Utils
+  sizeConstant = 15
+  height = utils.height - sizeConstant
+  width = utils.width - sizeConstant
+  ratio = width/height
+  baseRatio = 960/620
 
-proportionalTo = (comparedValue)->
-  (ratio * comparedValue) / baseRatio
+  proportionalTo = (comparedValue)->
+    (ratio * comparedValue) / baseRatio
 
-alignTopBasedOn = ->
-  top = switch
-          when ratio > 1.8 then 150
-          when ratio > 1.5 then 190
-          else 160
+  alignTopBasedOn = ->
+    top = switch
+            when ratio > 1.8 then 150
+            when ratio > 1.5 then 190
+            else 160
 
-whatScaleToUse = ->
-  scale = switch
-            when ratio > 1.8 then 180
-            when ratio > 1.7 then 210
-            when ratio > 1.5 then 220
-            else 230
+  whatScaleToUse = ->
+    scale = switch
+              when ratio > 1.8 then 170
+              when ratio > 1.7 then 200
+              when ratio > 1.4 then 210
+              else 230
 
-originalMapProperties = {
-                          top: proportionalTo(alignTopBasedOn())
-                          width: width,
-                          height: height,
-                          scale: proportionalTo(whatScaleToUse())
-                        }
+  mapProperties = {
+                    top: proportionalTo(alignTopBasedOn())
+                    width: width,
+                    height: height,
+                    scale: proportionalTo(whatScaleToUse())
+                  }
 
-svg = d3.select('body .map-container')
-        .attr('style', 'width: ' + originalMapProperties.width + 'px')
-        .append('svg')
-        .attr('class', 'world-map')
-        .attr('width', originalMapProperties.width)
-        .attr('height', originalMapProperties.height)
-
-d3.json "map.json", (error, world) ->
-  return console.error(error) if error
-
-  datum = topojson.feature(world, world.objects.world_map)
+  svg = d3.select('body .map-container.fixed')
+          .attr('style', utils.sizeStyles(mapProperties.width,
+                                    mapProperties.height))
+          .append('svg')
+          .attr('class', 'world-map')
+          .attr('width', mapProperties.width)
+          .attr('height', mapProperties.height)
 
   projection = d3.geo.mercator()
-                 .scale(originalMapProperties.scale)
-                 .translate([originalMapProperties.width/2,
-                             (originalMapProperties.height/2) + 
-                              originalMapProperties.top])
+                 .scale(mapProperties.scale)
+                 .translate([mapProperties.width/2,
+                             (mapProperties.height/2) +
+                              mapProperties.top])
 
   path = d3.geo.path()
            .projection(projection)
 
-  svg.selectAll('.country')
-     .data(datum.features)
-     .enter()
-     .append('path')
-     .attr('class', 'country')
-     .attr('d', path)
+  renderWith = (datum) ->
+    svg.selectAll('.country')
+       .data(datum.features)
+       .enter()
+       .append('path')
+       .attr('class', (d) ->
+                      'country ' + d.id)
+       .attr('d', path)
+
+  getMapData = ->
+    d3.json "map.json", (error, world) ->
+      return console.error(error) if error
+
+      datum = topojson.feature(world, world.objects.world_map)
+      renderWith(datum)
+
+  render: ->
+    getMapData()
