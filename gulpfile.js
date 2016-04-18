@@ -7,7 +7,7 @@ var sass = require('gulp-sass');
 gulp.task('default', ['coffee:watch', 'sass:watch', 'index:watch']);
 
 gulp.task('coffee', function() {
-  gulp.src('./js/**/*.coffee')
+  gulp.src('./js/**/**.coffee')
       .pipe(flatten())
       .pipe(coffee({bare: true}).on('error', gutil.log))
       .pipe(gulp.dest('./build/'));
@@ -18,13 +18,13 @@ gulp.task('coffee:watch', function() {
 });
 
 gulp.task('sass', function () {
-  gulp.src('./scss/**/*.scss')
+  gulp.src('./scss/**/**.scss')
       .pipe(sass().on('error', sass.logError))
       .pipe(gulp.dest('./build'));
 });
      
 gulp.task('sass:watch', function () {
-  gulp.watch('./scss/**/*.scss', ['sass']);
+  gulp.watch('./scss/**/**.scss', ['sass']);
 });
 
 gulp.task('index', function() {
