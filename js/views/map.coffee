@@ -54,8 +54,8 @@ class Map
        .data(datum.features)
        .enter()
        .append('path')
-       .attr('class', (d) ->
-                      'country ' + d.id)
+       .attr('class', (data) ->
+                      'country ' + data.id)
        .attr('d', path)
 
   getMapData = ->

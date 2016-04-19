@@ -31,37 +31,38 @@ a, h1, h2, h3, p {
   background: $dates-container;
   border-top: solid 1px $thin-separator;
   height: auto;
-  padding: 10px 0;
+  padding-top: 10px;
 
   .year-container {
-    border-right: solid 1px #dbdbdb;
-    border-left: solid 1px #a9a9a9;
     height: 230px;
-    width: 32.333%;
+    margin: 0 auto;
 
-    &:first-child {
-      border-left: none;
-    }
+    .timeline {
+      .axis {
+        
+        .tick {
+          text {
+            fill: $date-headline;
+          }
+        }
 
-    &:last-child {
-      border-right: none;
-    }
-
-    .year {
-      cursor: pointer;
-
-      .title {
-        h3 {
-          color: $date-headline;
-          font-weight: 300;
-          font-size: 5em;
-          margin: 70px 0;
-          text-align: right;
+        &.x {
+          .domain {
+            fill: $xaxis-fill;
+          }
         }
       }
-      
-      .total-qty {
-        fill: $qty;
+
+      circle.dot {
+        cursor: pointer;
+
+        &.incidents {
+          fill: $incidents;
+        }
+
+        &.casualties {
+          fill: $casualties;
+        }
       }
     }
   }
