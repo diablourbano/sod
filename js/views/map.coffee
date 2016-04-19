@@ -58,7 +58,7 @@ class Map
                       'country ' + data.id)
        .attr('d', path)
 
-  getMapData = ->
+  getMapDataAndRender = ->
     d3.json "map.json", (error, world) ->
       return console.error(error) if error
 
@@ -66,4 +66,4 @@ class Map
       renderWith(datum)
 
   render: ->
-    getMapData()
+    getMapDataAndRender()
