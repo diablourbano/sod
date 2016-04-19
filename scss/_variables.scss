@@ -1,8 +1,16 @@
 $water: #fefefe;
 $dates-container: rgba(255, 255, 255, 0.7);
-$countries: #4d4d4d;
+$countries: #595758;
 $date-headline: #727A7F;
+$legend: #9C989A;
 $thin-separator: #DFEEF7;
 $casualties: rgba(152, 70, 66, 0.7);
 $incidents: rgba(165, 154, 80, 0.7);
 $xaxis-fill: #cdcdcd;
+
+@mixin border-radius($radius) {
+  border-radius: $radius;
+  border-radius: $radius;
+  -webkit-border-radius: $radius;
+  -khtml-border-radius: $radius;
+}
