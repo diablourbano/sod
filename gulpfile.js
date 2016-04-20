@@ -14,7 +14,7 @@ gulp.task('coffee', function() {
 });
 
 gulp.task('coffee:watch', function() {
-  gulp.watch('./js/**/*.coffee', ['coffee']);
+  gulp.watch('./js/**/**.coffee', ['coffee']);
 });
 
 gulp.task('sass', function () {

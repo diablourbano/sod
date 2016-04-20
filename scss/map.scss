@@ -33,11 +33,11 @@ a, h1, h2, h3, p {
         @include border-radius(10px);
 
         &.incidents {
-          background: $incidents;
+          background: $highlight-incidents;
         }
 
         &.casualties {
-          background: $casualties;
+          background: $highlight-casualties;
         }
       }
     }
@@ -65,8 +65,10 @@ a, h1, h2, h3, p {
   border-top: solid 1px $thin-separator;
   height: auto;
   padding-top: 10px;
+  position: fixed;
+  bottom: 0;
 
-  .year-container {
+  .timeline-container {
     height: 230px;
     margin: 0 auto;
 
@@ -75,7 +77,13 @@ a, h1, h2, h3, p {
         
         .tick {
           text {
+            cursor: pointer;
             fill: $date-headline;
+            font-size: 1.4em;
+
+            &.highlight {
+              fill: $date-headline-hover;
+            }
           }
         }
 
@@ -90,11 +98,19 @@ a, h1, h2, h3, p {
         cursor: pointer;
 
         &.incidents {
-          fill: $incidents;
+          fill: $unhighlight-incidents;
+
+          &.highlight {
+            fill: $highlight-incidents;
+          }
         }
 
         &.casualties {
-          fill: $casualties;
+          fill: $unhighlight-casualties;
+
+          &.highlight {
+            fill: $highlight-casualties;
+          }
         }
       }
     }

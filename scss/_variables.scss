@@ -1,12 +1,19 @@
 $water: #fefefe;
-$dates-container: rgba(255, 255, 255, 0.7);
 $countries: #595758;
-$date-headline: #727A7F;
-$legend: #9C989A;
+$dates-container: rgba(255, 255, 255, 0.7);
+
+$date-headline: #B7C3CB;
+$date-headline-hover: #727A7F;
+
 $thin-separator: #DFEEF7;
-$casualties: rgba(152, 70, 66, 0.7);
-$incidents: rgba(165, 154, 80, 0.7);
 $xaxis-fill: #cdcdcd;
+
+$highlight-casualties: rgba(152, 70, 66, 0.7);
+$highlight-incidents: rgba(165, 154, 80, 0.7);
+$unhighlight-casualties: rgba(152, 70, 66, 0.3);
+$unhighlight-incidents: rgba(165, 154, 80, 0.3);
+
+$legend: #9C989A;
 
 @mixin border-radius($radius) {
   border-radius: $radius;
