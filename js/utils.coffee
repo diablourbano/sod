@@ -13,3 +13,9 @@ class Utils
       'width:' + aWidth,
       'height:' + aHeight
     ].join(';')
+
+  getDateFragment: (date, dateState) ->
+    if dateState == 'years'
+      date.getFullYear() 
+    else if dateState == 'months'
+      date.getMonth()

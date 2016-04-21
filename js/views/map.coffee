@@ -58,12 +58,23 @@ class Map
                       'country ' + data.id)
        .attr('d', path)
 
-  getMapDataAndRender = ->
+  getMapDataAndRender = (callback) ->
     d3.json "map.json", (error, world) ->
       return console.error(error) if error
 
       datum = topojson.feature(world, world.objects.world_map)
       renderWith(datum)
+      callback()
 
-  render: ->
-    getMapDataAndRender()
+  shouldHighlightCountry: (dataSet, selectionType) ->
+    d3.select('.country.' + country)
+        .classed(selectionType, true)
+        .classed('highlight', true) for country in dataSet.countries
+
+  shouldUnhighlightCountry: (dataSet, selectionType) ->
+    d3.select('.country.' + country)
+        .classed(selectionType, false)
+        .classed('highlight', false) for country in dataSet.countries
+
+  render: (callback) ->
+    getMapDataAndRender(callback)

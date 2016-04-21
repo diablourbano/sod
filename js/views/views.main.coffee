@@ -1,7 +1,8 @@
 'use strict'
 
 map = new Map
-map.render()
 
-year = new Year
-year.render()
+map.render( ->
+            timeline = new Timeline
+            timeline.addListener(map)
+            timeline.render())

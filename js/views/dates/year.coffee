@@ -1,10 +1,18 @@
 'use strict'
 
-class Year
+class Timeline
+
+  dots = null
+  axis = null
+
+  listeners = []
+
+  xScale = null
+  xAxis = null
+  renderedAxis = null
+  svg = null
 
   gtObjects = { years: [], months: [] }
-  dotsIncidents = null
-  dotsCasualties = null
 
   utils = new Utils
   height = utils.timelineHeight - 22
@@ -16,76 +24,42 @@ class Year
   dateStates = ['years', 'months']
   dateState = 'years'
 
-  xScale = d3.time.scale().range([0, width - 50])
-
   parseDate = d3.time.format('%Y-%m-%d').parse
 
-  xAxis = d3.svg.axis()
-            .scale(xScale)
-            .tickSize(1.5)
-            .tickPadding(15)
-            .orient('bottom')
+  setSvg = () ->
+    svg = d3.select('body .dates-container .timeline-container')
+           .attr('style', utils.sizeStyles(width, 'auto'))
+           .append('svg')
+           .attr('class', 'timeline')
+           .attr('width', width)
+           .attr('height', height)
+           .append('g')
 
-  svg = d3.select('body .dates-container .timeline-container')
-    .attr('style', utils.sizeStyles(width, 'auto'))
-    .append('svg')
-    .attr('class', 'timeline')
-    .attr('width', width)
-    .attr('height', height)
-    .append('g')
+  transitionToView = ->
+    if dateState == 'months'
+      getDataAndRender( ->
+        tweenTransition())
 
-  getDateFragment = (date) ->
-    if dateState == 'years'
-      date.getFullYear() 
-    else if dateState == 'months'
-      date.getMonth()
+    else
+      tweenTransition()
 
-  drawXAxis = svg.append('g')
-                 .attr('class', 'x axis')
-                 .attr('transform', 'translate(' +
-                                        x0 + ',' +
-                                        (height - xHeight) + ')')
-                 .on('click', ->
-                              stateIndex = dateStates.indexOf(dateState)
-                              if stateIndex == 0
-                                stateIndex++
-                              else
-                                stateIndex--
+  tweenTransition = ->
+    renderedAxis.transition()
+                .duration(60)
+                .tween('axis', ->
+                                 ->
+                                   renderGraph())
 
-                              dateState = dateStates[stateIndex]
-                              transitionToView())
-                 .on('mouseover', ->
-                                      d3.selectAll('.time-' + event.srcElement.textContent)
-                                        .classed('highlight', true))
-                 .on('mouseout', ->
-                                      d3.selectAll('.time-' + event.srcElement.textContent)
-                                        .classed('highlight', false))
+  renderGraph = () ->
+    dots.remove()
 
-  drawDotFor = (dotType, radius, cyK) ->
-    svg.selectAll('dot')
-       .data(gtObjects[dateState])
-       .enter()
-       .append('circle')
-       .attr('class', (d) ->
-                        date = getDateFragment(d.date)
+    axis.remove()
+    renderedAxis = axis.drawAxis(svg, gtObjects[dateState], dateState)
 
-                        'dot ' + dotType +
-                        ' time-' + date)
-       .attr('r', (d) ->
-                      d[dotType]/radius)
-       .attr('cx', (d) ->
-                      xScale(d.date))
-       .attr('cy', (height / 2) +
-                   (xHeight * cyK) + 40)
-       .attr('transform', 'translate(' + x0 + ')')
-       .on('mouseover', (d) ->
-                            date = getDateFragment(d.date)
-                            d3.selectAll('.time-' + date)
-                              .classed('highlight', true))
-       .on('mouseout', (d) ->
-                            date = getDateFragment(d.date)
-                            d3.selectAll('.time-' + date)
-                              .classed('highlight', false))
+    dotsElements = svg.selectAll('dot')
+                      .data(gtObjects[dateState])
+                      .enter()
+    dots.draw(dotsElements, xScale, dateState)
 
   getDataAndRender = (callback) ->
     d3.json 'data_sample_' + dateState + '.json', (error, data) ->
@@ -98,41 +72,46 @@ class Year
       gtObjects[dateState] = data
       callback()
 
-  transitionToView = ->
-    if dateState == 'months'
-      getDataAndRender( ->
-        tweenTransition())
+  constructor: ->
+    setSvg()
 
+    dotsProperties = { height: height, xHeight: xHeight, x0: x0 }
+    dots = new Dots(@, dotsProperties)
+
+    axisProperties = { width: width, height: (height), x0: x0 }
+    axis = new Axis(@, axisProperties)
+
+    xAxis = axis.getAxis()
+    xScale = axis.getScale()
+
+  addListener: (listener) ->
+    listeners.push(listener) if listeners.indexOf(listener) == -1
+
+  highlightDate: (dateClass) ->
+    dateClass = dateClass.toString().replace('time-', '')
+    d3.selectAll('.time-' + dateClass)
+      .classed('highlight', true)
+
+  unhighlightDate: (dateClass) ->
+    dateClass = dateClass.toString().replace('time-', '')
+    d3.selectAll('.time-' + dateClass)
+      .classed('highlight', false)
+
+  shouldHighlightCountry: (dataSet, selectionType) ->
+    listener.shouldHighlightCountry(dataSet, selectionType) for listener in listeners
+
+  shouldUnhighlightCountry: (dataSet, selectionType) ->
+    listener.shouldUnhighlightCountry(dataSet, selectionType) for listener in listeners
+
+  exploreDate: ->
+    stateIndex = dateStates.indexOf(dateState)
+    if stateIndex == 0
+      stateIndex++
     else
-      tweenTransition()
+      stateIndex--
 
-  tweenTransition = ->
-    drawXAxis.transition()
-             .duration(60)
-             .tween('axis', ->
-                              ->
-                                renderGraph())
-
-  renderGraph = () ->
-    dotsIncidents.remove() if dotsIncidents
-    dotsCasualties.remove() if dotsCasualties
-
-    xScale.domain(d3.extent(gtObjects[dateState], (d) ->
-                                    d.date))
-
-    xAxis.ticks(d3.time[dateState])
-    xAxis.tickFormat((d) ->
-                          formatAxis = 'Y' if dateState == 'years'
-                          formatAxis = 'MMMM' if dateState == 'months'
-                          moment(d).format(formatAxis))
-
-    drawXAxis.call(xAxis)
-    d3.select(textLabel)
-      .attr('class', (tl) ->
-                      'time-' + getDateFragment(tl)) for textLabel in d3.selectAll('.x.axis .tick text')[0]
-    
-    dotsIncidents = drawDotFor('incidents',  10, 1)
-    dotsCasualties = drawDotFor('casualties', 20, -2)
+    dateState = dateStates[stateIndex]
+    transitionToView()
 
   render: ->
     getDataAndRender( ->

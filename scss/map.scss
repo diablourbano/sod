@@ -56,6 +56,19 @@ a, h1, h2, h3, p {
 
     .country {
       fill: $countries;
+
+      &.incidents {
+        &.highlight {
+          fill: $highlight-incidents;
+        }
+      }
+
+      &.casualties {
+        &.highlight {
+          fill: $highlight-casualties;
+        }
+      }
+
     }
   }
 }
