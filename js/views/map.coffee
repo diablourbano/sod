@@ -8,6 +8,7 @@ class Map
   width = utils.width - sizeConstant
   ratio = width/height
   baseRatio = 960/620
+  fixHighlight = false
 
   proportionalTo = (comparedValue)->
     (ratio * comparedValue) / baseRatio
@@ -66,15 +67,17 @@ class Map
       renderWith(datum)
       callback()
 
-  shouldHighlightCountry: (dataSet, selectionType) ->
+  shouldFixedHighlightsCountries: ->
+    fixHighlight = true
+
+  shouldHighlightCountry: (dataSet) ->
     d3.select('.country.' + country)
-        .classed(selectionType, true)
         .classed('highlight', true) for country in dataSet.countries
 
-  shouldUnhighlightCountry: (dataSet, selectionType) ->
-    d3.select('.country.' + country)
-        .classed(selectionType, false)
-        .classed('highlight', false) for country in dataSet.countries
+  shouldUnhighlightCountry: (dataSet) ->
+    if !fixHighlight
+      d3.select('.country.' + country)
+          .classed('highlight', false) for country in dataSet.countries
 
   render: (callback) ->
     getMapDataAndRender(callback)

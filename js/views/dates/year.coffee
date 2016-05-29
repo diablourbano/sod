@@ -15,13 +15,13 @@ class Timeline
   gtObjects = { years: [], months: [] }
 
   utils = new Utils
-  height = utils.timelineHeight - 22
+  height = utils.timelineHeight
   width = utils.width
 
   xHeight = 50
   x0 = 20
 
-  dateStates = ['years', 'months']
+  dateStates = ['years', 'months', 'days']
   dateState = 'years'
 
   parseDate = d3.time.format('%Y-%m-%d').parse
@@ -36,7 +36,7 @@ class Timeline
            .append('g')
 
   transitionToView = ->
-    if dateState == 'months'
+    if dateState == 'months' or dateState == 'days'
       getDataAndRender( ->
         tweenTransition())
 
@@ -91,24 +91,36 @@ class Timeline
     dateClass = dateClass.toString().replace('time-', '')
     d3.selectAll('.time-' + dateClass)
       .classed('highlight', true)
+    d3.select('.statistics').classed('visible', true)
 
   unhighlightDate: (dateClass) ->
     dateClass = dateClass.toString().replace('time-', '')
     d3.selectAll('.time-' + dateClass)
       .classed('highlight', false)
+    d3.select('.statistics').classed('visible', false)
 
-  shouldHighlightCountry: (dataSet, selectionType) ->
-    listener.shouldHighlightCountry(dataSet, selectionType) for listener in listeners
+  shouldHighlightCountry: (dataSet) ->
+    listener.shouldHighlightCountry(dataSet) for listener in listeners
 
-  shouldUnhighlightCountry: (dataSet, selectionType) ->
-    listener.shouldUnhighlightCountry(dataSet, selectionType) for listener in listeners
+  shouldUnhighlightCountry: (dataSet) ->
+    listener.shouldUnhighlightCountry(dataSet) for listener in listeners
 
-  exploreDate: ->
+  exploreCountriesByDate: (date) ->
+    listener.shouldFixedHighlightsCountries() for listener in listeners
+    d3.select('.timeline-container').classed('collapsed', true)
+    $('.timeline-container').slideUp('slow')
+    d3.select('.dates-container .time-state-title').classed('shade', true)
+    dateToDisplay = utils.getFormattedDate(date, dateState)
+    $('.dates-container .time-state-title a').text(dateToDisplay)
+
+  exploreDate: (date) ->
+    d3.select('.dates-container .time-state-title').classed('shade', true)
+    dateToDisplay = utils.getFormattedDate(date, dateState)
+    $('.dates-container .time-state-title a').text(dateToDisplay)
+
     stateIndex = dateStates.indexOf(dateState)
-    if stateIndex == 0
+    if stateIndex >= 0 and stateIndex < 2
       stateIndex++
-    else
-      stateIndex--
 
     dateState = dateStates[stateIndex]
     transitionToView()

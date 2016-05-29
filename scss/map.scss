@@ -44,6 +44,49 @@ a, h1, h2, h3, p {
   }
 }
 
+.statistics {
+  background: $statistics-container;
+  position: absolute;
+  width: 300px;
+  margin: 100px 550px 0;
+  padding: 3px 0;
+  display: none;
+  @include border-radius(15px);
+
+  &.visible {
+    display: block;
+  }
+
+  ul {
+    list-style: none;
+
+    li {
+      margin-bottom: 7px;
+      padding: 10px 0;
+
+      .definition {
+        color: $statistics-legend;
+        font-size: 1.7em;
+        margin-left: 10px;
+      }
+
+      .color {
+        margin-right: 20px;
+        padding: 5px 15px;
+        @include border-radius(15px);
+
+        &.incidents {
+          background: $highlight-incidents;
+        }
+
+        &.casualties {
+          background: $highlight-casualties;
+        }
+      }
+    }
+  }
+}
+
 .map-container {
   margin: 0 auto;
 
@@ -57,18 +100,10 @@ a, h1, h2, h3, p {
     .country {
       fill: $countries;
 
-      &.incidents {
-        &.highlight {
-          fill: $highlight-incidents;
-        }
+      &.highlight {
+        fill: $highlight-countries;
+        cursor: pointer;
       }
-
-      &.casualties {
-        &.highlight {
-          fill: $highlight-casualties;
-        }
-      }
-
     }
   }
 }
@@ -77,9 +112,28 @@ a, h1, h2, h3, p {
   background: $dates-container;
   border-top: solid 1px $thin-separator;
   height: auto;
-  padding-top: 10px;
   position: fixed;
   bottom: 0;
+  width: 100%;
+
+  .time-state-title {
+    color: $date-headline-hover;
+    padding: 0.8em 3em 0;
+    height: 2em;
+
+    &.shade {
+      background: $statistics-container;
+    }
+
+    a {
+      cursor: pointer;
+      font-size: 1.2em;
+
+      &:hover {
+        color: $date-headline;
+      }
+    }
+  }
 
   .timeline-container {
     height: 230px;

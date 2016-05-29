@@ -16,9 +16,7 @@ class Axis
 
     axis.ticks(d3.time[dateState])
     axis.tickFormat((d) ->
-                          formatAxis = 'Y' if dateState == 'years'
-                          formatAxis = 'MMMM' if dateState == 'months'
-                          moment(d).format(formatAxis))
+                          utils.getFormattedDate(d, dateState))
     
   renderAxis = (svg, dateState) ->
     renderedAxis = svg.append('g')
@@ -27,11 +25,12 @@ class Axis
                               x0 + ',' +
                               (height - 50) + ')')
        .on('click', ->
-                    timeline.exploreDate())
+                    date = moment(d3.event.target.innerHTML + ' 01 01', 'YYYY MM DD')
+                    timeline.exploreDate(date))
        .on('mouseover', ->
-                        timeline.highlightDate(event.target.classList[0]))
+                        timeline.highlightDate(d3.event.target.classList[0]))
        .on('mouseout', ->
-                        timeline.unhighlightDate(event.target.classList[0]))
+                        timeline.unhighlightDate(d3.event.target.classList[0]))
        .call(axis)
 
     d3.select(textLabel)

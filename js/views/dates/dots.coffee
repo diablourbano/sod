@@ -22,21 +22,18 @@ class Dots
        .attr('cx', (d) ->
                       scale(d.date))
        .attr('cy', (height / 2) +
-                   (xHeight * cyK) + 40)
+                   (xHeight * cyK))
        .attr('transform', 'translate(' + x0 + ')')
-       .on('click', ->
-                    timeline.exploreDate())
+       .on('click', (d) ->
+                    timeline.exploreCountriesByDate(d.date))
        .on('mouseover', (d) ->
                         timeline.highlightDate(utils.getDateFragment(d.date, dateState))
 
-                        selectionType = (selection for selection in event.srcElement.
-                                                        classList when selection.match(/(casualties|incidents)/))
-                        timeline.shouldHighlightCountry(d, selectionType[0]))
+                        timeline.shouldHighlightCountry(d))
        .on('mouseout', (d) ->
                         timeline.unhighlightDate(utils.getDateFragment(d.date, dateState))
 
-                        selectionType = (selection for selection in event.srcElement.classList when selection.match(/(casualties|incidents)/))
-                        timeline.shouldUnhighlightCountry(d, selectionType[0]))
+                        timeline.shouldUnhighlightCountry(d))
 
   constructor: (aTimeline, dotsProperties) ->
     timeline = aTimeline
@@ -49,5 +46,5 @@ class Dots
     dotsCasualties.remove() if dotsCasualties
 
   draw: (dots, scale, dateState) ->
-    dotsIncidents = drawDotFor(dots, scale, 'incidents',  10, 1, dateState)
+    dotsIncidents = drawDotFor(dots, scale, 'incidents',  10, 0, dateState)
     dotsCasualties = drawDotFor(dots, scale, 'casualties', 20, -2, dateState)
