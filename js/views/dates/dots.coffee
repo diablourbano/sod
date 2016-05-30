@@ -1,50 +1,43 @@
 'use strict'
 
 class Dots
-  height = 0
-  xHeight = 0
-  x0 = 0
-
   utils = new Utils
   dotsIncidents = null
   dotsCasualties = null
   timeline = null
+  eventsManager = null
 
-  drawDotFor = (dots, scale, dotType, radius, cyK, dateState) ->
+  dotsProperties = { height: 0, xHeight: 0, x0: 0  }
+
+  drawDotFor = (dots, scale, dotType, radius, cyK) ->
     dots.append('circle')
         .attr('class', (d) ->
-                        date = utils.getDateFragment(d.date, dateState)
-
-                        'dot ' + dotType +
-                        ' time-' + date)
+                        date = utils.getDateFragment(d.date, eventsManager.getDateState())
+                        'time-' + date +
+                        ' dot ' + dotType)
        .attr('r', (d) ->
                       d[dotType]/radius)
        .attr('cx', (d) ->
                       scale(d.date))
-       .attr('cy', (height / 2) +
-                   (xHeight * cyK))
-       .attr('transform', 'translate(' + x0 + ')')
-       .on('click', (d) ->
-                    timeline.exploreCountriesByDate(d.date))
+       .attr('cy', (dotsProperties.height / 2) +
+                   (dotsProperties.xHeight * cyK))
+       .attr('transform', 'translate(' + dotsProperties.x0 + ')')
+       .on('click', (d) ->)
+                    # timeline.exploreCountriesByDate(d.date))
        .on('mouseover', (d) ->
-                        timeline.highlightDate(utils.getDateFragment(d.date, dateState))
-
-                        timeline.shouldHighlightCountry(d))
+                        eventsManager.shouldHighlight(d3.event.target.classList[0]))
        .on('mouseout', (d) ->
-                        timeline.unhighlightDate(utils.getDateFragment(d.date, dateState))
+                        eventsManager.shouldUnhighlight(d3.event.target.classList[0]))
 
-                        timeline.shouldUnhighlightCountry(d))
-
-  constructor: (aTimeline, dotsProperties) ->
+  constructor: (aTimeline, aDotsProperties, anEventsManager) ->
+    dotsProperties = aDotsProperties
+    eventsManager = anEventsManager
     timeline = aTimeline
-    height = dotsProperties.height
-    xHeight = dotsProperties.xHeight
-    x0 = dotsProperties.x0
   
   remove: ->
     dotsIncidents.remove() if dotsIncidents
     dotsCasualties.remove() if dotsCasualties
 
-  draw: (dots, scale, dateState) ->
-    dotsIncidents = drawDotFor(dots, scale, 'incidents',  10, 0, dateState)
-    dotsCasualties = drawDotFor(dots, scale, 'casualties', 20, -2, dateState)
+  draw: (dots, scale) ->
+    dotsIncidents = drawDotFor(dots, scale, 'incidents',  10, 0)
+    dotsCasualties = drawDotFor(dots, scale, 'casualties', 20, -2)

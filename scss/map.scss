@@ -140,17 +140,19 @@ a, h1, h2, h3, p {
 
 .dates-container {
   background: $dates-container;
-  border-top: solid 1px $thin-separator;
+  border-top: solid 1px $thin-separator-light;
   height: auto;
   position: fixed;
   bottom: 0;
   width: 100%;
+  overflow-x: auto;
 
   .xaxis-container {
+    border-top: solid 1px $thin-separator;
     color: $date-headline-hover;
     padding: 0.8em 1em 0;
     height: 50px;
-    overflow-x: auto;
+    width: auto;
 
     .xaxis {
       path.domain {

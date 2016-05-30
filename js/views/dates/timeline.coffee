@@ -1,130 +1,71 @@
 'use strict'
 
 class Timeline
-
+  utils = new Utils
   dots = null
   axis = null
-
-  listeners = []
-
+  eventsManager = null
   xScale = null
-  xAxis = null
-  renderedAxis = null
+
   svg = null
-
-  gtObjects = { years: [], months: [] }
-
-  utils = new Utils
-  height = utils.timelineHeight
-  width = utils.width
+  timelineProperties = { height: 0, width: 0, x0: 0 }
 
   xHeight = 50
-  x0 = 20
-
-  dateStates = ['years', 'months', 'days']
-  dateState = 'years'
-
-  parseDate = d3.time.format('%Y-%m-%d').parse
 
   setSvg = () ->
     svg = d3.select('body .dates-container .timeline-container')
-           .attr('style', utils.sizeStyles(width, 'auto'))
+           .attr('style', utils.sizeStyles(timelineProperties.width, 'auto'))
            .append('svg')
            .attr('class', 'timeline')
-           .attr('width', width)
-           .attr('height', height)
+           .attr('width', timelineProperties.width)
+           .attr('height', timelineProperties.height)
            .append('g')
 
-  transitionToView = ->
-    if dateState == 'months' or dateState == 'days'
-      getDataAndRender( ->
-        tweenTransition())
+  toggleHighlight = (dataSet, highlight) ->
+    dateClass = utils.getDateFragment(dataSet.date, eventsManager.getDateState())
+    svg.selectAll('.time-' + dateClass)
+       .classed('highlight', highlight)
 
-    else
-      tweenTransition()
-
-  tweenTransition = ->
-    renderedAxis.transition()
-                .duration(60)
-                .tween('axis', ->
-                                 ->
-                                   renderGraph())
+  configureScale = ->
+    xScale.domain(d3.extent(eventsManager.getDataSet(), (d) ->
+                                    d.date))
 
   renderGraph = () ->
     dots.remove()
-
-    axis.remove()
-    renderedAxis = axis.drawAxis(svg, gtObjects[dateState], dateState)
+    configureScale()
 
     dotsElements = svg.selectAll('dot')
-                      .data(gtObjects[dateState])
+                      .data(eventsManager.getDataSet())
                       .enter()
-    dots.draw(dotsElements, xScale, dateState)
+    dots.draw(dotsElements, xScale)
 
-  getDataAndRender = (callback) ->
-    d3.json 'data_sample_' + dateState + '.json', (error, data) ->
-      return console.error(error) if error
+  constructor: (anAxis, aTimelineProperties, anEventsManager) ->
+    eventsManager = anEventsManager
+    timelineProperties = aTimelineProperties
 
-      data.forEach( (d) ->
-        d.date = parseDate(d.date)
-      )
-
-      gtObjects[dateState] = data
-      callback()
-
-  constructor: ->
     setSvg()
 
-    dotsProperties = { height: height, xHeight: xHeight, x0: x0 }
-    dots = new Dots(@, dotsProperties)
-
-    axisProperties = { width: width, height: (height), x0: x0 }
-    axis = new Axis(@, axisProperties)
-
-    xAxis = axis.getAxis()
+    dotsProperties = { height: timelineProperties.height, xHeight: xHeight, x0: timelineProperties.x0 }
+    dots = new Dots(@, dotsProperties, eventsManager)
+    axis = anAxis
     xScale = axis.getScale()
 
-  addListener: (listener) ->
-    listeners.push(listener) if listeners.indexOf(listener) == -1
+  highlight: (dataSet) ->
+    toggleHighlight(dataSet, true)
 
-  highlightDate: (dateClass) ->
-    dateClass = dateClass.toString().replace('time-', '')
-    d3.selectAll('.time-' + dateClass)
-      .classed('highlight', true)
-    d3.select('.statistics').classed('visible', true)
+  unhighlight: (dataSet) ->
+    toggleHighlight(dataSet, false)
 
-  unhighlightDate: (dateClass) ->
-    dateClass = dateClass.toString().replace('time-', '')
-    d3.selectAll('.time-' + dateClass)
-      .classed('highlight', false)
-    d3.select('.statistics').classed('visible', false)
-
-  shouldHighlightCountry: (dataSet) ->
-    listener.shouldHighlightCountry(dataSet) for listener in listeners
-
-  shouldUnhighlightCountry: (dataSet) ->
-    listener.shouldUnhighlightCountry(dataSet) for listener in listeners
-
-  exploreCountriesByDate: (date) ->
-    listener.shouldFixedHighlightsCountries() for listener in listeners
-    d3.select('.timeline-container').classed('collapsed', true)
-    $('.timeline-container').slideUp('slow')
-    d3.select('.dates-container .time-state-title').classed('shade', true)
-    dateToDisplay = utils.getFormattedDate(date, dateState)
-    $('.dates-container .time-state-title a').text(dateToDisplay)
+  # exploreCountriesByDate: (date) ->
+  #   listener.shouldFixedHighlightsCountries() for listener in listeners
+  #   d3.select('.timeline-container').classed('collapsed', true)
+  #   $('.timeline-container').slideUp('slow')
+  #   d3.select('.dates-container .time-state-title').classed('shade', true)
+  #   dateToDisplay = utils.getFormattedDate(date, dateState)
+  #   $('.dates-container .time-state-title a').text(dateToDisplay)
 
   exploreDate: (date) ->
-    # d3.select('.dates-container .time-state-title').classed('shade', true)
-    # dateToDisplay = utils.getFormattedDate(date, dateState)
-    # $('.dates-container .time-state-title a').text(dateToDisplay)
-
-    # stateIndex = dateStates.indexOf(dateState)
-    # if stateIndex >= 0 and stateIndex < 2
-    #   stateIndex++
-
-    # dateState = dateStates[stateIndex]
-    transitionToView()
+    renderGraph()
 
   render: ->
-    getDataAndRender( ->
-                        renderGraph())
+    renderGraph()

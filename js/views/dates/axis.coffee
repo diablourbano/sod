@@ -32,10 +32,8 @@ class Axis
              .orient('bottom')
 
   configureAxisAndScale = ->
-    dateObjects = dataSet
-    xScale.domain(d3.extent(dateObjects, (d) ->
+    xScale.domain(d3.extent(dataSet, (d) ->
                                     d.date))
-
     axis.ticks(d3.time[dateState])
     axis.tickFormat((d) ->
                           utils.getFormattedDate(d, dateState))
@@ -60,7 +58,7 @@ class Axis
 
   toggleHighlight = (dataSet, highlight) ->
     dateClass = utils.getDateFragment(dataSet.date, dateState)
-    d3.selectAll('.time-' + dateClass)
+    svg.selectAll('.time-' + dateClass)
       .classed('highlight', highlight)
     d3.select('.statistics').classed('visible', highlight)
 
@@ -77,6 +75,9 @@ class Axis
     setSvg()
     setScale()
     setAxis()
+
+  getScale: ->
+    xScale
 
   highlight: (dataSet) ->
     toggleHighlight(dataSet, true)
