@@ -70,14 +70,17 @@ class Map
   shouldFixedHighlightsCountries: ->
     fixHighlight = true
 
-  shouldHighlightCountry: (dataSet) ->
+  highlight: (dataSet) ->
     d3.select('.country.' + country)
         .classed('highlight', true) for country in dataSet.countries
 
-  shouldUnhighlightCountry: (dataSet) ->
+  unhighlight: (dataSet) ->
     if !fixHighlight
       d3.select('.country.' + country)
           .classed('highlight', false) for country in dataSet.countries
+
+  exploreDate: () ->
+    console.log('{"listener.exploreDate()": "map function not implemented"}')
 
   render: (callback) ->
     getMapDataAndRender(callback)

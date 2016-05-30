@@ -20,6 +20,7 @@
     "tests"
   ],
   "dependencies": {
+    "lodash": "4.6.1",
     "jquery": "2.2.4",
     "d3": "3.5.16",
     "momentjs": "2.13.0",

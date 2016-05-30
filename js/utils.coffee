@@ -18,7 +18,7 @@ class Utils
     if dateState == 'years'
       date.getFullYear() 
     else if dateState == 'months'
-      date.getMonth()
+      date.getMonth() + 1
     else if dateState == 'days'
       date.getDate()
 

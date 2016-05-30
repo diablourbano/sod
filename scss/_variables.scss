@@ -6,7 +6,7 @@ $statistics-container: rgba(150, 150, 150, 0.7);
 $date-headline: #B7C3CB;
 $date-headline-hover: #727A7F;
 
-$thin-separator: #DFEEF7;
+$thin-separator: #a9a9a9;
 $xaxis-fill: #cdcdcd;
 
 $highlight-casualties: rgba(152, 70, 66, 0.7);
@@ -24,4 +24,16 @@ $statistics-legend: #efefef;
   border-radius: $radius;
   -webkit-border-radius: $radius;
   -khtml-border-radius: $radius;
+}
+
+@mixin semicircle-radius($radius) {
+  border-top-left-radius: $radius;
+  border-top-left-radius: $radius;
+  -webkit-border-top-left-radius: $radius;
+  -khtml-border-top-left-radius: $radius;
+
+  border-top-right-radius: $radius;
+  border-top-right-radius: $radius;
+  -webkit-border-top-right-radius: $radius;
+  -khtml-border-top-right-radius: $radius;
 }

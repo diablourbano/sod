@@ -114,15 +114,15 @@ class Timeline
     $('.dates-container .time-state-title a').text(dateToDisplay)
 
   exploreDate: (date) ->
-    d3.select('.dates-container .time-state-title').classed('shade', true)
-    dateToDisplay = utils.getFormattedDate(date, dateState)
-    $('.dates-container .time-state-title a').text(dateToDisplay)
+    # d3.select('.dates-container .time-state-title').classed('shade', true)
+    # dateToDisplay = utils.getFormattedDate(date, dateState)
+    # $('.dates-container .time-state-title a').text(dateToDisplay)
 
-    stateIndex = dateStates.indexOf(dateState)
-    if stateIndex >= 0 and stateIndex < 2
-      stateIndex++
+    # stateIndex = dateStates.indexOf(dateState)
+    # if stateIndex >= 0 and stateIndex < 2
+    #   stateIndex++
 
-    dateState = dateStates[stateIndex]
+    # dateState = dateStates[stateIndex]
     transitionToView()
 
   render: ->

@@ -2,15 +2,37 @@
 
 class Axis
   utils = new Utils
-  width = 0
-  height = 0
-  x0 = 0
   xScale = null
   axis = null
   renderedAxis = null
-  timeline = null
+  axisProperties = { width: 0, height: 0, x0: 0 }
 
-  configureAxisAndScale = (dateObjects, dateState)->
+  eventsManager = null
+  svg = null
+  dataSet = null
+  dateState = 'years'
+
+  setSvg = ->
+    svg = d3.select('body .dates-container .xaxis-container')
+           .attr('style', utils.sizeStyles(axisProperties.width, 'auto'))
+           .append('svg')
+           .attr('class', 'xaxis')
+           .attr('width', axisProperties.width)
+           .attr('height', axisProperties.height)
+           .append('g')
+
+  setScale = ->
+    xScale = d3.time.scale().range([0, axisProperties.width - 50])
+
+  setAxis = ->
+    axis = d3.svg.axis()
+             .scale(xScale)
+             .tickSize(0)
+             .tickPadding(5)
+             .orient('bottom')
+
+  configureAxisAndScale = ->
+    dateObjects = dataSet
     xScale.domain(d3.extent(dateObjects, (d) ->
                                     d.date))
 
@@ -18,54 +40,62 @@ class Axis
     axis.tickFormat((d) ->
                           utils.getFormattedDate(d, dateState))
     
-  renderAxis = (svg, dateState) ->
+  renderAxis = ->
     renderedAxis = svg.append('g')
        .attr('class', 'x axis')
-       .attr('transform', 'translate(' +
-                              x0 + ',' +
-                              (height - 50) + ')')
+       .attr('transform', 'translate(' + axisProperties.x0 + ', 0)')
        .on('click', ->
-                    date = moment(d3.event.target.innerHTML + ' 01 01', 'YYYY MM DD')
-                    timeline.exploreDate(date))
+                    eventsManager.shouldExploreDate(d3.event.target.classList[0]))
        .on('mouseover', ->
-                        timeline.highlightDate(d3.event.target.classList[0]))
+                        eventsManager.shouldHighlight(d3.event.target.classList[0]))
        .on('mouseout', ->
-                        timeline.unhighlightDate(d3.event.target.classList[0]))
+                        eventsManager.shouldUnhighlight(d3.event.target.classList[0]))
        .call(axis)
 
     d3.select(textLabel)
       .attr('class', (tl) ->
                       'time-' + utils.getDateFragment(tl, dateState)) for textLabel in d3.selectAll('.x.axis .tick text')[0]
+
     renderedAxis
 
-  constructor: (aTimeline, axisProperties) ->
-    timeline = aTimeline
-    width = axisProperties.width
-    height = axisProperties.height
-    x0 = axisProperties.x0
+  toggleHighlight = (dataSet, highlight) ->
+    dateClass = utils.getDateFragment(dataSet.date, dateState)
+    d3.selectAll('.time-' + dateClass)
+      .classed('highlight', highlight)
+    d3.select('.statistics').classed('visible', highlight)
 
-    @setScale()
-    @setAxis()
+  configureFromEventsManager = ->
+    dataSet = eventsManager.getDataSet()
+    dateState = eventsManager.getDateState()
 
-  setScale: ->
-    xScale = d3.time.scale().range([0, width - 50])
+  constructor: (anEventsManager, someAxisProperties) ->
+    axisProperties = someAxisProperties
 
-  getScale: ->
-    xScale
+    eventsManager = anEventsManager
+    configureFromEventsManager()
 
-  setAxis: ->
-    axis = d3.svg.axis()
-             .scale(@getScale(xScale))
-             .tickSize(1.5)
-             .tickPadding(15)
-             .orient('bottom')
+    setSvg()
+    setScale()
+    setAxis()
 
-  getAxis: ->
-    axis
+  highlight: (dataSet) ->
+    toggleHighlight(dataSet, true)
 
-  drawAxis: (svg, dataSet, dateState)->
-    configureAxisAndScale(dataSet, dateState)
-    renderAxis(svg, dateState)
+  unhighlight: (dataSet) ->
+    toggleHighlight(dataSet, false)
+
+  exploreDate: () ->
+    renderedAxis.transition()
+                .duration(60)
+                .tween('axis', =>
+                                 =>
+                                   configureFromEventsManager()
+                                   @render())
+
+  render: ->
+    @remove()
+    configureAxisAndScale()
+    renderAxis()
 
   remove: ->
     renderedAxis.remove() if renderedAxis

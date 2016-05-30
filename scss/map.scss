@@ -108,6 +108,36 @@ a, h1, h2, h3, p {
   }
 }
 
+.graph-slot {
+  height: 35px;
+  position: fixed;
+  width: 100%;
+  bottom: 63px;
+
+  .slot {
+    margin: 0 auto;
+    width: auto;
+    background: $date-headline;
+    @include semicircle-radius(10px);
+
+    p {
+      cursor: pointer;
+      width: 60px;
+      text-align: center;
+      margin-top: 5px;
+      color: $water;
+
+      &:hover {
+        color: $date-headline-hover;
+      }
+
+      i {
+        font-size: 1.5em;
+      }
+    }
+  }
+}
+
 .dates-container {
   background: $dates-container;
   border-top: solid 1px $thin-separator;
@@ -116,26 +146,33 @@ a, h1, h2, h3, p {
   bottom: 0;
   width: 100%;
 
-  .time-state-title {
+  .xaxis-container {
     color: $date-headline-hover;
-    padding: 0.8em 3em 0;
-    height: 2em;
+    padding: 0.8em 1em 0;
+    height: 50px;
+    overflow-x: auto;
 
-    &.shade {
-      background: $statistics-container;
-    }
+    .xaxis {
+      path.domain {
+        fill: $xaxis-fill;
+      }
+      
+      .tick {
+        text {
+          cursor: pointer;
+          fill: $date-headline;
+          font-size: 1.4em;
 
-    a {
-      cursor: pointer;
-      font-size: 1.2em;
-
-      &:hover {
-        color: $date-headline;
+          &.highlight {
+            fill: $date-headline-hover;
+          }
+        }
       }
     }
   }
 
   .timeline-container {
+    display: none;
     height: 230px;
     margin: 0 auto;
 
