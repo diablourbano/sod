@@ -7,6 +7,8 @@ class Timeline
   eventsManager = null
   xScale = null
 
+  lineChart = null
+
   svg = null
   timelineProperties = { height: 0, width: 0, x0: 0 }
 
@@ -32,13 +34,14 @@ class Timeline
 
   renderGraph = () ->
     dots.remove()
+    xScale = axis.getScale()
     configureScale()
 
     dotsElements = svg.selectAll('dot')
                       .data(eventsManager.getDataSet())
                       .enter()
     dots.draw(dotsElements, xScale)
-
+    
   constructor: (anAxis, aTimelineProperties, anEventsManager) ->
     eventsManager = anEventsManager
     timelineProperties = aTimelineProperties
@@ -48,7 +51,9 @@ class Timeline
     dotsProperties = { height: timelineProperties.height, xHeight: xHeight, x0: timelineProperties.x0 }
     dots = new Dots(@, dotsProperties, eventsManager)
     axis = anAxis
-    xScale = axis.getScale()
+
+  getSvg: ->
+    svg
 
   highlight: (dataSet) ->
     toggleHighlight(dataSet, true)

@@ -49,6 +49,9 @@ class EventsManager
       listener.exploreDate() for listener in listeners
     )
 
+  shouldRender: ->
+    listener.render() for listener in listeners
+
   getDataSet: ->
     gtObjects[dateState]
 

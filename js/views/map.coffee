@@ -59,13 +59,12 @@ class Map
                       'country ' + data.id)
        .attr('d', path)
 
-  getMapDataAndRender = (callback) ->
+  getMapDataAndRender = ->
     d3.json "map.json", (error, world) ->
       return console.error(error) if error
 
       datum = topojson.feature(world, world.objects.world_map)
       renderWith(datum)
-      callback()
 
   shouldFixedHighlightsCountries: ->
     fixHighlight = true
@@ -82,5 +81,5 @@ class Map
   exploreDate: () ->
     console.log('{"listener.exploreDate()": "map function not implemented"}')
 
-  render: (callback) ->
-    getMapDataAndRender(callback)
+  render: ->
+    getMapDataAndRender()

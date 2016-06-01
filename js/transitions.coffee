@@ -15,13 +15,16 @@ class Transitions
     eventsManager = anEventsManager
 
   highlight: (dataSet) ->
-    console.log('{"listener.highlight(dataSet)": "map function not implemented"}')
+    console.log('{"listener.highlight(dataSet)": "transitions function not implemented"}')
 
   unhighlight: (dataSet) ->
-    console.log('{"listener.unhighlight(dataSet)": "map function not implemented"}')
+    console.log('{"listener.unhighlight(dataSet)": "transitions function not implemented"}')
 
   exploreDate: () ->
-    console.log('{"listener.exploreDate()": "map function not implemented"}')
+    console.log('{"listener.exploreDate()": "transitions function not implemented"}')
+
+  render: () ->
+    console.log('{"listener.render()": "transitions function not implemented"}')
 
   $('.graph-slot .slot').click( ->
     previousHeight = parseInt($('.dates-container').css('height').replace('px', ''))
@@ -35,3 +38,6 @@ class Transitions
       $('.timeline-container').slideUp({ duration: 'slow', progress: (animation, progress, remainingMs) ->
                                                                           adjustTabBasedOnTimeline() })
   )
+
+  $(window).resize( ->
+                    eventsManager.shouldRender())

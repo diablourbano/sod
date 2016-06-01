@@ -22,7 +22,7 @@ class Axis
            .append('g')
 
   setScale = ->
-    xScale = d3.time.scale().range([0, axisProperties.width - 50])
+    xScale = d3.time.scale().range([0, axisProperties.width - 100])
 
   setAxis = ->
     axis = d3.svg.axis()
@@ -68,13 +68,8 @@ class Axis
 
   constructor: (anEventsManager, someAxisProperties) ->
     axisProperties = someAxisProperties
-
     eventsManager = anEventsManager
-    configureFromEventsManager()
-
     setSvg()
-    setScale()
-    setAxis()
 
   getScale: ->
     xScale
@@ -90,11 +85,15 @@ class Axis
                 .duration(60)
                 .tween('axis', =>
                                  =>
-                                   configureFromEventsManager()
                                    @render())
 
   render: ->
     @remove()
+    configureFromEventsManager()
+
+    setScale()
+    setAxis()
+
     configureAxisAndScale()
     renderAxis()
 

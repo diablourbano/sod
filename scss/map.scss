@@ -200,7 +200,15 @@ a, h1, h2, h3, p {
         }
       }
 
-      circle.dot {
+      path.line-chart {
+        cursor: pointer;
+          fill: none;
+          stroke-width: 1.5px;
+          stroke-dasharray: 5,5;
+          stroke: $dashline;
+      }
+
+      circle {
         cursor: pointer;
 
         &.incidents {

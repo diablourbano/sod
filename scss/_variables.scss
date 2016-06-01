@@ -10,10 +10,11 @@ $thin-separator: #a9a9a9;
 $thin-separator-light: #cacaca;
 $xaxis-fill: #cdcdcd;
 
-$highlight-casualties: rgba(152, 70, 66, 0.7);
-$highlight-incidents: rgba(165, 154, 80, 0.7);
-$unhighlight-casualties: rgba(152, 70, 66, 0.3);
-$unhighlight-incidents: rgba(165, 154, 80, 0.3);
+$dashline: rgba(165, 165, 165, 0.8);
+$highlight-casualties: rgba(152, 70, 66, 1);
+$highlight-incidents: rgba(165, 154, 80, 1);
+$unhighlight-casualties: rgba(152, 70, 66, 0.6);
+$unhighlight-incidents: rgba(165, 154, 80, 0.6);
 
 $highlight-countries: #C9CCB4;
 
