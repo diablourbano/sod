@@ -112,7 +112,7 @@ a, h1, h2, h3, p {
   height: 35px;
   position: fixed;
   width: 100%;
-  bottom: 63px;
+  bottom: 80px;
 
   .slot {
     margin: 0 auto;
@@ -151,8 +151,27 @@ a, h1, h2, h3, p {
     border-top: solid 1px $thin-separator;
     color: $date-headline-hover;
     padding: 0.8em 1em 0;
-    height: 50px;
+    min-height: 50px;
+    height: auto;
     width: auto;
+
+    .timeaxis {
+      margin-bottom: 10px;
+    }
+
+    .years {
+    
+    }
+
+    .months, .days {
+      border-top: solid 1px $axis-dashline;
+      padding-top: 15px;
+      display: none;
+
+      &.visible {
+        display: block;
+      }
+    }
 
     .xaxis {
       path.domain {

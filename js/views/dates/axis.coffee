@@ -2,43 +2,34 @@
 
 class Axis
   utils = new Utils
-  xScale = null
-  axis = null
-  renderedAxis = null
-  axisProperties = { width: 0, height: 0, x0: 0 }
 
-  eventsManager = null
-  svg = null
-  dataSet = null
-  dateState = 'years'
+  setSvg: (axisProperties) ->
+    d3.select('body .dates-container .xaxis-container .' + axisProperties.axisClass)
+      .attr('style', utils.sizeStyles(axisProperties.width, 'auto'))
+      .append('svg')
+      .attr('class', 'xaxis')
+      .attr('width', axisProperties.width)
+      .attr('height', axisProperties.height)
+      .append('g')
 
-  setSvg = ->
-    svg = d3.select('body .dates-container .xaxis-container')
-           .attr('style', utils.sizeStyles(axisProperties.width, 'auto'))
-           .append('svg')
-           .attr('class', 'xaxis')
-           .attr('width', axisProperties.width)
-           .attr('height', axisProperties.height)
-           .append('g')
+  setScale: (axisProperties) ->
+    d3.time.scale().range([0, axisProperties.width - 100])
 
-  setScale = ->
-    xScale = d3.time.scale().range([0, axisProperties.width - 100])
+  setAxis: (xScale) ->
+    d3.svg.axis()
+      .scale(xScale)
+      .tickSize(0)
+      .tickPadding(5)
+      .orient('bottom')
 
-  setAxis = ->
-    axis = d3.svg.axis()
-             .scale(xScale)
-             .tickSize(0)
-             .tickPadding(5)
-             .orient('bottom')
-
-  configureAxisAndScale = ->
+  configureAxisAndScale: (xScale, axis, dataSet, dateState)->
     xScale.domain(d3.extent(dataSet, (d) ->
                                     d.date))
     axis.ticks(d3.time[dateState])
     axis.tickFormat((d) ->
                           utils.getFormattedDate(d, dateState))
     
-  renderAxis = ->
+  renderAxis: (svg, axis, axisProperties, eventsManager) ->
     renderedAxis = svg.append('g')
        .attr('class', 'x axis')
        .attr('transform', 'translate(' + axisProperties.x0 + ', 0)')
@@ -50,52 +41,23 @@ class Axis
                         eventsManager.shouldUnhighlight(d3.event.target.classList[0]))
        .call(axis)
 
+    labels = d3.selectAll('.xaxis-container .timeaxis.' + axisProperties.axisClass + ' .x.axis .tick text')[0]
+
     d3.select(textLabel)
       .attr('class', (tl) ->
-                      'time-' + utils.getDateFragment(tl, dateState)) for textLabel in d3.selectAll('.x.axis .tick text')[0]
+                      'time-' + utils.getDateFragment(tl, eventsManager.getDateState())) for textLabel in labels
 
     renderedAxis
 
-  toggleHighlight = (dataSet, highlight) ->
+  toggleHighlight: (svg, dataSet, dateState, highlight) ->
     dateClass = utils.getDateFragment(dataSet.date, dateState)
     svg.selectAll('.time-' + dateClass)
       .classed('highlight', highlight)
     d3.select('.statistics').classed('visible', highlight)
 
-  configureFromEventsManager = ->
-    dataSet = eventsManager.getDataSet()
-    dateState = eventsManager.getDateState()
+  fixHighlight: (svg, date, axisClass) ->
+    timeaxis = d3.selectAll('.xaxis-container .timeaxis.' + axisClass + ' .x.axis .tick text')[0]
 
-  constructor: (anEventsManager, someAxisProperties) ->
-    axisProperties = someAxisProperties
-    eventsManager = anEventsManager
-    setSvg()
-
-  getScale: ->
-    xScale
-
-  highlight: (dataSet) ->
-    toggleHighlight(dataSet, true)
-
-  unhighlight: (dataSet) ->
-    toggleHighlight(dataSet, false)
-
-  exploreDate: () ->
-    renderedAxis.transition()
-                .duration(60)
-                .tween('axis', =>
-                                 =>
-                                   @render())
-
-  render: ->
-    @remove()
-    configureFromEventsManager()
-
-    setScale()
-    setAxis()
-
-    configureAxisAndScale()
-    renderAxis()
-
-  remove: ->
-    renderedAxis.remove() if renderedAxis
+    d3.select(axis)
+      .attr('fix-highlight', (ax) ->
+                      highlight if ax == date) for axis in date

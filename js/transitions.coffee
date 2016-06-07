@@ -20,11 +20,16 @@ class Transitions
   unhighlight: (dataSet) ->
     console.log('{"listener.unhighlight(dataSet)": "transitions function not implemented"}')
 
+  fixHighlight: (dataSet) ->
+    console.log('{"listener.fixHighlight(dataSet)": "transitions function not implemented"}')
+
   exploreDate: () ->
-    console.log('{"listener.exploreDate()": "transitions function not implemented"}')
+    @render()
+    timelineHeight = parseInt($('.dates-container').css('height').replace('px', ''))
+    $('.graph-slot').css('bottom', timelineHeight + 'px')
 
   render: () ->
-    console.log('{"listener.render()": "transitions function not implemented"}')
+    $('.xaxis-container .' + eventsManager.getDateState()).addClass('visible')
 
   $('.graph-slot .slot').click( ->
     previousHeight = parseInt($('.dates-container').css('height').replace('px', ''))

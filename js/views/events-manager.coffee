@@ -39,10 +39,11 @@ class EventsManager
     listener.unhighlight(dataSetByDate(dateClass)) for listener in listeners
 
   shouldExploreDate: (dateClass) ->
-    listener.unhighlight(dataSetByDate(dateClass)) for listener in listeners
+    listener.fixHighlight(dataSetByDate(dateClass)) for listener in listeners
+
     stateIndex = dateStates.indexOf(dateState)
     if stateIndex >= 0 and stateIndex < 2
-      stateIndex++
+      ++stateIndex
 
     dateState = dateStates[stateIndex]
     shouldTransitionData(@, ->

@@ -78,6 +78,9 @@ class Map
       d3.select('.country.' + country)
           .classed('highlight', false) for country in dataSet.countries
 
+  fixHighlight: (dataSet) ->
+    console.log('{"listener.fixHighlight(dataSet)": "map function not implemented"}')
+
   exploreDate: () ->
     console.log('{"listener.exploreDate()": "map function not implemented"}')
 

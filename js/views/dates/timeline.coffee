@@ -61,6 +61,9 @@ class Timeline
   unhighlight: (dataSet) ->
     toggleHighlight(dataSet, false)
 
+  fixHighlight: (dataSet) ->
+    console.log('{"listener.fixHighlight(dataSet)": "timeline function not implemented"}')
+
   # exploreCountriesByDate: (date) ->
   #   listener.shouldFixedHighlightsCountries() for listener in listeners
   #   d3.select('.timeline-container').classed('collapsed', true)
