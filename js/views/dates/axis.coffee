@@ -44,8 +44,7 @@ class Axis
        .attr('class', 'x axis')
        .attr('transform', 'translate(' + axisProperties.x0 + ', 0)')
        .on('click', ->
-                        if isDateSelectedEvent(d3.event)
-                          eventsManager.shouldExploreDate(d3.event.target.classList[0]))
+                        eventsManager.shouldExploreDate(d3.event.target.classList[0]))
        .on('mouseover', ->
                         if isDateSelectedEvent(d3.event)
                           eventsManager.shouldHighlight(d3.event.target.classList[0]))
@@ -62,18 +61,21 @@ class Axis
 
     renderedAxis
 
-  toggleHighlight: (svg, dataSet, dateState, highlight) ->
-    dateClass = utils.getFormattedDate(dataSet.date, dateState)
-    svg.selectAll('.time-' + dateClass)
+  toggleHighlight: (svg, dateClass, highlight) ->
+    svg.selectAll('.' + dateClass)
       .classed('highlight', highlight)
     d3.select('.statistics').classed('visible', highlight)
 
-  fixHighlight: (svg, date, axisClass) ->
-    timeaxis = d3.selectAll('.xaxis-container .timeaxis.' + axisClass + ' .x.axis .tick text')[0]
+  fixHighlight: (svg, dateClassFragment) ->
+    svg.selectAll('.tick text')
+       .classed('fix-highlight', false)
 
-    for axis in timeaxis
-      do (axis) ->
-        d3.select(axis).classed('fix-highlight', (ax) ->
-                                              true if ax.getTime() == date.getTime())
-        d3.select(axis).classed('fix-unhighlight', (ax) ->
-                                              true if ax.getTime() != date.getTime())
+    svg.selectAll('.tick text')
+       .classed('fix-unhighlight', false)
+
+    svg.selectAll('.tick text')
+       .classed('fix-unhighlight', true)
+
+    svg.selectAll('.tick text.time-' + dateClassFragment)
+       .classed('fix-unhighlight', false)
+       .classed('fix-highlight', true)

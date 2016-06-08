@@ -4,7 +4,6 @@ class Transitions
   utils = new Utils
   eventsManager = null
   previousHeight = 0
-  selectedDateTextFinished = false
 
   adjustTabBasedOnTimeline = ->
     timelineHeight = parseInt($('.dates-container').css('height').replace('px', ''))
@@ -22,17 +21,8 @@ class Transitions
   unhighlight: (dataSet) ->
     console.log('{"listener.unhighlight(dataSet)": "transitions function not implemented"}')
 
-  fixHighlight: (dataSet) ->
-    return if selectedDateTextFinished
-
-    selectedDate = utils.getFormattedDate(dataSet.date, eventsManager.getDateState())
-    graphSlotText = $('.graph-slot p.selected-date').text()
-    graphSlotText += ' ' if eventsManager.getDateState() != 'years'
-    graphSlotText += selectedDate
-
-    $('.graph-slot p.selected-date').text(graphSlotText)
-    if eventsManager.getDateState() == 'days'
-      selectedDateTextFinished = true
+  fixHighlight: () ->
+    $('.graph-slot p.selected-date').text(eventsManager.getDateTextFragments().join(' '))
 
   exploreDate: () ->
     @render()

@@ -6,6 +6,7 @@ class EventsManager
   dateStates = ['years', 'months', 'days']
   gtObjects = { years: [], months: [] }
   selectedDate = { 'years': null, 'months': '01', 'days': '01'  }
+  dateTextFragments = null
 
   parseDate = d3.time.format('%Y-%m-%d').parse
 
@@ -29,18 +30,34 @@ class EventsManager
     else
       callback()
 
+  setDateTextFragments = (dateClass) ->
+    dateTextFragments = $('.graph-slot p.selected-date').text().split(' ')
+    dateClass = dateClass.replace('time-', '')
+
+    if dateClass.match(/^\d{4}$/) != null
+      dateTextFragments[0] = dateClass
+    else if dateClass.match(/^\D+$/) != null
+      dateTextFragments[1] = dateClass
+    else if dateClass.match(/^\d{1,2}\D{2}$/) != null
+      dateTextFragments[2] = dateClass
+
+  getDateTextFragments: ->
+    dateTextFragments
+
   addListener: (listener) ->
     listeners.push(listener) if listeners.indexOf(listener) == -1
 
   shouldHighlight: (dateClass) ->
-    listener.highlight(dataSetByDate(dateClass)) for listener in listeners
+    listener.highlight(dateClass, dataSetByDate(dateClass)) for listener in listeners
 
   shouldUnhighlight: (dateClass) ->
-    listener.unhighlight(dataSetByDate(dateClass)) for listener in listeners
+    listener.unhighlight(dateClass, dataSetByDate(dateClass)) for listener in listeners
 
   shouldExploreDate: (dateClass) ->
-    listener.unhighlight(dataSetByDate(dateClass)) for listener in listeners
-    listener.fixHighlight(dataSetByDate(dateClass), dateClass) for listener in listeners
+    setDateTextFragments(dateClass)
+
+    listener.unhighlight(dateClass, dataSetByDate(dateClass)) for listener in listeners
+    listener.fixHighlight(dataSetByDate(dateClass)) for listener in listeners
 
     stateIndex = dateStates.indexOf(dateState)
     if stateIndex >= 0 and stateIndex < 2

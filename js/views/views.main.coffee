@@ -16,7 +16,7 @@ axis3 = new Days(eventsManager, axisProperties3)
 timelineProperties = { width: 3000, height: utils.timelineHeight, x0: 50 }
 timeline = new Timeline(axis, timelineProperties, eventsManager)
 
-eventsManager.addListener(map)
+# eventsManager.addListener(map)
 eventsManager.addListener(axis)
 eventsManager.addListener(axis2)
 eventsManager.addListener(axis3)

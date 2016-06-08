@@ -21,19 +21,18 @@ class Years
   getScale: ->
     xScale
 
-  highlight: (dataSet) ->
+  highlight: (dateClass) ->
     return if !isThisDateState()
-    axis.toggleHighlight(svg, dataSet, eventsManager.getDateState(), true)
+    axis.toggleHighlight(svg, dateClass, true)
 
-  unhighlight: (dataSet) ->
+  unhighlight: (dateClass) ->
     return if !isThisDateState()
-    axis.toggleHighlight(svg, dataSet, eventsManager.getDateState(), false)
+    axis.toggleHighlight(svg, dateClass, false)
 
-  fixHighlight: (dataSet) ->
-    return if !isThisDateState()
-    axis.fixHighlight(svg, dataSet.date, 'years')
+  fixHighlight: ->
+    axis.fixHighlight(svg, eventsManager.getDateTextFragments()[0])
 
-  exploreDate: () ->
+  exploreDate: ->
     console.log('{"listener.exploreDate()": "years function not implemented"}')
 
   render: ->
