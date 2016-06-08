@@ -6,6 +6,7 @@ class Days
   axisToDraw = null
   renderedAxis = null
   axisProperties = null
+  isRendered = false
 
   eventsManager = null
   svg = null
@@ -30,16 +31,18 @@ class Days
     axis.toggleHighlight(svg, dataSet, eventsManager.getDateState(), false)
 
   fixHighlight: (dataSet) ->
-    # return if !isThisDateState()
-    # axis.fixHighlight(svg, dataSet.date, 'months')
-    console.log('{"listener.fixHighlight(dataSet)": "days function not implemented"}')
+    return if !isThisDateState()
+    axis.fixHighlight(svg, dataSet.date, 'days')
 
   exploreDate: () ->
+    return if isRendered
     @render()
 
   render: ->
     return if !isThisDateState()
     @remove()
+
+    isRendered = true
 
     xScale = axis.setScale(axisProperties)
     axisToDraw = axis.setAxis(xScale)

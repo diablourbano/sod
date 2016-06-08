@@ -114,6 +114,16 @@ a, h1, h2, h3, p {
   width: 100%;
   bottom: 80px;
 
+  p.selected-date {
+    width: auto;
+    letter-spacing: 1px;
+    left: 18px;
+    position: fixed;
+    font-size: 1.2em;
+    line-height: 9px;
+    color: $fix-highlight;
+  }
+
   .slot {
     margin: 0 auto;
     width: auto;
@@ -186,6 +196,14 @@ a, h1, h2, h3, p {
 
           &.highlight {
             fill: $date-headline-hover;
+          }
+
+          &.fix-highlight {
+            fill: $fix-highlight;
+          }
+
+          &.fix-unhighlight {
+            fill: $fix-unhighlight;
           }
         }
       }

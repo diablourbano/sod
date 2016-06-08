@@ -11,7 +11,6 @@ class Months
   svg = null
 
   isThisDateState = ->
-    console.log(eventsManager.getDateState())
     eventsManager.getDateState() == axisProperties.axisClass
 
   constructor: (anEventsManager, someAxisProperties) ->

@@ -19,7 +19,7 @@ class EventsManager
     dateClass = dateClass.toString().replace('time-', '')
     dateClass = '0' + dateClass if dateClass.length == 1
     selectedDate[dateState] = dateClass
-    moment(_.values(selectedDate).join(' '), 'YYYY MM DD')
+    moment(_.values(selectedDate).join(' '), 'YYYY MMMM DD')
 
   shouldTransitionData = (self, callback) ->
     if dateState == 'months' or dateState == 'days'
@@ -39,7 +39,8 @@ class EventsManager
     listener.unhighlight(dataSetByDate(dateClass)) for listener in listeners
 
   shouldExploreDate: (dateClass) ->
-    listener.fixHighlight(dataSetByDate(dateClass)) for listener in listeners
+    listener.unhighlight(dataSetByDate(dateClass)) for listener in listeners
+    listener.fixHighlight(dataSetByDate(dateClass), dateClass) for listener in listeners
 
     stateIndex = dateStates.indexOf(dateState)
     if stateIndex >= 0 and stateIndex < 2
@@ -58,6 +59,9 @@ class EventsManager
 
   getDateState: ->
     dateState
+
+  getSelectedDate: ->
+    selectedDate
 
   getData: (callback) ->
     d3.json 'data_sample_' + dateState + '.json', (error, data) ->
