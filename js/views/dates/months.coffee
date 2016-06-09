@@ -29,8 +29,11 @@ class Months
     return if !isThisDateState()
     axis.toggleHighlight(svg, dateClass, false)
 
-  fixHighlight: ->
-    axis.fixHighlight(svg, eventsManager.getDateTextFragments()[1])
+  fixHighlight: (axisClass) ->
+    return if axisClass != axisProperties.axisClass
+
+    dateFragment = eventsManager.getDateTextFragments()[1]
+    axis.fixHighlight(svg, dateFragment)
 
   exploreDate: ->
     @render()

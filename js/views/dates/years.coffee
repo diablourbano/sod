@@ -29,8 +29,11 @@ class Years
     return if !isThisDateState()
     axis.toggleHighlight(svg, dateClass, false)
 
-  fixHighlight: ->
-    axis.fixHighlight(svg, eventsManager.getDateTextFragments()[0])
+  fixHighlight: (axisClass) ->
+    return if axisClass != axisProperties.axisClass
+
+    dateFragment = eventsManager.getDateTextFragments()[0]
+    axis.fixHighlight(svg, dateFragment)
 
   exploreDate: ->
     console.log('{"listener.exploreDate()": "years function not implemented"}')

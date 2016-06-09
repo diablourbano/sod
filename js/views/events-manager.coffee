@@ -53,11 +53,11 @@ class EventsManager
   shouldUnhighlight: (dateClass) ->
     listener.unhighlight(dateClass, dataSetByDate(dateClass)) for listener in listeners
 
-  shouldExploreDate: (dateClass) ->
+  shouldExploreDate: (dateClass, axisClass) ->
     setDateTextFragments(dateClass)
 
     listener.unhighlight(dateClass, dataSetByDate(dateClass)) for listener in listeners
-    listener.fixHighlight(dataSetByDate(dateClass)) for listener in listeners
+    listener.fixHighlight(axisClass, dataSetByDate(dateClass)) for listener in listeners
 
     stateIndex = dateStates.indexOf(dateState)
     if stateIndex >= 0 and stateIndex < 2
