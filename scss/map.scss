@@ -1,4 +1,31 @@
 @import "variables";
+@import "ps-main";
+
+.ps-theme-sod {
+  @include ps-container(map-merge($ps-theme-default, (
+    border-radius: 10px,
+    rail-default-opacity: 0.6,
+    scrollbar-x-rail-height: 10px,
+    rail-hover-opacity: 0.6,
+    rail-hover-bg: none,
+    scrollbar-x-height: 16px,
+    bar-bg: white,
+    bar-container-hover-bg: $date-headline-hover,
+    bar-hover-bg: none,
+  )));
+
+  .ps-scrollbar-x-rail {
+    display: block;
+    background: url($timeline-scroll-dot) repeat-x;
+    transition: none !important;
+    width: 100%;
+
+    .ps-scrollbar-x {
+      width: 16px !important;
+      margin-left: 185px !important;
+    }
+  }
+}
 
 body {
   background: $water;
@@ -112,7 +139,7 @@ a, h1, h2, h3, p {
   height: 35px;
   position: fixed;
   width: 100%;
-  bottom: 80px;
+  bottom: 94px;
 
   p.selected-date {
     width: auto;
@@ -155,7 +182,7 @@ a, h1, h2, h3, p {
   position: fixed;
   bottom: 0;
   width: 100%;
-  overflow-x: auto;
+  overflow: hidden;
 
   .xaxis-container {
     border-top: solid 1px $thin-separator;
@@ -163,10 +190,14 @@ a, h1, h2, h3, p {
     padding: 0.8em 1em 0;
     min-height: 50px;
     height: auto;
-    width: auto;
+    width: 100%;
 
     .timeaxis {
+      position: relative;
+      padding: 10px 0 6px;
       margin-bottom: 10px;
+      overflow-x: auto;
+      width: 98%;
     }
 
     .years {
@@ -174,8 +205,6 @@ a, h1, h2, h3, p {
     }
 
     .months, .days {
-      border-top: solid 1px $axis-dashline;
-      padding-top: 15px;
       display: none;
 
       &.visible {

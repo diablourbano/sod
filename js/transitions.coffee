@@ -47,3 +47,8 @@ class Transitions
 
   $(window).resize( ->
                     eventsManager.shouldRender())
+
+  $('.timeaxis').perfectScrollbar({
+    theme: 'sod',
+    suppressScrollY: true
+  })

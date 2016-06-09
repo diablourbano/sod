@@ -15,7 +15,6 @@ class Axis
 
   setSvg: (axisProperties) ->
     d3.select('body .dates-container .xaxis-container .' + axisProperties.axisClass)
-      .attr('style', utils.sizeStyles(axisProperties.width, 'auto'))
       .append('svg')
       .attr('class', 'xaxis')
       .attr('width', axisProperties.width)
