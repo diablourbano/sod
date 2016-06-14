@@ -29,18 +29,22 @@ class Years
     return if !isThisDateState()
     axis.toggleHighlight(svg, dateClass, false)
 
+  unfixHighlight: (axisClass) ->
+    return if axisClass != axisProperties.axisClass
+
+    axis.unfixHighlight(svg, axisClass)
+
   fixHighlight: (axisClass) ->
     return if axisClass != axisProperties.axisClass
 
     dateFragment = eventsManager.getDateTextFragments()[0]
-    axis.fixHighlight(svg, dateFragment)
+    axis.fixHighlight(svg, axisClass, dateFragment)
 
   exploreDate: ->
     console.log('{"listener.exploreDate()": "years function not implemented"}')
 
   render: ->
     return if !isThisDateState()
-    @remove()
 
     xScale = axis.setScale(axisProperties)
     axisToDraw = axis.setAxis(xScale)
@@ -48,5 +52,5 @@ class Years
     axis.configureAxisAndScale(xScale, axisToDraw, eventsManager.getDataSet(), eventsManager.getDateState())
     renderedAxis = axis.renderAxis(svg, axisToDraw, axisProperties, eventsManager)
 
-  remove: ->
-    renderedAxis.remove() if renderedAxis
+  remove: (dateStatesToRemove) ->
+    console.log('{"listener.remove()": "years function not implemented"}')

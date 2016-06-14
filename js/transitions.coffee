@@ -12,6 +12,10 @@ class Transitions
     bottomPos = parseInt($('.graph-slot').css('bottom').replace('px', ''))
     $('.graph-slot').css('bottom', (bottomPos + deltaHeight) + 'px')
 
+  resetGraphSlotPosition = ->
+    timelineHeight = parseInt($('.dates-container').css('height').replace('px', ''))
+    $('.graph-slot').css('bottom', timelineHeight + 'px')
+
   constructor: (anEventsManager) ->
     eventsManager = anEventsManager
 
@@ -21,16 +25,22 @@ class Transitions
   unhighlight: (dataSet) ->
     console.log('{"listener.unhighlight(dataSet)": "transitions function not implemented"}')
 
-  fixHighlight: () ->
+  unfixHighlight: (axisClass) ->
     $('.graph-slot p.selected-date').text(eventsManager.getDateTextFragments().join(' '))
 
-  exploreDate: () ->
-    @render()
-    timelineHeight = parseInt($('.dates-container').css('height').replace('px', ''))
-    $('.graph-slot').css('bottom', timelineHeight + 'px')
+  fixHighlight: (axisClass) ->
+    $('.graph-slot p.selected-date').text(eventsManager.getDateTextFragments().join(' '))
 
-  render: () ->
+  exploreDate: ->
+    @render()
+    resetGraphSlotPosition()
+
+  render: ->
     $('.xaxis-container .' + eventsManager.getDateState()).addClass('visible')
+
+  remove: (dateStatesToRemove) ->
+    $('.xaxis-container .' + dateState).removeClass('visible') for dateState in dateStatesToRemove
+    resetGraphSlotPosition()
 
   $('.graph-slot .slot').click( ->
     previousHeight = parseInt($('.dates-container').css('height').replace('px', ''))

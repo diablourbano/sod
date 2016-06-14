@@ -29,18 +29,23 @@ class Months
     return if !isThisDateState()
     axis.toggleHighlight(svg, dateClass, false)
 
+  unfixHighlight: (axisClass) ->
+    return if axisClass != axisProperties.axisClass
+
+    axis.unfixHighlight(svg, axisClass)
+
   fixHighlight: (axisClass) ->
     return if axisClass != axisProperties.axisClass
 
     dateFragment = eventsManager.getDateTextFragments()[1]
-    axis.fixHighlight(svg, dateFragment)
+    axis.fixHighlight(svg, axisClass, dateFragment)
 
   exploreDate: ->
+    return if renderedAxis
     @render()
 
   render: ->
     return if !isThisDateState()
-    @remove()
 
     xScale = axis.setScale(axisProperties)
     axisToDraw = axis.setAxis(xScale)
@@ -48,5 +53,8 @@ class Months
     axis.configureAxisAndScale(xScale, axisToDraw, eventsManager.getDataSet(), eventsManager.getDateState())
     renderedAxis = axis.renderAxis(svg, axisToDraw, axisProperties, eventsManager)
 
-  remove: ->
-    renderedAxis.remove() if renderedAxis
+  remove: (dateStatesToRemove) ->
+    return if dateStatesToRemove.indexOf(axisProperties.axisClass) == -1
+    if renderedAxis
+      renderedAxis.remove()
+      renderedAxis = null

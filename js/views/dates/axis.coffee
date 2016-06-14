@@ -36,13 +36,16 @@ class Axis
        .attr('class', 'x axis')
        .attr('transform', 'translate(' + axisProperties.x0 + ', 0)')
        .on('click', ->
-                        eventsManager.shouldExploreDate(d3.event.target.classList[0], axisProperties.axisClass))
+                        dateClass = d3.event.target.classList[0].replace('time-', '')
+                        eventsManager.shouldFixDate(dateClass, axisProperties.axisClass))
        .on('mouseover', ->
                         if isDateSelectedEvent(axisProperties.axisClass)
-                          eventsManager.shouldHighlight(d3.event.target.classList[0]))
+                          dateClass = d3.event.target.classList[0].replace('time-', '')
+                          eventsManager.shouldHighlight(dateClass))
        .on('mouseout', ->
                         if isDateSelectedEvent(axisProperties.axisClass)
-                          eventsManager.shouldUnhighlight(d3.event.target.classList[0]))
+                          dateClass = d3.event.target.classList[0].replace('time-', '')
+                          eventsManager.shouldUnhighlight(dateClass))
        .call(axis)
 
     labels = d3.selectAll('.xaxis-container .timeaxis.' + axisProperties.axisClass + ' .x.axis .tick text')[0]
@@ -54,24 +57,27 @@ class Axis
     renderedAxis
 
   toggleHighlight: (svg, dateClass, highlight) ->
-    svg.selectAll('.' + dateClass)
+    svg.selectAll('.time-' + dateClass)
       .classed('highlight', highlight)
     d3.select('.statistics').classed('visible', highlight)
 
-  fixHighlight: (svg, dateClassFragment) ->
-    console.log(dateClassFragment)
-    alreadySelected = svg.select('.tick text.fix-highlight.time-' + dateClassFragment)
+  unfixHighlight: (svg, axisClass) ->
+    svg.selectAll('.tick text')
+       .classed('fix-unhighlight', false)
 
     svg.selectAll('.tick text')
        .classed('fix-highlight', false)
 
-    svg.selectAll('.tick text')
-       .classed('fix-unhighlight', false)
+
+  fixHighlight: (svg, axisClass, dateClassFragment) ->
+    alreadySelected = svg.select('.tick text.fix-highlight.time-' + dateClassFragment)
+
+    @unfixHighlight(svg, axisClass)
 
     if alreadySelected.empty()
       svg.selectAll('.tick text')
          .classed('fix-unhighlight', true)
 
-      svg.selectAll('.tick text.time-' + dateClassFragment)
+      svg.select('.tick text.time-' + dateClassFragment)
          .classed('fix-unhighlight', false)
          .classed('fix-highlight', true)
