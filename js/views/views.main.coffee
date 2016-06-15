@@ -6,20 +6,20 @@ utils = new Utils
 transitions = new Transitions(eventsManager)
 map = new Map
 
-axisProperties = { width: 3000, height: 50, x0: 50, y0: 0, axisClass: 'years' }
-axis = new Years(eventsManager, axisProperties)
-axisProperties2 = { width: 3000, height: 50, x0: 50, y0: 0, axisClass: 'months' }
-axis2 = new Months(eventsManager, axisProperties2)
-axisProperties3 = { width: 3000, height: 50, x0: 50, y0: 0, axisClass: 'days' }
-axis3 = new Days(eventsManager, axisProperties3)
+yearsProperties = { width: 3000, height: 50, x0: 50, y0: 0, axisClass: 'years' }
+years = new Years(eventsManager, yearsProperties)
+monthsProperties2 = { width: 3000, height: 50, x0: 50, y0: 0, axisClass: 'months' }
+months = new Months(eventsManager, monthsProperties2)
+daysProperties3 = { width: 3000, height: 50, x0: 50, y0: 0, axisClass: 'days' }
+days = new Days(eventsManager, daysProperties3)
 
 timelineProperties = { width: 3000, height: utils.timelineHeight, x0: 50 }
-timeline = new Timeline(axis, timelineProperties, eventsManager)
+timeline = new Timeline(years, timelineProperties, eventsManager)
 
-# eventsManager.addListener(map)
-eventsManager.addListener(axis)
-eventsManager.addListener(axis2)
-eventsManager.addListener(axis3)
+eventsManager.addListener(map)
+eventsManager.addListener(years)
+eventsManager.addListener(months)
+eventsManager.addListener(days)
 eventsManager.addListener(transitions)
 # eventsManager.addListener(timeline)
 

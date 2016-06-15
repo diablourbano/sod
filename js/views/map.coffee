@@ -69,16 +69,19 @@ class Map
   shouldFixedHighlightsCountries: ->
     fixHighlight = true
 
-  highlight: (dataSet) ->
+  highlight: (dataClass, dataSet) ->
     d3.select('.country.' + country)
-        .classed('highlight', true) for country in dataSet.countries
+      .classed('highlight', true) for country in dataSet.countries
 
-  unhighlight: (dataSet) ->
+  unhighlight: (dataClass, dataSet) ->
     if !fixHighlight
       d3.select('.country.' + country)
           .classed('highlight', false) for country in dataSet.countries
 
-  fixHighlight: (dataSet) ->
+  unfixHighlight: (axisClass, dataSet) ->
+    console.log('{"listener.unfixHighlight(dataSet)": "map function not implemented"}')
+
+  fixHighlight: (axisClass, dataSet) ->
     console.log('{"listener.fixHighlight(dataSet)": "map function not implemented"}')
 
   exploreDate: () ->
@@ -86,3 +89,6 @@ class Map
 
   render: ->
     getMapDataAndRender()
+
+  remove: (dateStatesToRemove) ->
+    console.log('{"listener.remove()": "map function not implemented"}')
