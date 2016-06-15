@@ -5,24 +5,22 @@
   @include ps-container(map-merge($ps-theme-default, (
     border-radius: 10px,
     rail-default-opacity: 0.6,
-    scrollbar-x-rail-height: 10px,
+    scrollbar-x-rail-height: 5px,
     rail-hover-opacity: 0.6,
     rail-hover-bg: none,
-    scrollbar-x-height: 16px,
-    bar-bg: white,
-    bar-container-hover-bg: $date-headline-hover,
+    scrollbar-x-height: 5px,
+    bar-container-hover-bg: $date-headline,
     bar-hover-bg: none,
   )));
 
   .ps-scrollbar-x-rail {
     display: block;
-    background: url($timeline-scroll-dot) repeat-x;
+    background-color: $date-headline !important;
     transition: none !important;
     width: 100%;
 
     .ps-scrollbar-x {
-      width: 16px !important;
-      margin-left: 185px !important;
+      width: 425px !important;
     }
   }
 }

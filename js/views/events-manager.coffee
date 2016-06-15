@@ -5,21 +5,20 @@ class EventsManager
   dateState = 'years'
   dateStates = ['years', 'months', 'days']
   gtObjects = { years: [], months: [], days: [] }
-  selectedDate = { 'years': null, 'months': '01', 'days': '01'  }
+  selectedDate = { 'years': null, 'months': 'January', 'days': '01'  }
   dateTextFragments = []
 
   parseDate = d3.time.format('%Y-%m-%d').parse
 
   dataSetByDate = (dateClass) ->
-    date = setSelectedDate(dateClass)
+    date = moment(_.values(selectedDate).join(' '), 'YYYY MMMM DD')
     dataSetIndex = _.findIndex(gtObjects[dateState], (obj) ->
                                           obj.date.getTime() == date.toDate().getTime())
     gtObjects[dateState][dataSetIndex]
 
-  setSelectedDate = (dateClass) ->
-    dateClass = '0' + dateClass if dateClass.length == 1
-    selectedDate[dateState] = dateClass
-    moment(_.values(selectedDate).join(' '), 'YYYY MMMM DD')
+  setSelectedDate = (aDateState, dateClass) ->
+    dateClass = '0' + dateClass if dateClass and dateClass.length == 1
+    selectedDate[aDateState] = dateClass
 
   shouldTransitionData = (self, callback) ->
     if dateState == 'months' or dateState == 'days'
@@ -49,11 +48,10 @@ class EventsManager
     indexOfDateState = dateStates.indexOf(axisClass)
     dateState = dateStates[indexOfDateState + 1]
 
-  revertDateState = (axisClass) ->
-    return if dateState == 'years'
-
-    indexOfDateState = dateStates.indexOf(axisClass)
-    dateState = dateStates[indexOfDateState - 1]
+  revertSelectedDate = ->
+    setSelectedDate('years', null)
+    setSelectedDate('months', 'January')
+    setSelectedDate('days', '01')
 
   dateClassWithouthDecoration = (dateClass) ->
     dateClass = dateClass.replace(/(st|nd|rd|th)/, '') if dateClass.match(/(st|nd|rd|th)/) != null
@@ -66,34 +64,40 @@ class EventsManager
     listeners.push(listener) if listeners.indexOf(listener) == -1
 
   shouldHighlight: (dateClass) ->
-    dateClass = dateClassWithouthDecoration(dateClass)
-    dataSet = dataSetByDate(dateClass)
+    dateClassNoDecoration = dateClassWithouthDecoration(dateClass)
+    setSelectedDate(dateState, dateClassNoDecoration)
+
+    dataSet = dataSetByDate(dateClassNoDecoration)
     listener.highlight(dateClass, dataSet) for listener in listeners
-    console.log(selectedDate)
 
   shouldUnhighlight: (dateClass) ->
-    dateClass = dateClassWithouthDecoration(dateClass)
-    dateClass = dateClass.replace(/(st|nd|rd|th)/, '') if dateClass.match(/(st|nd|rd|th)/) != null
-    dataSet = dataSetByDate(dateClass)
+    dateClassNoDecoration = dateClassWithouthDecoration(dateClass)
+    setSelectedDate(dateState, dateClassNoDecoration)
+
+    dataSet = dataSetByDate(dateClassNoDecoration)
     listener.unhighlight(dateClass, dataSet) for listener in listeners
 
   shouldFixDate: (dateClass, axisClass) ->
-    date = dateClassWithouthDecoration(dateClass)
-    dataSet = dataSetByDate(date)
-
     existDateFragment = dateTextFragments.indexOf(dateClass)
 
+    # this means we're unselecting date
     if existDateFragment > -1
       fragmentsToRemove = []
       dateState = dateStates[existDateFragment]
 
       (dateTextFragments[fragment] = null
+      revertSelectedDate() if fragment == 0
       fragmentsToRemove.push(dateStates[fragment + 1]) if fragment < 2) for fragment in [existDateFragment..2]
 
       (listener.unfixHighlight(axisClass)
       listener.remove(fragmentsToRemove)) for listener in listeners
 
+    # we want to fix to specified date
     else
+      date = dateClassWithouthDecoration(dateClass)
+      setSelectedDate(axisClass, date)
+      dataSet = dataSetByDate(date)
+
       setDateTextFragments(dateClass, dateClass)
 
       (listener.unhighlight(dateClass, dataSet)
