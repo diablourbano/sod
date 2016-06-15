@@ -5,6 +5,9 @@ class Transitions
   eventsManager = null
   previousHeight = 0
 
+  dateStates = ['years', 'months', 'days']
+  currentDateState = null
+
   adjustTabBasedOnTimeline = ->
     timelineHeight = parseInt($('.dates-container').css('height').replace('px', ''))
     deltaHeight = timelineHeight - previousHeight
@@ -16,8 +19,41 @@ class Transitions
     timelineHeight = parseInt($('.dates-container').css('height').replace('px', ''))
     $('.graph-slot').css('bottom', timelineHeight + 'px')
 
+  nextDateState = ->
+    return if currentDateState == 'days'
+
+    indexOfDateState = dateStates.indexOf(currentDateState)
+    dateStates[indexOfDateState + 1]
+
+  configureScrollbars = ->
+    $('.timeaxis').perfectScrollbar({
+      theme: 'sod',
+      suppressScrollY: true
+    })
+
+    $('.timeline-container').perfectScrollbar({
+      suppressScrollY: true
+    })
+
+  setScrollListeners = (dateState) ->
+    currentDateState = dateState
+    $('.timeaxis.' + currentDateState).on('ps-scroll-x', ->
+      $('.timeline-container').scrollLeft($(@).scrollLeft())
+    )
+
+    $('.timeline-container').on('ps-scroll-x', ->
+      $('.timeaxis.' + currentDateState).scrollLeft($(@).scrollLeft())
+    )
+
+  unsetScrollListeners = ->
+    $('.timeaxis.' + currentDateState).off('ps-scroll-x')
+    $('.timeline-container').off('ps-scroll-x')
+
   constructor: (anEventsManager) ->
     eventsManager = anEventsManager
+
+    configureScrollbars()
+    setScrollListeners(eventsManager.getDateState())
 
   highlight: (dataSet) ->
     console.log('{"listener.highlight(dataSet)": "transitions function not implemented"}')
@@ -27,9 +63,13 @@ class Transitions
 
   unfixHighlight: (axisClass) ->
     $('.graph-slot p.selected-date').text(eventsManager.getDateTextFragments().join(' '))
+    unsetScrollListeners()
+    setScrollListeners(eventsManager.getDateState())
 
   fixHighlight: (axisClass) ->
     $('.graph-slot p.selected-date').text(eventsManager.getDateTextFragments().join(' '))
+    unsetScrollListeners()
+    setScrollListeners(nextDateState())
 
   exploreDate: ->
     @render()
@@ -57,8 +97,3 @@ class Transitions
 
   $(window).resize( ->
                     eventsManager.shouldRender())
-
-  $('.timeaxis').perfectScrollbar({
-    theme: 'sod',
-    suppressScrollY: true
-  })

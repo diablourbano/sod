@@ -55,13 +55,16 @@ class Timeline
   getSvg: ->
     svg
 
-  highlight: (dataSet) ->
+  highlight: (dateClass, dataSet) ->
     toggleHighlight(dataSet, true)
 
-  unhighlight: (dataSet) ->
+  unhighlight: (dateClass, dataSet) ->
     toggleHighlight(dataSet, false)
 
-  fixHighlight: (dataSet) ->
+  unfixHighlight: (axisClass, dataSet) ->
+    console.log('{"listener.fixHighlight(dataSet)": "timeline function not implemented"}')
+
+  fixHighlight: (axisClass, dataSet) ->
     console.log('{"listener.fixHighlight(dataSet)": "timeline function not implemented"}')
 
   # exploreCountriesByDate: (date) ->
@@ -77,3 +80,6 @@ class Timeline
 
   render: ->
     renderGraph()
+
+  remove: ->
+    console.log('{"listener.remove()": "timeline function not implemented"}')
