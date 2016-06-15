@@ -9,13 +9,14 @@
     rail-hover-opacity: 0.6,
     rail-hover-bg: none,
     scrollbar-x-height: 5px,
-    bar-container-hover-bg: $date-headline,
+    bar-bg: white,
+    bar-container-hover-bg: $date-headline-hover,
     bar-hover-bg: none,
   )));
 
   .ps-scrollbar-x-rail {
     display: block;
-    background-color: $date-headline !important;
+    background: url($timeline-scroll-dot) repeat-x;
     transition: none !important;
     width: 100%;
 
