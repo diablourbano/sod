@@ -134,10 +134,34 @@ a, h1, h2, h3, p {
 
       .country {
         fill: $countries;
+        cursor: pointer;
 
         &.highlight {
-          fill: $highlight-countries;
-          cursor: pointer;
+          fill: $years-countries;
+        }
+
+        &.years {
+          fill: $years-countries;
+
+          &.highlight {
+            fill: $months-countries;
+          }
+        }
+
+        &.months {
+          fill: $months-countries;
+
+            &.highlight {
+              fill: $days-countries;
+            }
+        }
+
+        &.days {
+          fill: $days-countries;
+
+            &.highlight {
+              fill: $days-countries;
+            }
         }
       }
     }
