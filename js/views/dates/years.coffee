@@ -41,7 +41,7 @@ class Years
     axis.fixHighlight(svg, axisClass, dateFragment)
 
   exploreDate: ->
-    console.log('{"listener.exploreDate()": "years function not implemented"}')
+    utils.printLog('{"listener.exploreDate()": "years function not implemented"}')
 
   render: ->
     return if !isThisDateState()
@@ -53,4 +53,7 @@ class Years
     renderedAxis = axis.renderAxis(svg, axisToDraw, axisProperties, eventsManager)
 
   remove: (dateStatesToRemove) ->
-    console.log('{"listener.remove()": "years function not implemented"}')
+    utils.printLog('{"listener.remove()": "years function not implemented"}')
+
+  redraw: ->
+    utils.printLog('{"listener.redraw()": "years function not implemented"}')

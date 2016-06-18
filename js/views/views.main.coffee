@@ -4,7 +4,7 @@ eventsManager = new EventsManager
 utils = new Utils
 
 transitions = new Transitions(eventsManager)
-map = new Map
+map = new Map(eventsManager)
 
 yearsProperties = { width: 3000, height: 50, x0: 50, y0: 0, axisClass: 'years' }
 years = new Years(eventsManager, yearsProperties)

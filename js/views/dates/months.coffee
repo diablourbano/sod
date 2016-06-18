@@ -58,3 +58,6 @@ class Months
     if renderedAxis
       renderedAxis.remove()
       renderedAxis = null
+
+  redraw: ->
+    utils.printLog('{"listener.redraw()": "months function not implemented"}')

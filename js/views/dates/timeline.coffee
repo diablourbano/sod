@@ -62,10 +62,10 @@ class Timeline
     toggleHighlight(dataSet, false)
 
   unfixHighlight: (axisClass, dataSet) ->
-    console.log('{"listener.fixHighlight(dataSet)": "timeline function not implemented"}')
+    utils.printLog('{"listener.fixHighlight(dataSet)": "timeline function not implemented"}')
 
   fixHighlight: (axisClass, dataSet) ->
-    console.log('{"listener.fixHighlight(dataSet)": "timeline function not implemented"}')
+    utils.printLog('{"listener.fixHighlight(dataSet)": "timeline function not implemented"}')
 
   # exploreCountriesByDate: (date) ->
   #   listener.shouldFixedHighlightsCountries() for listener in listeners
@@ -82,4 +82,7 @@ class Timeline
     renderGraph()
 
   remove: ->
-    console.log('{"listener.remove()": "timeline function not implemented"}')
+    utils.printLog('{"listener.remove()": "timeline function not implemented"}')
+
+  redraw: ->
+    utils.printLog('{"listener.redraw()": "timeline function not implemented"}')

@@ -115,6 +115,9 @@ class EventsManager
   shouldRender: ->
     listener.render() for listener in listeners
 
+  shouldRedraw: ->
+    listener.redraw() for listener in listeners
+
   getDataSet: ->
     gtObjects[dateState]
 

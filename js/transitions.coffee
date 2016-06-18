@@ -56,10 +56,10 @@ class Transitions
     setScrollListeners(eventsManager.getDateState())
 
   highlight: (dataSet) ->
-    console.log('{"listener.highlight(dataSet)": "transitions function not implemented"}')
+    utils.printLog('{"listener.highlight(dataSet)": "transitions function not implemented"}')
 
   unhighlight: (dataSet) ->
-    console.log('{"listener.unhighlight(dataSet)": "transitions function not implemented"}')
+    utils.printLog('{"listener.unhighlight(dataSet)": "transitions function not implemented"}')
 
   unfixHighlight: (axisClass) ->
     $('.graph-slot p.selected-date').text(eventsManager.getDateTextFragments().join(' '))
@@ -82,6 +82,9 @@ class Transitions
     $('.xaxis-container .' + dateState).removeClass('visible') for dateState in dateStatesToRemove
     resetGraphSlotPosition()
 
+  redraw: ->
+    utils.printLog('{"listener.redraw()": "transitions function not implemented"}')
+
   $('.graph-slot .slot').click( ->
     previousHeight = parseInt($('.dates-container').css('height').replace('px', ''))
 
@@ -96,4 +99,4 @@ class Transitions
   )
 
   $(window).resize( ->
-                    eventsManager.shouldRender())
+                    eventsManager.shouldRedraw())

@@ -3,54 +3,33 @@
 class Map
 
   utils = new Utils
-  sizeConstant = 15
-  height = utils.height - sizeConstant
-  width = utils.width - sizeConstant
-  ratio = width/height
-  baseRatio = 960/620
+  eventsManager = null
+  svg = null
   fixHighlight = false
+  done = false
 
-  proportionalTo = (comparedValue)->
-    (ratio * comparedValue) / baseRatio
+  timelineHeight = ->
+    dateStates = ['years', 'months', 'days']
+    (dateStates.indexOf(eventsManager.getDateState()) + 1) * 100
 
-  alignTopBasedOn = ->
-    top = switch
-            when ratio > 1.8 then 150
-            when ratio > 1.5 then 190
-            else 160
-
-  whatScaleToUse = ->
-    scale = switch
-              when ratio > 1.8 then 170
-              when ratio > 1.7 then 200
-              when ratio > 1.4 then 210
-              else 230
-
-  mapProperties = {
-                    top: proportionalTo(alignTopBasedOn())
-                    width: width,
-                    height: height,
-                    scale: proportionalTo(whatScaleToUse())
-                  }
-
-  svg = d3.select('body .map-container.fixed')
-          .attr('style', utils.sizeStyles(mapProperties.width,
-                                    mapProperties.height))
-          .append('svg')
-          .attr('class', 'world-map')
-          .attr('width', mapProperties.width)
-          .attr('height', mapProperties.height)
+  setSvg = ->
+    svg = d3.select('body .map-container.fixed')
+            .append('div')
+            .attr('class', 'world-map-container')
+            .append('svg')
+            .attr('class', 'world-map')
+            .attr('viewBox', '0 0 1000 700')
+            .attr('style', 'max-height: ' + (utils.height - timelineHeight()) + 'px;')
 
   projection = d3.geo.mercator()
-                 .scale(mapProperties.scale)
-                 .translate([mapProperties.width/2,
-                             (mapProperties.height/2) +
-                              mapProperties.top])
+                 .translate([500, 500])
 
   path = d3.geo.path()
            .projection(projection)
 
   renderWith = (datum) ->
+    setSvg()
+
     svg.selectAll('.country')
        .data(datum.features)
        .enter()
@@ -66,6 +45,9 @@ class Map
       datum = topojson.feature(world, world.objects.world_map)
       renderWith(datum)
 
+  constructor: (anEventsManager) ->
+    eventsManager = anEventsManager
+
   shouldFixedHighlightsCountries: ->
     fixHighlight = true
 
@@ -79,16 +61,29 @@ class Map
           .classed('highlight', false) for country in dataSet.countries
 
   unfixHighlight: (axisClass, dataSet) ->
-    console.log('{"listener.unfixHighlight(dataSet)": "map function not implemented"}')
+    utils.printLog('{"listener.unfixHighlight(dataSet)": "map function not implemented"}')
 
   fixHighlight: (axisClass, dataSet) ->
-    console.log('{"listener.fixHighlight(dataSet)": "map function not implemented"}')
+    utils.printLog('{"listener.fixHighlight(dataSet)": "map function not implemented"}')
 
   exploreDate: () ->
-    console.log('{"listener.exploreDate()": "map function not implemented"}')
+    svg.attr('style', 'max-height: ' + (utils.height - timelineHeight()) + 'px;')
 
   render: ->
+    return if done
+    done = true
     getMapDataAndRender()
 
   remove: (dateStatesToRemove) ->
-    console.log('{"listener.remove()": "map function not implemented"}')
+    utils.printLog('{"listener.remove()": "map function not implemented"}')
+
+  redraw: ->
+    return if utils.windowRatio() >= 1
+
+    mapContainerHeight = parseInt(d3.select('.world-map-container')
+                                    .style('width')
+                                    .replace('px', ''))
+
+    topPosition = (mapContainerHeight / 2) - (utils.height / 2)
+    topPosition *= -1 if topPosition < 0
+    d3.select('.world-map-container').attr('style', 'margin-top: ' + topPosition + 'px;')

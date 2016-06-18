@@ -58,3 +58,6 @@ class Days
     if renderedAxis
       renderedAxis.remove()
       renderedAxis = null
+
+  redraw: ->
+    utils.printLog('{"listener.redraw()": "days function not implemented"}')

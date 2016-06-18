@@ -115,20 +115,34 @@ a, h1, h2, h3, p {
 
 .map-container {
   margin: 0 auto;
+  width: 100%;
 
   &.fixed {
     position: fixed;
     z-index: -1;
   }
 
-  .world-map {
+  .world-map-container {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%;
+    vertical-align: top;
+    overflow: hidden;
 
-    .country {
-      fill: $countries;
+    .world-map {
+      display: inline-block;
+      position: absolute;
+      top: 10px;
+      left: 0;
 
-      &.highlight {
-        fill: $highlight-countries;
-        cursor: pointer;
+      .country {
+        fill: $countries;
+
+        &.highlight {
+          fill: $highlight-countries;
+          cursor: pointer;
+        }
       }
     }
   }

@@ -6,6 +6,9 @@ class Utils
   width: window.innerWidth
   timelineHeight: 350
 
+  windowRatio: ->
+    window.innerWidth / window.innerHeight
+
   sizeStyles: (aWidth = @width, aHeight = @height) ->
     aWidth += 'px' if aWidth != 'auto'
     aHeight += 'px' if aHeight != 'auto'
@@ -27,3 +30,7 @@ class Utils
     formatAxis = 'MMMM' if dateState == 'months'
     formatAxis = 'Do' if dateState == 'days'
     moment(date).format(formatAxis)
+
+  printLog: (logToPrint) ->
+    return
+    console.log(logToPrint)
