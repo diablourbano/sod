@@ -55,11 +55,13 @@ class Transitions
     configureScrollbars()
     setScrollListeners(eventsManager.getDateState())
 
-  highlight: (dataSet) ->
-    utils.printLog('{"listener.highlight(dataSet)": "transitions function not implemented"}')
+  highlight: (dateClass, dataSet) ->
+    $('.statistics ul li.incidents span.definition').text(dataSet.incidents)
+    $('.statistics ul li.casualties span.definition').text(dataSet.casualties)
 
   unhighlight: (dataSet) ->
-    utils.printLog('{"listener.unhighlight(dataSet)": "transitions function not implemented"}')
+    $('.statistics ul li.incidents span.definition').text('Loading...')
+    $('.statistics ul li.casualties span.definition').text('Loading...')
 
   unfixHighlight: (axisClass) ->
     $('.graph-slot p.selected-date').text(eventsManager.getDateTextFragments().join(' '))
