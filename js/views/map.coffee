@@ -47,12 +47,15 @@ class Map
       renderWith(datum)
 
   configureMapPosition = ->
+    return if utils.windowRatio() >= 1
+
     mapContainerHeight = parseInt(d3.select('.world-map-container')
                                     .style('width')
                                     .replace('px', ''))
 
     topPosition = (mapContainerHeight / 2) - (utils.height / 2)
     topPosition *= -1 if topPosition < 0
+
     d3.select('.world-map-container').attr('style', 'margin-top: ' + topPosition + 'px;')
 
   constructor: (anEventsManager) ->
@@ -88,6 +91,4 @@ class Map
     utils.printLog('{"listener.remove()": "map function not implemented"}')
 
   redraw: ->
-    return if utils.windowRatio() >= 1
-
     configureMapPosition()
