@@ -126,7 +126,7 @@ class EventsManager
 
   getData: (callback) ->
     d3.json 'data_sample_' + dateState + '.json', (error, data) ->
-      return console.error(error) if error
+      return printLrror(error) if error
 
       data.forEach( (d) ->
         d.date = parseDate(d.date)

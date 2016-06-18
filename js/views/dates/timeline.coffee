@@ -24,7 +24,7 @@ class Timeline
            .append('g')
 
   toggleHighlight = (dataSet, highlight) ->
-    dateClass = utils.getDateFragment(dataSet.date, eventsManager.getDateState())
+    dateClass = utils.getFormattedDate(dataSet.date, eventsManager.getDateState())
     svg.selectAll('.time-' + dateClass)
        .classed('highlight', highlight)
 
@@ -66,14 +66,6 @@ class Timeline
 
   fixHighlight: (axisClass, dataSet) ->
     utils.printLog('{"listener.fixHighlight(dataSet)": "timeline function not implemented"}')
-
-  # exploreCountriesByDate: (date) ->
-  #   listener.shouldFixedHighlightsCountries() for listener in listeners
-  #   d3.select('.timeline-container').classed('collapsed', true)
-  #   $('.timeline-container').slideUp('slow')
-  #   d3.select('.dates-container .time-state-title').classed('shade', true)
-  #   dateToDisplay = utils.getFormattedDate(date, dateState)
-  #   $('.dates-container .time-state-title a').text(dateToDisplay)
 
   exploreDate: (date) ->
     renderGraph()

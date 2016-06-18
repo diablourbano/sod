@@ -31,7 +31,7 @@ class Dots
   drawDotFor = (dots, scale, dotType, radius, yScaleCallback) ->
     dots.append('circle')
         .attr('class', (d) ->
-                        date = utils.getDateFragment(d.date, eventsManager.getDateState())
+                        date = utils.getFormattedDate(d.date, eventsManager.getDateState())
                         'time-' + date +
                         ' dot ' + dotType)
        .attr('r', radius)
@@ -40,12 +40,15 @@ class Dots
        .attr('cy', (d) ->
                       yScaleCallback(d))
        .attr('transform', 'translate(' + dotsProperties.x0 + ', 0)')
-       .on('click', (d) ->)
-                    # timeline.exploreCountriesByDate(d.date))
+       .on('click', (d) ->
+                        dateClass = d3.event.target.classList[0].replace('time-', '')
+                        eventsManager.shouldFixDate(dateClass, eventsManager.getDateState()))
        .on('mouseover', (d) ->
-                        eventsManager.shouldHighlight(d3.event.target.classList[0]))
+                        dateClass = d3.event.target.classList[0].replace('time-', '')
+                        eventsManager.shouldHighlight(dateClass))
        .on('mouseout', (d) ->
-                        eventsManager.shouldUnhighlight(d3.event.target.classList[0]))
+                        dateClass = d3.event.target.classList[0].replace('time-', '')
+                        eventsManager.shouldUnhighlight(dateClass))
 
   configureLineChart = (xScale, yScale, scaleType) ->
      d3.svg.line()

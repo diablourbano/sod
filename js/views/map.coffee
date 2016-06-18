@@ -5,11 +5,11 @@ class Map
   utils = new Utils
   eventsManager = null
   svg = null
-  fixHighlight = false
   done = false
 
+  dateStates = ['years', 'months', 'days']
+
   timelineHeight = ->
-    dateStates = ['years', 'months', 'days']
     (dateStates.indexOf(eventsManager.getDateState()) + 1) * 100
 
   setSvg = ->
@@ -61,23 +61,23 @@ class Map
   constructor: (anEventsManager) ->
     eventsManager = anEventsManager
 
-  shouldFixedHighlightsCountries: ->
-    fixHighlight = true
-
   highlight: (dataClass, dataSet) ->
     d3.select('.country.' + country)
       .classed('highlight', true) for country in dataSet.countries
 
   unhighlight: (dataClass, dataSet) ->
-    if !fixHighlight
-      d3.select('.country.' + country)
-          .classed('highlight', false) for country in dataSet.countries
+    d3.select('.country.' + country)
+        .classed('highlight', false) for country in dataSet.countries
 
-  unfixHighlight: (axisClass, dataSet) ->
-    utils.printLog('{"listener.unfixHighlight(dataSet)": "map function not implemented"}')
+  unfixHighlight: (axisClass) ->
+    axisIndex = dateStates.indexOf(axisClass)
+    (svg.selectAll('.country.' + dateStates[classToRemove])
+        .classed(dateStates[classToRemove], false)) for classToRemove in [axisIndex..2]
 
   fixHighlight: (axisClass, dataSet) ->
-    utils.printLog('{"listener.fixHighlight(dataSet)": "map function not implemented"}')
+    svg.select('.country.' + country)
+       .classed(axisClass, true) for country in dataSet.countries
+
 
   exploreDate: () ->
     svg.attr('style', 'max-height: ' + (utils.height - timelineHeight()) + 'px;')

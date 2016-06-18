@@ -17,14 +17,6 @@ class Utils
       'height:' + aHeight
     ].join(';')
 
-  getDateFragment: (date, dateState) ->
-    if dateState == 'years'
-      date.getFullYear() 
-    else if dateState == 'months'
-      date.getMonth() + 1
-    else if dateState == 'days'
-      date.getDate()
-
   getFormattedDate: (date, dateState) ->
     formatAxis = 'Y' if dateState == 'years'
     formatAxis = 'MMMM' if dateState == 'months'
