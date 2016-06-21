@@ -28,7 +28,6 @@ class Map
            .projection(projection)
 
   renderWith = (datum) ->
-    setSvg()
     configureMapPosition()
 
     svg.selectAll('.country')
@@ -60,6 +59,7 @@ class Map
 
   constructor: (anEventsManager) ->
     eventsManager = anEventsManager
+    setSvg()
 
   highlight: (dataClass, dataSet) ->
     d3.select('.country.' + country)

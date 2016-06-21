@@ -7,7 +7,7 @@ class EventsManager
   gtObjects = { years: [], months: [], days: [] }
   selectedDate = { 'years': null, 'months': 'January', 'days': '01'  }
   dateTextFragments = []
-  urlManager = new UrlManager
+  urlManager = null
 
   parseDate = d3.time.format('%Y-%m-%d').parse
 
@@ -20,14 +20,6 @@ class EventsManager
   setSelectedDate = (aDateState, dateClass) ->
     dateClass = '0' + dateClass if dateClass and dateClass.length == 1
     selectedDate[aDateState] = dateClass
-
-  shouldTransitionData = (self, callback) ->
-    if dateState == 'months' or dateState == 'days'
-      self.getData( ->
-        callback())
-
-    else
-      callback()
 
   setDateTextFragments = (dateClass, dateValue) ->
     dateClass = dateClass.trim()
@@ -58,6 +50,9 @@ class EventsManager
     dateClass = dateClass.replace(/(st|nd|rd|th)/, '') if dateClass.match(/(st|nd|rd|th)/) != null
     dateClass
 
+  constructor: (anUrlManager) ->
+    urlManager = anUrlManager
+
   getDateTextFragments: ->
     dateTextFragments
 
@@ -78,7 +73,7 @@ class EventsManager
     dataSet = dataSetByDate(dateClassNoDecoration)
     listener.unhighlight(dateClass, dataSet) for listener in listeners
 
-  shouldFixDate: (dateClass, axisClass) ->
+  shouldFixDate: (dateClass, axisClass, dateToLoad=null, shouldGoToDate=true) ->
     existDateFragment = dateTextFragments.indexOf(dateClass)
 
     # this means we're unselecting date
@@ -105,19 +100,23 @@ class EventsManager
       (listener.unhighlight(dateClass, dataSet)
       listener.fixHighlight(axisClass, dataSet)) for listener in listeners
 
-      urlManager.goToDate(axisClass, date)
+      urlManager.goToDate(axisClass, date) if shouldGoToDate == true
 
       setNextDateState(axisClass)
 
-    @shouldExploreDate()
+    @shouldExploreDate(dateToLoad)
 
-  shouldExploreDate: ->
-    shouldTransitionData(@, ->
+  shouldExploreDate: (dateToLoad) ->
+    @getData(->
       listener.exploreDate() for listener in listeners
-    )
+    , dateToLoad)
 
   shouldRender: ->
-    listener.render() for listener in listeners
+    dateToLoad = urlManager.loadTimelineOnDate()
+
+    @getData(->
+      listener.render() for listener in listeners
+    , dateToLoad)
 
   shouldRedraw: ->
     listener.redraw() for listener in listeners
@@ -128,8 +127,9 @@ class EventsManager
   getDateState: ->
     dateState
 
-  getData: (callback) ->
-    d3.json 'data_sample_' + dateState + '.json', (error, data) ->
+  getData: (callback, dateToLoad) ->
+    # first brings all the years
+    d3.json 'data_sample_' + dateState + '.json', (error, data) =>
       return printLrror(error) if error
 
       data.forEach( (d) ->
@@ -138,3 +138,6 @@ class EventsManager
 
       gtObjects[dateState] = data
       callback()
+
+      if dateToLoad != null and dateTextFragments[2] == undefined
+        @shouldFixDate(dateToLoad[dateState], dateState, dateToLoad, false) if dateToLoad[dateState] != null and dateToLoad[dateState] != undefined and dateToLoad[dateState] != ''

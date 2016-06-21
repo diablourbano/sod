@@ -61,10 +61,10 @@ class Timeline
   unhighlight: (dateClass, dataSet) ->
     toggleHighlight(dataSet, false)
 
-  unfixHighlight: (axisClass, dataSet) ->
+  unfixHighlight: (axisClass) ->
     utils.printLog('{"listener.fixHighlight(dataSet)": "timeline function not implemented"}')
 
-  fixHighlight: (axisClass, dataSet) ->
+  fixHighlight: (axisClass) ->
     utils.printLog('{"listener.fixHighlight(dataSet)": "timeline function not implemented"}')
 
   exploreDate: (date) ->

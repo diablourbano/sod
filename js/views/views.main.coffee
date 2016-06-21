@@ -1,6 +1,8 @@
 'use strict'
 
-eventsManager = new EventsManager
+urlManager = new UrlManager
+eventsManager = new EventsManager(urlManager)
+
 utils = new Utils
 
 transitions = new Transitions(eventsManager)
@@ -23,6 +25,4 @@ eventsManager.addListener(days)
 eventsManager.addListener(transitions)
 eventsManager.addListener(timeline)
 
-eventsManager.getData( ->
-  eventsManager.shouldRender()
-)
+eventsManager.shouldRender()
