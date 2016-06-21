@@ -180,8 +180,8 @@ a, h1, h2, h3, p {
     left: 18px;
     position: fixed;
     font-size: 1.2em;
-    line-height: 9px;
     color: $fix-highlight;
+    margin: 0;
     display: none;
 
     &.visible {
@@ -190,6 +190,21 @@ a, h1, h2, h3, p {
 
     a.breadcrumb-back {
       cursor: pointer;
+      color: $date-headline;
+
+      &:hover {
+        color: $date-headline-hover;
+      }
+    }
+
+    span {
+      color: $thin-separator;
+    }
+
+    &:hover {
+      a.breadcrumb-back {
+        color: $date-headline-hover;
+      }
     }
   }
 
