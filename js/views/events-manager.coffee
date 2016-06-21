@@ -128,7 +128,7 @@ class EventsManager
     dateState
 
   getData: (callback, dateToLoad) ->
-    # first brings all the years
+    # first always brings all the years
     d3.json 'data_sample_' + dateState + '.json', (error, data) =>
       return printLrror(error) if error
 
