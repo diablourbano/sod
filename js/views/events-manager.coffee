@@ -7,6 +7,7 @@ class EventsManager
   gtObjects = { years: [], months: [], days: [] }
   selectedDate = { 'years': null, 'months': 'January', 'days': '01'  }
   dateTextFragments = []
+  urlManager = new UrlManager
 
   parseDate = d3.time.format('%Y-%m-%d').parse
 
@@ -87,7 +88,8 @@ class EventsManager
 
       (dateTextFragments[fragment] = null
       revertSelectedDate() if fragment == 0
-      fragmentsToRemove.push(dateStates[fragment + 1]) if fragment < 2) for fragment in [existDateFragment..2]
+      fragmentsToRemove.push(dateStates[fragment + 1]) if fragment < 2
+      urlManager.goToDate(_.keys(selectedDate)[fragment], null)) for fragment in [existDateFragment..2]
 
       (listener.unfixHighlight(axisClass)
       listener.remove(fragmentsToRemove)) for listener in listeners
@@ -102,6 +104,8 @@ class EventsManager
 
       (listener.unhighlight(dateClass, dataSet)
       listener.fixHighlight(axisClass, dataSet)) for listener in listeners
+
+      urlManager.goToDate(axisClass, date)
 
       setNextDateState(axisClass)
 
