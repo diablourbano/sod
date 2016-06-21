@@ -23,7 +23,7 @@ class EventsManager
 
   setDateTextFragments = (dateClass, dateValue) ->
     dateClass = dateClass.trim()
-    dateText = $('.graph-slot p.selected-date').text().trim()
+    dateText = $('.graph-slot p.selected-date span').text().trim()
     
     if dateText != ""
       dateTextFragments = dateText.split(' ')
@@ -130,7 +130,7 @@ class EventsManager
   getData: (callback, dateToLoad) ->
     # first always brings all the years
     d3.json 'data_sample_' + dateState + '.json', (error, data) =>
-      return printLrror(error) if error
+      return printError(error) if error
 
       data.forEach( (d) ->
         d.date = parseDate(d.date)

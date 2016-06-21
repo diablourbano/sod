@@ -64,12 +64,17 @@ class Transitions
     $('.statistics ul li.casualties span.definition').text('Loading...')
 
   unfixHighlight: (axisClass) ->
-    $('.graph-slot p.selected-date').text(eventsManager.getDateTextFragments().join(' '))
+    $('.graph-slot p.selected-date span').text(eventsManager.getDateTextFragments().join(' '))
+
+    if $('.graph-slot p.selected-date span').text().trim() == ''
+      $('.graph-slot p.selected-date').removeClass('visible')
+
     unsetScrollListeners()
     setScrollListeners(eventsManager.getDateState())
 
   fixHighlight: (axisClass) ->
-    $('.graph-slot p.selected-date').text(eventsManager.getDateTextFragments().join(' '))
+    $('.graph-slot p.selected-date span').text(eventsManager.getDateTextFragments().join(' '))
+    $('.graph-slot p.selected-date').addClass('visible')
     unsetScrollListeners()
     setScrollListeners(nextDateState())
 
@@ -86,6 +91,15 @@ class Transitions
 
   redraw: ->
     utils.printLog('{"listener.redraw()": "transitions function not implemented"}')
+
+  $('.breadcrumb-back').click( ->
+    axisClasses = ['years', 'months', 'days']
+
+    dateFragments = $('.graph-slot p.selected-date span').text().trim().split(' ')
+    axisIndex = dateFragments.length - 1
+
+    eventsManager.shouldFixDate(dateFragments[axisIndex], axisClasses[axisIndex])
+  )
 
   $('.graph-slot .slot').click( ->
     previousHeight = parseInt($('.dates-container').css('height').replace('px', ''))
