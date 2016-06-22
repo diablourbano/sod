@@ -18,11 +18,13 @@ days = new Days(eventsManager, daysProperties3)
 timelineProperties = { width: 3000, height: utils.timelineHeight, x0: 60 }
 timeline = new Timeline(years, timelineProperties, eventsManager)
 
-eventsManager.addListener(map)
-eventsManager.addListener(years)
-eventsManager.addListener(months)
-eventsManager.addListener(days)
-eventsManager.addListener(transitions)
-eventsManager.addListener(timeline)
+map.draw( ->
+  eventsManager.addListener(map)
+  eventsManager.addListener(years)
+  eventsManager.addListener(months)
+  eventsManager.addListener(days)
+  eventsManager.addListener(transitions)
+  eventsManager.addListener(timeline)
 
-eventsManager.shouldRender()
+  eventsManager.shouldRender()
+)

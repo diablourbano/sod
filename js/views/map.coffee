@@ -5,7 +5,6 @@ class Map
   utils = new Utils
   eventsManager = null
   svg = null
-  done = false
 
   dateStates = ['years', 'months', 'days']
 
@@ -37,13 +36,6 @@ class Map
        .attr('class', (data) ->
                       'country ' + data.id)
        .attr('d', path)
-
-  getMapDataAndRender = ->
-    d3.json "map.json", (error, world) ->
-      return console.error(error) if error
-
-      datum = topojson.feature(world, world.objects.world_map)
-      renderWith(datum)
 
   configureMapPosition = ->
     return if utils.windowRatio() >= 1
@@ -82,10 +74,16 @@ class Map
   exploreDate: () ->
     svg.attr('style', 'max-height: ' + (utils.height - timelineHeight()) + 'px;')
 
-  render: ->
-    return if done
-    done = true
-    getMapDataAndRender()
+  render: (callback) ->
+    utils.printLog('{"listener.render()": "map function not implemented"}')
+
+  draw: (callback) ->
+    d3.json "map.json", (error, world) ->
+      return console.error(error) if error
+
+      datum = topojson.feature(world, world.objects.world_map)
+      renderWith(datum)
+      callback()
 
   remove: (dateStatesToRemove) ->
     utils.printLog('{"listener.remove()": "map function not implemented"}')
