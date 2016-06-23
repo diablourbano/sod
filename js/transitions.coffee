@@ -15,6 +15,10 @@ class Transitions
     bottomPos = parseInt($('.graph-slot').css('bottom').replace('px', ''))
     $('.graph-slot').css('bottom', (bottomPos + deltaHeight) + 'px')
 
+  adjustTabBasedOnDatesContainer = ->
+    timelineHeight = parseInt($('.dates-container').css('height').replace('px', ''))
+    $('.graph-slot').css('bottom', "#{timelineHeight}px") if timelineHeight >= 10
+
   resetGraphSlotPosition = ->
     timelineHeight = parseInt($('.dates-container').css('height').replace('px', ''))
     $('.graph-slot').css('bottom', timelineHeight + 'px')
@@ -94,6 +98,20 @@ class Transitions
   redraw: ->
     utils.printLog('{"listener.redraw()": "transitions function not implemented"}')
 
+  $('.graph-slot .toggle-timeline').click( ->
+    $(@).children('p').children('i').toggleClass('fa-chevron-down')
+    $(@).children('p').children('i').toggleClass('fa-chevron-up')
+
+    if $('.dates-container').hasClass('collapsed')
+      $('.dates-container').removeClass('collapsed')
+      $('.dates-container').slideDown({ duration: 'slow', progress: (animation, progress, remainingMs) ->
+                                                                          adjustTabBasedOnDatesContainer() })
+    else
+      $('.dates-container').addClass('collapsed')
+      $('.dates-container').slideUp({ duration: 'slow', progress: (animation, progress, remainingMs) ->
+                                                                          adjustTabBasedOnDatesContainer() })
+  )
+
   $('.breadcrumb-back').click( ->
     axisClasses = ['years', 'months', 'days']
 
@@ -106,13 +124,13 @@ class Transitions
   $('.graph-slot .slot').click( ->
     previousHeight = parseInt($('.dates-container').css('height').replace('px', ''))
 
-    if !$('.timeline-container').hasClass('collapsed')
-      $('.timeline-container').addClass('collapsed')
-      $('.timeline-container').slideDown({ duration: 'slow', progress: (animation, progress, remainingMs) ->
-                                                                          adjustTabBasedOnTimeline() })
-    else
+    if $('.timeline-container').hasClass('collapsed')
       $('.timeline-container').removeClass('collapsed')
       $('.timeline-container').slideUp({ duration: 'slow', progress: (animation, progress, remainingMs) ->
+                                                                          adjustTabBasedOnTimeline() })
+    else
+      $('.timeline-container').addClass('collapsed')
+      $('.timeline-container').slideDown({ duration: 'slow', progress: (animation, progress, remainingMs) ->
                                                                           adjustTabBasedOnTimeline() })
   )
 

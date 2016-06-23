@@ -176,6 +176,7 @@ a, h1, h2, h3, p {
   position: fixed;
   width: 100%;
   bottom: 94px;
+  border-bottom: solid 1px $thin-separator-light;
 
   p.selected-date {
     width: auto;
@@ -211,25 +212,45 @@ a, h1, h2, h3, p {
     }
   }
 
-  .slot {
-    margin: 0 auto;
+  .tab {
     width: auto;
-    background: $date-headline;
-    @include semicircle-radius(10px);
 
     p {
       cursor: pointer;
       width: 60px;
       text-align: center;
       margin-top: 5px;
-      color: $water;
-
-      &:hover {
-        color: $date-headline-hover;
-      }
 
       i {
         font-size: 1.5em;
+      }
+    }
+
+    &.slot {
+      background: $date-headline;
+      margin: 0 auto;
+      @include semicircle-radius(10px);
+
+      p {
+        color: $water;
+
+        &:hover {
+          color: $date-headline-hover;
+        }
+      }
+    }
+
+    &.toggle-timeline {
+      position: fixed;
+      right: 25px;
+      height: 35px;  
+
+      p {
+        color: $date-headline;
+
+        &:hover {
+          color: $date-headline-hover;
+        }
       }
     }
   }
