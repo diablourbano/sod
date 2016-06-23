@@ -4,8 +4,10 @@ var flatten = require('gulp-flatten');
 var concat = require('gulp-concat');
 var coffee = require('gulp-coffee');
 var sass = require('gulp-sass');
+var uglify = require('gulp-uglify');
 
 gulp.task('default', ['addMap', 'sampleData', 'loadLibraries', 'coffee:watch', 'sass:watch', 'index:watch']);
+gulp.task('dist', ['map:dist', 'sampleData:dist', 'libraries:dist', 'js:dist', 'css:dist', 'index:dist']);
 
 gulp.task('coffee', function() {
   return gulp.src('./js/**/**.coffee')
@@ -32,7 +34,7 @@ gulp.task('merge-js', ['coffee'], function() {
 
   gulp.src(filesOrder)
              .pipe(concat('sod.js'))
-             .pipe(gulp.dest('./build/'))
+             .pipe(gulp.dest(('./build')))
 });
 
 gulp.task('coffee:watch', function() {
@@ -42,7 +44,7 @@ gulp.task('coffee:watch', function() {
 gulp.task('sass', function () {
   gulp.src('./scss/**/**.scss')
       .pipe(sass().on('error', sass.logError))
-      .pipe(gulp.dest('./build'));
+      .pipe(gulp.dest(('./build')));
 });
      
 gulp.task('sass:watch', function () {
@@ -51,7 +53,7 @@ gulp.task('sass:watch', function () {
 
 gulp.task('index', function() {
   gulp.src('./index.html')
-      .pipe(gulp.dest('./build'));
+      .pipe(gulp.dest(('./build')));
 });
 
 gulp.task('index:watch', function() {
@@ -60,12 +62,12 @@ gulp.task('index:watch', function() {
 
 gulp.task('addMap', function() {
   gulp.src('./js/data/map.json')
-      .pipe(gulp.dest('./build'))
+      .pipe(gulp.dest(('./build')))
 });
 
 gulp.task('sampleData', function() {
   gulp.src('./js/data/sample/*.json')
-      .pipe(gulp.dest('./build'))
+      .pipe(gulp.dest(('./build')))
 });
 
 gulp.task('loadLibraries', function() {
@@ -80,5 +82,38 @@ gulp.task('loadLibraries', function() {
 
   return gulp.src(librariesToInclude)
              .pipe(concat('libraries.js'))
-             .pipe(gulp.dest('./build/'))
+             .pipe(gulp.dest(('./build')))
+});
+
+/* DIST  */
+
+gulp.task('index:dist', function() {
+  gulp.src('./build/index.html')
+      .pipe(gulp.dest(('./dist')));
+});
+
+gulp.task('css:dist', function() {
+  gulp.src('./build/map.css')
+      .pipe(gulp.dest(('./dist')));
+});
+
+gulp.task('map:dist', function() {
+  gulp.src('./build/map.json')
+      .pipe(gulp.dest(('./dist')));
+});
+
+gulp.task('sampleData:dist', function() {
+  gulp.src('./build/data_sample_*.json')
+      .pipe(gulp.dest(('./dist')));
+});
+
+gulp.task('libraries:dist', function() {
+  gulp.src('./build/libraries.js')
+      .pipe(gulp.dest(('./dist')));
+});
+
+gulp.task('js:dist', function() {
+  gulp.src('./build/sod.js')
+      .pipe(uglify())
+      .pipe(gulp.dest('./dist'))
 });
