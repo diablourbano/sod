@@ -59,7 +59,6 @@ class Axis
   toggleHighlight: (svg, dateClass, highlight) ->
     svg.selectAll('.time-' + dateClass)
       .classed('highlight', highlight)
-    d3.select('.statistics').classed('visible', highlight)
 
   unfixHighlight: (svg, axisClass) ->
     svg.selectAll('.tick text')

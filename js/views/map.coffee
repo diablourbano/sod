@@ -7,6 +7,7 @@ class Map
   svg = null
 
   dateStates = ['years', 'months', 'days']
+  highlightingCountry = false
 
   timelineHeight = ->
     (dateStates.indexOf(eventsManager.getDateState()) + 1) * 100
@@ -26,6 +27,20 @@ class Map
   path = d3.geo.path()
            .projection(projection)
 
+
+  highlightCountryStats = (callback) ->
+    countryClasses = d3.event.target.classList
+
+    return if _.indexOf(countryClasses, 'years') == -1
+
+    axisClass = _.last(countryClasses)
+    dateState = eventsManager.getDateState()
+    previousAxisIndex = dateStates.indexOf(dateState) - 1
+
+    return if axisClass != dateStates[previousAxisIndex] and !(axisClass == dateState == 'days')
+
+    callback(countryClasses[1])
+
   renderWith = (datum) ->
     configureMapPosition()
 
@@ -36,11 +51,13 @@ class Map
        .attr('class', (data) ->
                       'country ' + data.id)
        .on('mouseover', ->
-                        countryClasses = d3.event.target.classList
-                        if _.indexOf(countryClasses, 'years') > -1
-                          axisClass = _.last(countryClasses)
-                          eventsManager.
-                          console.log(countryClasses))
+                        highlightCountryStats((countryClass) ->
+                            highlightingCountry = true
+                            eventsManager.shouldHighlightBasedOnCountry(countryClass)))
+       .on('mouseout', ->
+                        highlightCountryStats((countryClass) ->
+                            eventsManager.shouldUnhighlightBasedOnCountry(countryClass)
+                            highlightingCountry = false))
        .attr('d', path)
 
   configureMapPosition = ->
@@ -60,10 +77,14 @@ class Map
     setSvg()
 
   highlight: (dataClass, dataSet) ->
+    return if highlightingCountry
+
     d3.select('.country.' + country.country)
       .classed('highlight', true) for country in dataSet.countries
 
   unhighlight: (dataClass, dataSet) ->
+    return if highlightingCountry
+
     d3.select('.country.' + country.country)
         .classed('highlight', false) for country in dataSet.countries
 

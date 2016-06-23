@@ -8,6 +8,11 @@
                      "country": "FXX",
                      "casualties": 100,
                      "incidents": 100
+                   },
+                   {
+                     "country": "CAN",
+                     "casualties": 100,
+                     "incidents": 100
                    }
                  ]
   },
