@@ -1,0 +1,414 @@
+.ps-container {
+  -ms-touch-action: none;
+  touch-action: none;
+  overflow: hidden !important;
+  -ms-overflow-style: none; }
+  @supports (-ms-overflow-style: none) {
+    .ps-container {
+      overflow: auto !important; } }
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    .ps-container {
+      overflow: auto !important; } }
+  .ps-container.ps-active-x > .ps-scrollbar-x-rail,
+  .ps-container.ps-active-y > .ps-scrollbar-y-rail {
+    display: block;
+    background-color: transparent; }
+  .ps-container.ps-in-scrolling {
+    pointer-events: none; }
+    .ps-container.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail {
+      background-color: #eee;
+      opacity: 0.9; }
+      .ps-container.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail > .ps-scrollbar-x {
+        background-color: #999; }
+    .ps-container.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail {
+      background-color: #eee;
+      opacity: 0.9; }
+      .ps-container.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail > .ps-scrollbar-y {
+        background-color: #999; }
+  .ps-container > .ps-scrollbar-x-rail {
+    display: none;
+    position: absolute;
+    /* please don't change 'position' */
+    border-radius: 4px;
+    opacity: 0;
+    transition: background-color .2s linear, opacity .2s linear;
+    bottom: 3px;
+    /* there must be 'bottom' for ps-scrollbar-x-rail */
+    height: 8px; }
+    .ps-container > .ps-scrollbar-x-rail > .ps-scrollbar-x {
+      position: absolute;
+      /* please don't change 'position' */
+      background-color: #aaa;
+      border-radius: 4px;
+      transition: background-color .2s linear;
+      bottom: 0;
+      /* there must be 'bottom' for ps-scrollbar-x */
+      height: 8px; }
+  .ps-container > .ps-scrollbar-y-rail {
+    display: none;
+    position: absolute;
+    /* please don't change 'position' */
+    border-radius: 4px;
+    opacity: 0;
+    transition: background-color .2s linear, opacity .2s linear;
+    right: 3px;
+    /* there must be 'right' for ps-scrollbar-y-rail */
+    width: 8px; }
+    .ps-container > .ps-scrollbar-y-rail > .ps-scrollbar-y {
+      position: absolute;
+      /* please don't change 'position' */
+      background-color: #aaa;
+      border-radius: 4px;
+      transition: background-color .2s linear;
+      right: 0;
+      /* there must be 'right' for ps-scrollbar-y */
+      width: 8px; }
+  .ps-container:hover.ps-in-scrolling {
+    pointer-events: none; }
+    .ps-container:hover.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail {
+      background-color: #eee;
+      opacity: 0.9; }
+      .ps-container:hover.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail > .ps-scrollbar-x {
+        background-color: #999; }
+    .ps-container:hover.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail {
+      background-color: #eee;
+      opacity: 0.9; }
+      .ps-container:hover.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail > .ps-scrollbar-y {
+        background-color: #999; }
+  .ps-container:hover > .ps-scrollbar-x-rail,
+  .ps-container:hover > .ps-scrollbar-y-rail {
+    opacity: 0.6; }
+  .ps-container:hover > .ps-scrollbar-x-rail:hover {
+    background-color: #eee;
+    opacity: 0.9; }
+    .ps-container:hover > .ps-scrollbar-x-rail:hover > .ps-scrollbar-x {
+      background-color: #999; }
+  .ps-container:hover > .ps-scrollbar-y-rail:hover {
+    background-color: #eee;
+    opacity: 0.9; }
+    .ps-container:hover > .ps-scrollbar-y-rail:hover > .ps-scrollbar-y {
+      background-color: #999; }
+
+.ps-theme-sod {
+  -ms-touch-action: none;
+  touch-action: none;
+  overflow: hidden !important;
+  -ms-overflow-style: none; }
+  @supports (-ms-overflow-style: none) {
+    .ps-theme-sod {
+      overflow: auto !important; } }
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    .ps-theme-sod {
+      overflow: auto !important; } }
+  .ps-theme-sod.ps-active-x > .ps-scrollbar-x-rail,
+  .ps-theme-sod.ps-active-y > .ps-scrollbar-y-rail {
+    display: block;
+    background-color: white; }
+  .ps-theme-sod.ps-in-scrolling {
+    pointer-events: none; }
+    .ps-theme-sod.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail {
+      background-color: none;
+      opacity: 0.6; }
+      .ps-theme-sod.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail > .ps-scrollbar-x {
+        background-color: none; }
+    .ps-theme-sod.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail {
+      background-color: none;
+      opacity: 0.6; }
+      .ps-theme-sod.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail > .ps-scrollbar-y {
+        background-color: none; }
+  .ps-theme-sod > .ps-scrollbar-x-rail {
+    display: none;
+    position: absolute;
+    /* please don't change 'position' */
+    border-radius: 10px;
+    opacity: 0.6;
+    transition: background-color .2s linear, opacity .2s linear;
+    bottom: 3px;
+    /* there must be 'bottom' for ps-scrollbar-x-rail */
+    height: 5px; }
+    .ps-theme-sod > .ps-scrollbar-x-rail > .ps-scrollbar-x {
+      position: absolute;
+      /* please don't change 'position' */
+      background-color: #505050;
+      border-radius: 10px;
+      transition: background-color .2s linear;
+      bottom: 0;
+      /* there must be 'bottom' for ps-scrollbar-x */
+      height: 5px; }
+  .ps-theme-sod > .ps-scrollbar-y-rail {
+    display: none;
+    position: absolute;
+    /* please don't change 'position' */
+    border-radius: 10px;
+    opacity: 0.6;
+    transition: background-color .2s linear, opacity .2s linear;
+    right: 3px;
+    /* there must be 'right' for ps-scrollbar-y-rail */
+    width: 8px; }
+    .ps-theme-sod > .ps-scrollbar-y-rail > .ps-scrollbar-y {
+      position: absolute;
+      /* please don't change 'position' */
+      background-color: #505050;
+      border-radius: 10px;
+      transition: background-color .2s linear;
+      right: 0;
+      /* there must be 'right' for ps-scrollbar-y */
+      width: 8px; }
+  .ps-theme-sod:hover.ps-in-scrolling {
+    pointer-events: none; }
+    .ps-theme-sod:hover.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail {
+      background-color: none;
+      opacity: 0.6; }
+      .ps-theme-sod:hover.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail > .ps-scrollbar-x {
+        background-color: none; }
+    .ps-theme-sod:hover.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail {
+      background-color: none;
+      opacity: 0.6; }
+      .ps-theme-sod:hover.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail > .ps-scrollbar-y {
+        background-color: none; }
+  .ps-theme-sod:hover > .ps-scrollbar-x-rail,
+  .ps-theme-sod:hover > .ps-scrollbar-y-rail {
+    opacity: 0.6; }
+  .ps-theme-sod:hover > .ps-scrollbar-x-rail:hover {
+    background-color: none;
+    opacity: 0.6; }
+    .ps-theme-sod:hover > .ps-scrollbar-x-rail:hover > .ps-scrollbar-x {
+      background-color: none; }
+  .ps-theme-sod:hover > .ps-scrollbar-y-rail:hover {
+    background-color: none;
+    opacity: 0.6; }
+    .ps-theme-sod:hover > .ps-scrollbar-y-rail:hover > .ps-scrollbar-y {
+      background-color: none; }
+  .ps-theme-sod .ps-scrollbar-x-rail {
+    display: block;
+    background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAFCAYAAAB8ZH1oAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4AYJBzAFgrvf8QAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAASElEQVQI122MMQ7AIAzEXEQ/2jkDLDyic+Z8tEuXgEKEl8iRdZeI3MALPIABQ1U/EtWj5j5vz2HxpUj2FVr62SmswAhLFnzjB3IqC9UOpJWAAAAAAElFTkSuQmCC") repeat-x;
+    transition: none !important;
+    width: 100%; }
+
+body {
+  background: #fefefe;
+  font-family: 'Lato', sans-serif;
+  margin: 0;
+  padding: 0; }
+
+a, h1, h2, h3, p {
+  font-family: 'Lato', sans-serif; }
+
+.legend {
+  position: absolute;
+  top: 15px;
+  right: 70px; }
+  .legend ul {
+    list-style: none; }
+    .legend ul li {
+      margin-bottom: 7px; }
+      .legend ul li .definition {
+        color: #9C989A;
+        font-size: 1.7em;
+        margin-left: 10px; }
+      .legend ul li .color {
+        padding: 1px 38px;
+        border-radius: 10px;
+        border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -khtml-border-radius: 10px; }
+        .legend ul li .color.incidents {
+          background: #a59a50; }
+        .legend ul li .color.casualties {
+          background: #984642; }
+
+.statistics {
+  background: rgba(150, 150, 150, 0.7);
+  position: absolute;
+  width: 300px;
+  margin: 150px 45% 0;
+  padding: 3px 0;
+  display: none;
+  border-radius: 15px;
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -khtml-border-radius: 15px; }
+  .statistics.visible {
+    display: block; }
+  .statistics ul {
+    list-style: none; }
+    .statistics ul li {
+      margin-bottom: 7px;
+      padding: 10px 0; }
+      .statistics ul li .definition {
+        color: #efefef;
+        font-size: 1.7em;
+        margin-left: 10px; }
+      .statistics ul li .color {
+        margin-right: 20px;
+        padding: 5px 15px;
+        border-radius: 15px;
+        border-radius: 15px;
+        -webkit-border-radius: 15px;
+        -khtml-border-radius: 15px; }
+        .statistics ul li .color.incidents {
+          background: #a59a50; }
+        .statistics ul li .color.casualties {
+          background: #984642; }
+
+.map-container {
+  margin: 0 auto;
+  width: 100%; }
+  .map-container.fixed {
+    position: fixed;
+    z-index: -1; }
+  .map-container .world-map-container {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%;
+    vertical-align: top;
+    overflow: hidden; }
+    .map-container .world-map-container .world-map {
+      display: inline-block;
+      position: absolute;
+      top: 10px;
+      left: 0; }
+      .map-container .world-map-container .world-map .country {
+        fill: #EBE9E9; }
+        .map-container .world-map-container .world-map .country.highlight {
+          fill: #BFBEBE; }
+        .map-container .world-map-container .world-map .country.years, .map-container .world-map-container .world-map .country.months, .map-container .world-map-container .world-map .country.days {
+          cursor: pointer; }
+        .map-container .world-map-container .world-map .country.years {
+          fill: #BFBEBE; }
+          .map-container .world-map-container .world-map .country.years.highlight {
+            fill: #7F7F7E; }
+        .map-container .world-map-container .world-map .country.months {
+          fill: #7F7F7E; }
+          .map-container .world-map-container .world-map .country.months.highlight {
+            fill: #403F3F; }
+        .map-container .world-map-container .world-map .country.days {
+          fill: #403F3F; }
+          .map-container .world-map-container .world-map .country.days.highlight {
+            fill: #403F3F; }
+
+.graph-slot {
+  height: 35px;
+  position: fixed;
+  width: 100%;
+  bottom: 94px;
+  border-bottom: solid 1px #cacaca; }
+  .graph-slot p.selected-date {
+    width: auto;
+    letter-spacing: 1px;
+    left: 18px;
+    position: fixed;
+    font-size: 1.2em;
+    color: #3c3c3c;
+    margin: 0;
+    display: none; }
+    .graph-slot p.selected-date.visible {
+      display: block; }
+    .graph-slot p.selected-date a.breadcrumb-back {
+      cursor: pointer;
+      color: #969696; }
+      .graph-slot p.selected-date a.breadcrumb-back:hover {
+        color: #505050; }
+    .graph-slot p.selected-date span {
+      color: #a9a9a9; }
+    .graph-slot p.selected-date:hover a.breadcrumb-back {
+      color: #505050; }
+  .graph-slot .tab {
+    width: auto; }
+    .graph-slot .tab p {
+      cursor: pointer;
+      width: 60px;
+      text-align: center;
+      margin-top: 5px; }
+      .graph-slot .tab p i {
+        font-size: 1.5em; }
+    .graph-slot .tab.slot {
+      background: #969696;
+      margin: 0 auto;
+      border-top-left-radius: 10px;
+      border-top-left-radius: 10px;
+      -webkit-border-top-left-radius: 10px;
+      -khtml-border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+      border-top-right-radius: 10px;
+      -webkit-border-top-right-radius: 10px;
+      -khtml-border-top-right-radius: 10px; }
+      .graph-slot .tab.slot p {
+        color: #fefefe; }
+        .graph-slot .tab.slot p:hover {
+          color: #505050; }
+    .graph-slot .tab.toggle-timeline {
+      position: fixed;
+      right: 25px;
+      height: 35px; }
+      .graph-slot .tab.toggle-timeline p {
+        color: #969696; }
+        .graph-slot .tab.toggle-timeline p:hover {
+          color: #505050; }
+
+.dates-container {
+  background: rgba(255, 255, 255, 0.7);
+  border-top: solid 1px #cacaca;
+  height: auto;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  overflow: hidden; }
+  .dates-container .xaxis-container {
+    border-top: solid 1px #a9a9a9;
+    color: #505050;
+    padding: 0.8em 1em 0;
+    min-height: 50px;
+    height: auto;
+    width: 100%; }
+    .dates-container .xaxis-container .timeaxis {
+      position: relative;
+      padding: 10px 0 6px;
+      margin-bottom: 10px;
+      overflow-x: auto;
+      width: 98%; }
+    .dates-container .xaxis-container .months, .dates-container .xaxis-container .days {
+      display: none; }
+      .dates-container .xaxis-container .months.visible, .dates-container .xaxis-container .days.visible {
+        display: block; }
+    .dates-container .xaxis-container .xaxis path.domain {
+      fill: #cdcdcd; }
+    .dates-container .xaxis-container .xaxis .tick text {
+      cursor: pointer;
+      fill: #969696;
+      font-size: 1.4em; }
+      .dates-container .xaxis-container .xaxis .tick text.highlight {
+        fill: #505050; }
+      .dates-container .xaxis-container .xaxis .tick text.fix-highlight {
+        fill: #3c3c3c; }
+      .dates-container .xaxis-container .xaxis .tick text.fix-unhighlight {
+        fill: #e6e6e6; }
+  .dates-container .timeline-container {
+    display: none;
+    height: 230px;
+    margin: 0 auto; }
+    .dates-container .timeline-container .timeline .axis .tick text {
+      cursor: pointer;
+      fill: #969696;
+      font-size: 1.4em; }
+      .dates-container .timeline-container .timeline .axis .tick text.highlight {
+        fill: #505050; }
+    .dates-container .timeline-container .timeline .axis.x .domain {
+      fill: #cdcdcd; }
+    .dates-container .timeline-container .timeline path.line-chart {
+      cursor: pointer;
+      fill: none;
+      stroke-width: 1.5px;
+      stroke-dasharray: 5,5;
+      stroke: rgba(165, 165, 165, 0.8); }
+    .dates-container .timeline-container .timeline circle {
+      cursor: pointer; }
+      .dates-container .timeline-container .timeline circle.incidents {
+        fill: rgba(165, 154, 80, 0.6); }
+        .dates-container .timeline-container .timeline circle.incidents.highlight {
+          fill: #a59a50; }
+      .dates-container .timeline-container .timeline circle.casualties {
+        fill: rgba(152, 70, 66, 0.6); }
+        .dates-container .timeline-container .timeline circle.casualties.highlight {
+          fill: #984642; }

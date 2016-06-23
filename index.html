@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>SoD</title>
+
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+    <!--[if lte IE 8]>
+      <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-old-ie-min.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+      <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css">
+    <!--<![endif]-->
+
+    <link href='https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
+    <link rel='stylesheet' href='map.css' type='text/css'>
+  </head>
+  <body>
+    <div class='legend'>
+      <ul>
+        <li>
+          <span class='color casualties'></span>
+          <span class='definition'>Casualties</span>
+        </li>
+        <li>
+          <span class='color incidents'></span>
+          <span class='definition'>Incidents</span>
+        </li>
+      </ul>
+    </div>
+    <div class='statistics'>
+      <ul>
+        <li class='casualties'>
+          <span class='color casualties'></span>
+          <span class='definition'>650</span>
+        </li>
+        <li class='incidents'>
+          <span class='color incidents'></span>
+          <span class='definition'>1050</span>
+        </li>
+      </ul>
+    </div>
+    <div class='map-container fixed'></div>
+
+    <div class='pure-g graph-slot'>
+      <p class='selected-date'>
+        <a class='breadcrumb-back'><i class='fa fa-angle-double-left'></i></a>
+        <span></span>
+      </p>
+      <div class='tab slot'>
+        <p><i class="fa fa-bar-chart" aria-hidden="true"></i></p>
+      </div>
+      <div class='tab toggle-timeline'>
+        <p><i class="fa fa-chevron-down" aria-hidden="true"></i></p>
+      </div>
+    </div>
+    <div class='pure-g dates-container'>
+      <div class='pure-u-1 timeline-container'>
+      </div>
+      <div class='pure-u-1 xaxis-container'>
+        <div class='pure-u-1 timeaxis years'></div>
+        <div class='pure-u-1 timeaxis months'></div>
+        <div class='pure-u-1 timeaxis days'></div>
+      </div>
+    </div>
+
+    <script src="https://use.fontawesome.com/2259f3774b.js"></script>
+    <script src='libraries.js'></script>
+    <script src='sod.js'></script>
+  </body>
+</html>
