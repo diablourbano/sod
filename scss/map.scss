@@ -134,10 +134,13 @@ a, h1, h2, h3, p {
 
       .country {
         fill: $countries;
-        cursor: pointer;
 
         &.highlight {
           fill: $years-countries;
+        }
+
+        &.years, &.months, &.days {
+          cursor: pointer;
         }
 
         &.years {

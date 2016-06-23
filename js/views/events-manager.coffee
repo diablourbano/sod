@@ -4,18 +4,29 @@ class EventsManager
   listeners = []
   dateState = 'years'
   dateStates = ['years', 'months', 'days']
-  gtObjects = { years: [], months: [], days: [] }
+  timelineObjects = {}
   selectedDate = { 'years': null, 'months': 'January', 'days': '01'  }
   dateTextFragments = []
   urlManager = null
 
   parseDate = d3.time.format('%Y-%m-%d').parse
 
-  dataSetByDate = (dateClass) ->
-    date = moment(_.values(selectedDate).join(' '), 'YYYY MMMM DD')
-    dataSetIndex = _.findIndex(gtObjects[dateState], (obj) ->
-                                          obj.date.getTime() == date.toDate().getTime())
-    gtObjects[dateState][dataSetIndex]
+  timelineObject = (object, datesToGet) ->
+    dateToGet = datesToGet.shift()
+    if object[dateToGet] != undefined
+      if datesToGet.length == 0
+        return object[dateToGet]
+      else
+        timelineObject(object[dateToGet], datesToGet)
+    else
+      return null
+
+  dataSetByDate = ->
+    selectedDatesValues = _.values(selectedDate)
+    selectedDatesValues[2] = dateClassWithDecoration(selectedDatesValues[2])
+
+    datesToFilter = selectedDatesValues.slice(0, dateStates.indexOf(dateState) + 1)
+    timelineObject(timelineObjects, datesToFilter)
 
   setSelectedDate = (aDateState, dateClass) ->
     dateClass = '0' + dateClass if dateClass and dateClass.length == 1
@@ -50,6 +61,19 @@ class EventsManager
     dateClass = dateClass.replace(/(st|nd|rd|th)/, '') if dateClass.match(/(st|nd|rd|th)/) != null
     dateClass
 
+  dateClassWithDecoration = (dateClass) ->
+    date = parseInt(dateClass)
+
+    if date == 1 and date != 11
+      "#{date}st"
+    else if date == 2 and date != 12
+      "#{date}nd"
+    else if date == 3 and date != 13
+      "#{date}rd"
+    else
+      "#{date}th"
+      
+
   constructor: (anUrlManager) ->
     urlManager = anUrlManager
 
@@ -63,14 +87,14 @@ class EventsManager
     dateClassNoDecoration = dateClassWithouthDecoration(dateClass)
     setSelectedDate(dateState, dateClassNoDecoration)
 
-    dataSet = dataSetByDate(dateClassNoDecoration)
+    dataSet = dataSetByDate()
     listener.highlight(dateClass, dataSet) for listener in listeners
 
   shouldUnhighlight: (dateClass) ->
     dateClassNoDecoration = dateClassWithouthDecoration(dateClass)
     setSelectedDate(dateState, dateClassNoDecoration)
 
-    dataSet = dataSetByDate(dateClassNoDecoration)
+    dataSet = dataSetByDate()
     listener.unhighlight(dateClass, dataSet) for listener in listeners
 
   shouldFixDate: (dateClass, axisClass, dateToLoad=null, shouldGoToDate=true) ->
@@ -93,7 +117,7 @@ class EventsManager
     else
       date = dateClassWithouthDecoration(dateClass)
       setSelectedDate(axisClass, date)
-      dataSet = dataSetByDate(date)
+      dataSet = dataSetByDate()
 
       setDateTextFragments(dateClass, dateClass)
 
@@ -122,7 +146,15 @@ class EventsManager
     listener.redraw() for listener in listeners
 
   getDataSet: ->
-    gtObjects[dateState]
+    if selectedDate['years'] == null
+      _.values(timelineObjects)
+    else
+      datesToFilter = _.values(selectedDate).slice(0, dateStates.indexOf(dateState))
+      timelineObj = timelineObject(timelineObjects, datesToFilter)
+      dataSet = _.pickBy(timelineObj, (value, key) ->
+                                  keysToPick = ['date', 'casualties', 'incidents', 'countries']
+                                  return _.indexOf(keysToPick, key) == -1)
+      _.values(dataSet)
 
   getDateState: ->
     dateState
@@ -134,9 +166,12 @@ class EventsManager
 
       data.forEach( (d) ->
         d.date = parseDate(d.date)
+        dateKey = utils.getFormattedDate(d.date, dateState)
+        timelineObjects[dateKey] = d if dateState == 'years'
+        timelineObjects[dateTextFragments[0]][dateKey] = d if dateState == 'months'
+        timelineObjects[dateTextFragments[0]][dateTextFragments[1]][dateKey] = d if dateState == 'days'
       )
 
-      gtObjects[dateState] = data
       callback()
 
       if dateToLoad != null and dateTextFragments[2] == undefined

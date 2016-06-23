@@ -35,6 +35,12 @@ class Map
        .append('path')
        .attr('class', (data) ->
                       'country ' + data.id)
+       .on('mouseover', ->
+                        countryClasses = d3.event.target.classList
+                        if _.indexOf(countryClasses, 'years') > -1
+                          axisClass = _.last(countryClasses)
+                          eventsManager.
+                          console.log(countryClasses))
        .attr('d', path)
 
   configureMapPosition = ->
@@ -54,11 +60,11 @@ class Map
     setSvg()
 
   highlight: (dataClass, dataSet) ->
-    d3.select('.country.' + country)
+    d3.select('.country.' + country.country)
       .classed('highlight', true) for country in dataSet.countries
 
   unhighlight: (dataClass, dataSet) ->
-    d3.select('.country.' + country)
+    d3.select('.country.' + country.country)
         .classed('highlight', false) for country in dataSet.countries
 
   unfixHighlight: (axisClass) ->
@@ -67,7 +73,7 @@ class Map
         .classed(dateStates[classToRemove], false)) for classToRemove in [axisIndex..2]
 
   fixHighlight: (axisClass, dataSet) ->
-    svg.select('.country.' + country)
+    svg.select('.country.' + country.country)
        .classed(axisClass, true) for country in dataSet.countries
 
 
