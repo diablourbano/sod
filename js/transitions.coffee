@@ -104,12 +104,22 @@ class Transitions
 
     if $('.dates-container').hasClass('collapsed')
       $('.dates-container').removeClass('collapsed')
-      $('.dates-container').slideDown({ duration: 'slow', progress: (animation, progress, remainingMs) ->
-                                                                          adjustTabBasedOnDatesContainer() })
+      $('.dates-container').slideDown
+                                      duration: 'slow'
+                                      progress: (animation, progress, remainingMs) ->
+                                                  adjustTabBasedOnDatesContainer()
+                                                  eventsManager.shouldRedraw()
+                                      done: ->
+                                        eventsManager.shouldRedraw()
     else
       $('.dates-container').addClass('collapsed')
-      $('.dates-container').slideUp({ duration: 'slow', progress: (animation, progress, remainingMs) ->
-                                                                          adjustTabBasedOnDatesContainer() })
+      $('.dates-container').slideUp
+                                      duration: 'slow'
+                                      progress: (animation, progress, remainingMs) ->
+                                                  adjustTabBasedOnDatesContainer()
+                                                  eventsManager.shouldRedraw()
+                                      done: ->
+                                        eventsManager.shouldRedraw()
   )
 
   $('.breadcrumb-back').click( ->

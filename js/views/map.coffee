@@ -10,7 +10,7 @@ class Map
   highlightingCountry = false
 
   timelineHeight = ->
-    (dateStates.indexOf(eventsManager.getDateState()) + 1) * 100
+    $('.dates-container .xaxis-container').height()
 
   setSvg = ->
     svg = d3.select('body .map-container.fixed')
@@ -18,7 +18,7 @@ class Map
             .attr('class', 'world-map-container')
             .append('svg')
             .attr('class', 'world-map')
-            .attr('viewBox', '0 0 1000 700')
+            .attr('viewBox', '0 0 1000 730')
             .attr('style', 'max-height: ' + (utils.height - timelineHeight()) + 'px;')
 
   projection = d3.geo.mercator()
@@ -117,3 +117,4 @@ class Map
 
   redraw: ->
     configureMapPosition()
+    svg.attr('style', 'max-height: ' + (utils.height - timelineHeight()) + 'px;')
