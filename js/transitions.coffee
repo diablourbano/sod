@@ -102,24 +102,20 @@ class Transitions
     $(@).children('p').children('i').toggleClass('fa-chevron-down')
     $(@).children('p').children('i').toggleClass('fa-chevron-up')
 
-    if $('.dates-container').hasClass('collapsed')
-      $('.dates-container').removeClass('collapsed')
-      $('.dates-container').slideDown
+    if $('.dates-container .xaxis-container').hasClass('collapsed')
+      $('.dates-container .xaxis-container').removeClass('collapsed')
+      $('.dates-container .xaxis-container').slideDown
                                       duration: 'slow'
                                       progress: (animation, progress, remainingMs) ->
                                                   adjustTabBasedOnDatesContainer()
                                                   eventsManager.shouldRedraw()
-                                      done: ->
-                                        eventsManager.shouldRedraw()
     else
-      $('.dates-container').addClass('collapsed')
-      $('.dates-container').slideUp
+      $('.dates-container .xaxis-container').addClass('collapsed')
+      $('.dates-container .xaxis-container').slideUp
                                       duration: 'slow'
                                       progress: (animation, progress, remainingMs) ->
                                                   adjustTabBasedOnDatesContainer()
                                                   eventsManager.shouldRedraw()
-                                      done: ->
-                                        eventsManager.shouldRedraw()
   )
 
   $('.breadcrumb-back').click( ->
