@@ -67,42 +67,66 @@ a, h1, h2, h3, p {
 }
 
 .statistics {
-  background: $statistics-container;
   position: absolute;
-  width: 300px;
-  margin: 150px 45% 0;
-  padding: 3px 0;
   display: none;
-  @include border-radius(15px);
+  margin: 0;
+  min-width: 95px;
+  width: auto;
+  z-index: 11;
 
   &.visible {
     display: block;
   }
 
-  ul {
-    list-style: none;
+  .stats-detail {
+    position: relative;
+    background: $water;
+    border: solid 1px $statistics-container;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
 
-    li {
-      margin-bottom: 7px;
-      padding: 10px 0;
+    padding: 3px 0;
+    @include border-radius(15px);
 
-      .definition {
-        color: $statistics-legend;
-        font-size: 1.7em;
-        margin-left: 10px;
-      }
+    &:after, &:before {
+      top: 100%;
+      left: 64%;
+      border: solid 1px transparent;
+      content: " ";
+      height: 0;
+      width: 0;
+      position: absolute;
+      pointer-events: none;
+    }
 
-      .color {
-        margin-right: 20px;
-        padding: 5px 15px;
-        @include border-radius(15px);
+    &:after {
+      border-color: rgba(136, 183, 213, 0);
+      border-top-color: $water;
+      border-width: 9px;
+      margin-left: -23px;
+    }
+    &:before {
+      border-color: rgba(194, 225, 245, 0);
+      border-top-color: $statistics-container;
+      border-width: 12px;
+      margin-left: -25px;
+    }
 
-        &.incidents {
-          background: $highlight-incidents;
+    ul {
+      list-style: none;
+      padding: 0 10px;
+      margin: 0;
+
+      li {
+        padding: 7px 0;
+
+        span {
+          color: $statistics-legend;
         }
 
-        &.casualties {
-          background: $highlight-casualties;
+        .definition {
+          font-size: 1em;
+          margin-left: 10px;
         }
       }
     }
@@ -154,17 +178,17 @@ a, h1, h2, h3, p {
         &.months {
           fill: $months-countries;
 
-            &.highlight {
-              fill: $days-countries;
-            }
+          &.highlight {
+            fill: $days-countries;
+          }
         }
 
         &.days {
           fill: $days-countries;
 
-            &.highlight {
-              fill: $days-countries;
-            }
+          &.highlight {
+            fill: $days-countries;
+          }
         }
       }
     }
@@ -282,7 +306,7 @@ a, h1, h2, h3, p {
     }
 
     .years {
-    
+
     }
 
     .months, .days {
@@ -297,7 +321,7 @@ a, h1, h2, h3, p {
       path.domain {
         fill: $xaxis-fill;
       }
-      
+
       .tick {
         text {
           cursor: pointer;
@@ -327,7 +351,7 @@ a, h1, h2, h3, p {
 
     .timeline {
       .axis {
-        
+
         .tick {
           text {
             cursor: pointer;
@@ -349,10 +373,10 @@ a, h1, h2, h3, p {
 
       path.line-chart {
         cursor: pointer;
-          fill: none;
-          stroke-width: 1.5px;
-          stroke-dasharray: 5,5;
-          stroke: $dashline;
+        fill: none;
+        stroke-width: 1.5px;
+        stroke-dasharray: 5,5;
+        stroke: $dashline;
       }
 
       circle {

@@ -39,6 +39,10 @@ class Axis
                         dateClass = d3.event.target.classList[0].replace('time-', '')
                         eventsManager.shouldFixDate(dateClass, axisProperties.axisClass))
        .on('mouseover', ->
+                        top = d3.event.pageX
+                        d3.select('.statistics')
+                          .style('left', top + 'px')
+
                         if isDateSelectedEvent(axisProperties.axisClass)
                           dateClass = d3.event.target.classList[0].replace('time-', '')
                           eventsManager.shouldHighlight(dateClass))

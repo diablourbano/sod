@@ -60,7 +60,11 @@ class Transitions
     setScrollListeners(eventsManager.getDateState())
 
   highlight: (dateClass, dataSet) ->
+    timelineHeight = parseInt($('.dates-container').css('height').replace('px', ''))
+
     $('.statistics').addClass('visible')
+                    .css('bottom',  (timelineHeight - 12) + 'px')
+
     $('.statistics ul li.incidents span.definition').text(dataSet.incidents)
     $('.statistics ul li.casualties span.definition').text(dataSet.casualties)
 
