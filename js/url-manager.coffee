@@ -74,3 +74,6 @@ class UrlManager
 
     selectedDate[dateFragment] = date
     setUrlHash()
+
+  test: () ->
+    return 'hola sucka'

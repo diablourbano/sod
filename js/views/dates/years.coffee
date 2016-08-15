@@ -10,6 +10,8 @@ class Years
   eventsManager = null
   svg = null
 
+  utils = new Utils
+
   isThisDateState = ->
     eventsManager.getDateState() == axisProperties.axisClass
 

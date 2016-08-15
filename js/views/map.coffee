@@ -51,6 +51,16 @@ class Map
        .attr('class', (data) ->
                       'country ' + data.id)
        .on('mouseover', ->
+                        left = d3.event.pageX
+                        bottom = d3.event.pageY
+                        bottomPos = bottom + (((bottom * 730) / 816) / 2)
+
+                        console.log(bottomPos)
+
+                        d3.select('.statistics')
+                          .style('left', left + 'px')
+                          .style('bottom', bottomPos + 'px')
+
                         highlightCountryStats((countryClass) ->
                             highlightingCountry = true
                             eventsManager.shouldHighlightBasedOnCountry(countryClass)))

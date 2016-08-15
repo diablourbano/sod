@@ -44,23 +44,14 @@ a, h1, h2, h3, p {
     li {
       margin-bottom: 7px;
 
-      .definition {
+      span {
         color: $legend;
-        font-size: 1.7em;
-        margin-left: 10px;
+        font-size: 1.5em;
       }
 
-      .color {
-        padding: 1px 38px;
-        @include border-radius(10px);
-
-        &.incidents {
-          background: $highlight-incidents;
-        }
-
-        &.casualties {
-          background: $highlight-casualties;
-        }
+      .definition {
+        margin-left: 10px;
+        font-size: 1.7em;
       }
     }
   }
@@ -367,6 +358,17 @@ a, h1, h2, h3, p {
         &.x {
           .domain {
             fill: $xaxis-fill;
+          }
+        }
+      }
+
+      .yaxis {
+        fill: $date-headline-hover;
+        stroke: none;
+
+        .tick {
+          text {
+            fill: $date-headline;
           }
         }
       }

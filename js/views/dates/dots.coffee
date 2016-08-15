@@ -21,12 +21,24 @@ class Dots
     yScaleCasualties.domain([0, d3.max(eventsManager.getDataSet(), (d) ->
                                     d.casualties)])
 
-  drawLineFor = (lineChart, dotType) ->
+  configureYAxisFor = (yScale) ->
+    d3.svg.axis().scale(yScale)
+                 .orient('left')
+                 .tickSize(2)
+                 .ticks(5)
+
+  drawLineFor = (lineChart, dotType, yAxis) ->
     timeline.getSvg().append('path')
        .datum(eventsManager.getDataSet())
        .attr('class', 'line-chart ' + dotType)
        .attr('d', lineChart)
        .attr('transform', 'translate(' + dotsProperties.x0 + ', 0)')
+
+    timeline.getSvg()
+       .append('g')
+       .attr('class', 'yaxis')
+       .attr('transform', 'translate(40, 0)')
+       .call(yAxis)
 
   drawDotFor = (dots, scale, dotType, radius, yScaleCallback) ->
     dots.append('circle')
@@ -62,8 +74,11 @@ class Dots
     eventsManager = anEventsManager
     timeline = aTimeline
 
-    yScaleIncidents = d3.scale.linear().range([dotsProperties.height - 10, dotsProperties.height/2])
-    yScaleCasualties = d3.scale.linear().range([dotsProperties.height - 10, 10])
+    verticalMiddle = dotsProperties.height / 2
+    vertical = dotsProperties.height
+
+    yScaleCasualties = d3.scale.linear().range([vertical - 20, verticalMiddle + 20])
+    yScaleIncidents = d3.scale.linear().range([verticalMiddle - 20, 50])
   
   remove: ->
     dotsIncidents.remove() if dotsIncidents
@@ -71,13 +86,20 @@ class Dots
     lineIncidents.remove() if lineIncidents
     lineCasualties.remove() if lineCasualties
 
+    # because of the yAxises we need to clean the svg child manually
+    timeline.getSvg().selectAll('path').remove()
+
   draw: (dots, scale) ->
     configureYScales()
+    radius = 6
 
-    lineIncidents = drawLineFor(configureLineChart(scale, yScaleIncidents, 'incidents'), 'incidents')
-    dotsIncidents = drawDotFor(dots, scale, 'incidents', 5, (d) ->
-                                                            yScaleIncidents(d.incidents))
+    yAxisCasualties = configureYAxisFor(yScaleCasualties)
+    yAxisIncidents = configureYAxisFor(yScaleIncidents)
 
-    lineCasualties = drawLineFor(configureLineChart(scale, yScaleCasualties, 'casualties'), 'casualties')
-    dotsCasualties = drawDotFor(dots, scale, 'casualties', 6, (d) ->
+    lineCasualties = drawLineFor(configureLineChart(scale, yScaleCasualties, 'casualties'), 'casualties', yAxisCasualties)
+    dotsCasualties = drawDotFor(dots, scale, 'casualties', radius, (d) ->
                                                             yScaleCasualties(d.casualties))
+
+    lineIncidents = drawLineFor(configureLineChart(scale, yScaleIncidents, 'incidents'), 'incidents', yAxisIncidents)
+    dotsIncidents = drawDotFor(dots, scale, 'incidents', radius, (d) ->
+                                                            yScaleIncidents(d.incidents))

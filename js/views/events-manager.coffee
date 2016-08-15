@@ -8,6 +8,7 @@ class EventsManager
   selectedDate = { 'years': null, 'months': 'January', 'days': '01'  }
   dateTextFragments = []
   urlManager = null
+  utils = new Utils
 
   parseDate = d3.time.format('%Y-%m-%d').parse
 

@@ -60,10 +60,13 @@ class Transitions
     setScrollListeners(eventsManager.getDateState())
 
   highlight: (dateClass, dataSet) ->
-    timelineHeight = parseInt($('.dates-container').css('height').replace('px', ''))
+    bottomPos = 80
+
+    if ['years', 'months', 'days'].indexOf(dateClass) == -1
+      bottomPos = parseInt($(".xaxis .time-#{dateClass}").parents('.timeaxis').css('height').replace('px', ''))
+      $('.statistics').css('bottom',  (bottomPos + 25) + 'px')
 
     $('.statistics').addClass('visible')
-                    .css('bottom',  (timelineHeight - 12) + 'px')
 
     $('.statistics ul li.incidents span.definition').text(dataSet.incidents)
     $('.statistics ul li.casualties span.definition').text(dataSet.casualties)

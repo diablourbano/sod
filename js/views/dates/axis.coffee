@@ -3,8 +3,8 @@
 class Axis
   utils = new Utils
 
-  isDateSelectedEvent = (dateClass) ->
-    dateClass  == eventsManager.getDateState()
+  isDateSelectedEvent = (dateClass, dateState) ->
+    dateClass  == dateState
 
   setSvg: (axisProperties) ->
     d3.select('body .dates-container .xaxis-container .' + axisProperties.axisClass)
@@ -39,15 +39,15 @@ class Axis
                         dateClass = d3.event.target.classList[0].replace('time-', '')
                         eventsManager.shouldFixDate(dateClass, axisProperties.axisClass))
        .on('mouseover', ->
-                        top = d3.event.pageX
+                        left = $(d3.event.target).parent().position().left #d3.event.pageX
                         d3.select('.statistics')
-                          .style('left', top + 'px')
+                          .style('left', left + 'px')
 
-                        if isDateSelectedEvent(axisProperties.axisClass)
+                        if isDateSelectedEvent(axisProperties.axisClass, eventsManager.getDateState())
                           dateClass = d3.event.target.classList[0].replace('time-', '')
                           eventsManager.shouldHighlight(dateClass))
        .on('mouseout', ->
-                        if isDateSelectedEvent(axisProperties.axisClass)
+                        if isDateSelectedEvent(axisProperties.axisClass, eventsManager.getDateState())
                           dateClass = d3.event.target.classList[0].replace('time-', '')
                           eventsManager.shouldUnhighlight(dateClass))
        .call(axis)
