@@ -56,11 +56,28 @@ class Dots
                         dateClass = d3.event.target.classList[0].replace('time-', '')
                         eventsManager.shouldFixDate(dateClass, eventsManager.getDateState()))
        .on('mouseover', (d) ->
-                        dateClass = d3.event.target.classList[0].replace('time-', '')
-                        eventsManager.shouldHighlight(dateClass))
+                        dotClasses = d3.event.target.classList
+
+                        if _.includes(dotClasses, 'incidents')
+                          classes = _.replace(_.join(dotClasses, '.'), 'incidents', 'casualties')
+                          currentStat = 'incidents'
+                          otherStat = 'casualties'
+                        else
+                          classes = _.replace(_.join(dotClasses, '.'), 'casualties', 'incidents')
+                          currentStat = 'casualties'
+                          otherStat = 'incidents'
+
+                        otherDotPosY = $(".#{classes}").position().top - 60
+                        yPosition = $(d3.event.target).position().top - 60
+
+                        d3.select(".stats-#{currentStat}").style('top', "#{yPosition}px")
+                        d3.select(".stats-#{otherStat}").style('top', "#{otherDotPosY}px")
+
+                        dateClasses = d3.event.target.classList
+                        eventsManager.shouldHighlight(dateClasses))
        .on('mouseout', (d) ->
-                        dateClass = d3.event.target.classList[0].replace('time-', '')
-                        eventsManager.shouldUnhighlight(dateClass))
+                        dateClasses = d3.event.target.classList
+                        eventsManager.shouldUnhighlight(dateClasses))
 
   configureLineChart = (xScale, yScale, scaleType) ->
      d3.svg.line()

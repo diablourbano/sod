@@ -84,19 +84,27 @@ class EventsManager
   addListener: (listener) ->
     listeners.push(listener) if listeners.indexOf(listener) == -1
 
-  shouldHighlight: (dateClass) ->
-    dateClassNoDecoration = dateClassWithouthDecoration(dateClass)
+  shouldHighlight: (dateClasses) ->
+    classes = _.map(dateClasses, (dateClass) ->
+      dateClass.replace('time-', '')
+    )
+
+    dateClassNoDecoration = dateClassWithouthDecoration(classes[0])
     setSelectedDate(dateState, dateClassNoDecoration)
 
     dataSet = dataSetByDate()
-    listener.highlight(dateClass, dataSet) for listener in listeners
+    listener.highlight(classes, dataSet) for listener in listeners
 
-  shouldUnhighlight: (dateClass) ->
-    dateClassNoDecoration = dateClassWithouthDecoration(dateClass)
+  shouldUnhighlight: (dateClasses) ->
+    classes = _.map(dateClasses, (dateClass) ->
+      dateClass.replace('time-', '')
+    )
+
+    dateClassNoDecoration = dateClassWithouthDecoration(classes[0])
     setSelectedDate(dateState, dateClassNoDecoration)
 
     dataSet = dataSetByDate()
-    listener.unhighlight(dateClass, dataSet) for listener in listeners
+    listener.unhighlight(classes, dataSet) for listener in listeners
 
   shouldFixDate: (dateClass, axisClass, dateToLoad=null, shouldGoToDate=true) ->
     existDateFragment = dateTextFragments.indexOf(dateClass)

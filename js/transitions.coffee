@@ -53,28 +53,48 @@ class Transitions
     $('.timeaxis.' + currentDateState).off('ps-scroll-x')
     $('.timeline-container').off('ps-scroll-x')
 
-  constructor: (anEventsManager) ->
-    eventsManager = anEventsManager
+  isOverMap = (dateClasses) ->
+    return _.filter(dateClasses, (dateClass) ->
+                     _.indexOf(['years', 'months', 'days'], dateClass) > -1
+                   ).length > 0
 
-    configureScrollbars()
-    setScrollListeners(eventsManager.getDateState())
-
-  highlight: (dateClass, dataSet) ->
-    bottomPos = 80
-
-    if ['years', 'months', 'days'].indexOf(dateClass) == -1
-      bottomPos = parseInt($(".xaxis .time-#{dateClass}").parents('.timeaxis').css('height').replace('px', ''))
-      $('.statistics').css('bottom',  (bottomPos + 25) + 'px')
+  displayStatisticsBox = (dateClasses, dataSet) ->
+    bottomPos = parseInt($(".xaxis .time-#{dateClasses[0]}").parents('.timeaxis').css('height').replace('px', ''))
+    $('.statistics').css('bottom',  (bottomPos + 25) + 'px')
 
     $('.statistics').addClass('visible')
 
     $('.statistics ul li.incidents span.definition').text(dataSet.incidents)
     $('.statistics ul li.casualties span.definition').text(dataSet.casualties)
 
+
+  constructor: (anEventsManager) ->
+    eventsManager = anEventsManager
+
+    configureScrollbars()
+    setScrollListeners(eventsManager.getDateState())
+
+  highlight: (dateClasses, dataSet) ->
+    if !isOverMap(dateClasses)
+      if _.indexOf(dateClasses, 'dot') > -1
+        posIncidentsX = parseInt($(".time-#{dateClasses.join('.')}").attr('cx')) + 15
+
+        for stat in ['incidents', 'casualties']
+          $(".stats-#{stat}").css('left',  "#{posIncidentsX}px")
+          $(".stats-#{stat}").addClass('visible')
+
+          $(".stats-#{stat} ul li.#{stat} span.definition").text(dataSet[stat])
+      else
+        displayStatisticsBox(dateClasses, dataSet)
+    else
+      console.log('TODO')
+
   unhighlight: (dataSet) ->
     $('.statistics').removeClass('visible')
     $('.statistics ul li.incidents span.definition').text('Loading...')
     $('.statistics ul li.casualties span.definition').text('Loading...')
+    $('.stats-incidents').removeClass('visible')
+    $('.stats-casualties').removeClass('visible')
 
   unfixHighlight: (axisClass) ->
     $('.graph-slot p.selected-date span').text(eventsManager.getDateTextFragments().join(' '))

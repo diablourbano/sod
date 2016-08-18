@@ -39,7 +39,7 @@ class Map
 
     return if axisClass != dateStates[previousAxisIndex] and !(axisClass == dateState == 'days')
 
-    callback(countryClasses[1])
+    callback(countryClasses)
 
   renderWith = (datum) ->
     configureMapPosition()
@@ -61,12 +61,12 @@ class Map
                           .style('left', left + 'px')
                           .style('bottom', bottomPos + 'px')
 
-                        highlightCountryStats((countryClass) ->
+                        highlightCountryStats((countryClasses) ->
                             highlightingCountry = true
-                            eventsManager.shouldHighlightBasedOnCountry(countryClass)))
+                            eventsManager.shouldHighlightBasedOnCountry(countryClasses)))
        .on('mouseout', ->
-                        highlightCountryStats((countryClass) ->
-                            eventsManager.shouldUnhighlightBasedOnCountry(countryClass)
+                        highlightCountryStats((countryClasses) ->
+                            eventsManager.shouldUnhighlightBasedOnCountry(countryClasses)
                             highlightingCountry = false))
        .attr('d', path)
 

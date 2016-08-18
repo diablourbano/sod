@@ -39,17 +39,17 @@ class Axis
                         dateClass = d3.event.target.classList[0].replace('time-', '')
                         eventsManager.shouldFixDate(dateClass, axisProperties.axisClass))
        .on('mouseover', ->
-                        left = $(d3.event.target).parent().position().left #d3.event.pageX
+                        left = $(d3.event.target).parent().position().left
                         d3.select('.statistics')
                           .style('left', left + 'px')
 
                         if isDateSelectedEvent(axisProperties.axisClass, eventsManager.getDateState())
-                          dateClass = d3.event.target.classList[0].replace('time-', '')
-                          eventsManager.shouldHighlight(dateClass))
+                          dateClasses = d3.event.target.classList
+                          eventsManager.shouldHighlight(dateClasses))
        .on('mouseout', ->
                         if isDateSelectedEvent(axisProperties.axisClass, eventsManager.getDateState())
-                          dateClass = d3.event.target.classList[0].replace('time-', '')
-                          eventsManager.shouldUnhighlight(dateClass))
+                          dateClasses = d3.event.target.classList
+                          eventsManager.shouldUnhighlight(dateClasses))
        .call(axis)
 
     labels = d3.selectAll('.xaxis-container .timeaxis.' + axisProperties.axisClass + ' .x.axis .tick text')[0]
