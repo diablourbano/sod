@@ -67,6 +67,30 @@ class Transitions
     $('.statistics ul li.incidents span.definition').text(dataSet.incidents)
     $('.statistics ul li.casualties span.definition').text(dataSet.casualties)
 
+  displaySplitStats = (dotClasses, dataSet) ->
+    xPosition = parseInt($(".time-#{dotClasses.join('.')}").attr('cx')) + 15
+    dotElements = {
+      firstClasses: _.join(dotClasses, '.')
+      secondClasses: _.join(dotClasses, '.')
+      firstStat: 'casualties',
+      secondStat: 'incidents'
+    }
+
+    if _.includes(dotClasses, 'incidents')
+      dotElements.firstStat = 'incidents'
+      dotElements.secondStat = 'casualties'
+
+    dotElements.secondClasses = _.replace(dotElements.firstClasses, dotElements.firstStat, dotElements.secondStat)
+
+    for position in ['first', 'second']
+      yPosition = $(".time-#{dotElements["#{position}Classes"]}").position().top - 60
+      stat = dotElements["#{position}Stat"]
+
+      $(".stats-#{stat}").css('top', "#{yPosition}px")
+      $(".stats-#{stat}").css('left',  "#{xPosition}px")
+      $(".stats-#{stat}").addClass('visible')
+      $(".stats-#{stat} ul li.#{stat} span.definition").text(dataSet[stat])
+
 
   constructor: (anEventsManager) ->
     eventsManager = anEventsManager
@@ -76,14 +100,11 @@ class Transitions
 
   highlight: (dateClasses, dataSet) ->
     if !isOverMap(dateClasses)
-      if _.indexOf(dateClasses, 'dot') > -1
-        posIncidentsX = parseInt($(".time-#{dateClasses.join('.')}").attr('cx')) + 15
+      if $('.timeline-container').hasClass('collapsed')
+        dateClasses.push('dot', 'casualties') if !_.includes(dateClasses, 'dot')
 
-        for stat in ['incidents', 'casualties']
-          $(".stats-#{stat}").css('left',  "#{posIncidentsX}px")
-          $(".stats-#{stat}").addClass('visible')
+        displaySplitStats(dateClasses, dataSet)
 
-          $(".stats-#{stat} ul li.#{stat} span.definition").text(dataSet[stat])
       else
         displayStatisticsBox(dateClasses, dataSet)
     else

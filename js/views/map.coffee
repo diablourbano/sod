@@ -116,7 +116,7 @@ class Map
 
   draw: (callback) ->
     d3.json "map.json", (error, world) ->
-      return console.error(error) if error
+      return utils.printLog(error) if error
 
       datum = topojson.feature(world, world.objects.world_map)
       renderWith(datum)
