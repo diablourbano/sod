@@ -154,10 +154,6 @@ a, h1, h2, h3, p {
           fill: $years-countries;
         }
 
-        &.years, &.months, &.days {
-          cursor: pointer;
-        }
-
         &.years {
           fill: $years-countries;
 
@@ -363,7 +359,7 @@ a, h1, h2, h3, p {
       }
 
       .yaxis {
-        fill: $date-headline-hover;
+        fill: $yaxis-fill;
         stroke: none;
 
         .tick {

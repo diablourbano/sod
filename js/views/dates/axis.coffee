@@ -39,10 +39,6 @@ class Axis
                         dateClass = d3.event.target.classList[0].replace('time-', '')
                         eventsManager.shouldFixDate(dateClass, axisProperties.axisClass))
        .on('mouseover', ->
-                        left = $(d3.event.target).parent().position().left
-                        d3.select('.statistics')
-                          .style('left', left + 'px')
-
                         if isDateSelectedEvent(axisProperties.axisClass, eventsManager.getDateState())
                           dateClasses = d3.event.target.classList
                           eventsManager.shouldHighlight(dateClasses))

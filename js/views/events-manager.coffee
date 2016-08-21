@@ -154,7 +154,8 @@ class EventsManager
   shouldRedraw: ->
     listener.redraw() for listener in listeners
 
-  shouldUnhighlightBasedOnCountry: (country) ->
+  shouldUnhighlightBasedOnCountry: (countryClasses) ->
+    country = countryClasses[1]
     datesToFilter = dateTextFragments.slice(0, dateStates.indexOf(dateState))
 
     dateFragments = _.filter(dateTextFragments, (o) ->
@@ -163,18 +164,20 @@ class EventsManager
     countries = timelineObject(timelineObjects, dateFragments)
     countrySet = _.find(countries.countries, (o) ->
                                           return o.country == country)
-    listener.unhighlight(dateState, countrySet) for listener in listeners
+    listener.unhighlightByCountry(dateState, countrySet) for listener in listeners
 
-  shouldHighlightBasedOnCountry: (country) ->
-    datesToFilter = dateTextFragments.slice(0, dateStates.indexOf(dateState))
-
+  shouldHighlightBasedOnCountry: (countryClasses) ->
+    country = countryClasses[1]
+    datesClasses = dateTextFragments.slice(0, dateStates.indexOf(dateState))
     dateFragments = _.filter(dateTextFragments, (o) ->
                                                      return o?)
 
     countries = timelineObject(timelineObjects, dateFragments)
     countrySet = _.find(countries.countries, (o) ->
                                           return o.country == country)
-    listener.highlight(dateState, countrySet) for listener in listeners
+
+    datesClasses.unshift(countryClass) for countryClass in countryClasses
+    listener.highlightByCountry(datesClasses, countrySet) for listener in listeners
 
   getDataSet: ->
     if selectedDate['years'] == null

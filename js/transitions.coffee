@@ -53,12 +53,10 @@ class Transitions
     $('.timeaxis.' + currentDateState).off('ps-scroll-x')
     $('.timeline-container').off('ps-scroll-x')
 
-  isOverMap = (dateClasses) ->
-    return _.filter(dateClasses, (dateClass) ->
-                     _.indexOf(['years', 'months', 'days'], dateClass) > -1
-                   ).length > 0
-
   displayStatisticsBox = (dateClasses, dataSet) ->
+    left = $(".xaxis .time-#{dateClasses[0]}").parent().position().left
+    $('.statistics').css('left', "#{left}px")
+
     bottomPos = parseInt($(".xaxis .time-#{dateClasses[0]}").parents('.timeaxis').css('height').replace('px', ''))
     $('.statistics').css('bottom',  (bottomPos + 25) + 'px')
 
@@ -68,6 +66,8 @@ class Transitions
     $('.statistics ul li.casualties span.definition').text(dataSet.casualties)
 
   displaySplitStats = (dotClasses, dataSet) ->
+    dotClasses.push('dot', 'casualties') if !_.includes(dotClasses, 'dot')
+
     xPosition = parseInt($(".time-#{dotClasses.join('.')}").attr('cx')) + 15
     dotElements = {
       firstClasses: _.join(dotClasses, '.')
@@ -99,16 +99,10 @@ class Transitions
     setScrollListeners(eventsManager.getDateState())
 
   highlight: (dateClasses, dataSet) ->
-    if !isOverMap(dateClasses)
-      if $('.timeline-container').hasClass('collapsed')
-        dateClasses.push('dot', 'casualties') if !_.includes(dateClasses, 'dot')
-
-        displaySplitStats(dateClasses, dataSet)
-
-      else
-        displayStatisticsBox(dateClasses, dataSet)
+    if $('.timeline-container').hasClass('collapsed')
+      displaySplitStats(dateClasses, dataSet)
     else
-      console.log('TODO')
+      displayStatisticsBox(dateClasses, dataSet)
 
   unhighlight: (dataSet) ->
     $('.statistics').removeClass('visible')

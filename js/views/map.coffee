@@ -7,7 +7,6 @@ class Map
   svg = null
 
   dateStates = ['years', 'months', 'days']
-  highlightingCountry = false
 
   timelineHeight = ->
     $('.dates-container .xaxis-container').height()
@@ -28,7 +27,7 @@ class Map
            .projection(projection)
 
 
-  highlightCountryStats = (callback) ->
+  shouldHighlightCountryStats = (callback) ->
     countryClasses = d3.event.target.classList
 
     return if _.indexOf(countryClasses, 'years') == -1
@@ -50,24 +49,6 @@ class Map
        .append('path')
        .attr('class', (data) ->
                       'country ' + data.id)
-       .on('mouseover', ->
-                        left = d3.event.pageX
-                        bottom = d3.event.pageY
-                        bottomPos = bottom + (((bottom * 730) / 816) / 2)
-
-                        console.log(bottomPos)
-
-                        d3.select('.statistics')
-                          .style('left', left + 'px')
-                          .style('bottom', bottomPos + 'px')
-
-                        highlightCountryStats((countryClasses) ->
-                            highlightingCountry = true
-                            eventsManager.shouldHighlightBasedOnCountry(countryClasses)))
-       .on('mouseout', ->
-                        highlightCountryStats((countryClasses) ->
-                            eventsManager.shouldUnhighlightBasedOnCountry(countryClasses)
-                            highlightingCountry = false))
        .attr('d', path)
 
   configureMapPosition = ->
@@ -87,14 +68,10 @@ class Map
     setSvg()
 
   highlight: (dataClass, dataSet) ->
-    return if highlightingCountry
-
     d3.select('.country.' + country.country)
       .classed('highlight', true) for country in dataSet.countries
 
   unhighlight: (dataClass, dataSet) ->
-    return if highlightingCountry
-
     d3.select('.country.' + country.country)
         .classed('highlight', false) for country in dataSet.countries
 
