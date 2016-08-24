@@ -90,6 +90,19 @@ class EventsManager
 
     dates
 
+  hasDataFor = (dateFragments) ->
+    if _.isEmpty(timelineObjects)
+      false
+
+    else if dateFragments.length == 1
+      timelineObjects[dateFragments[0]]['January'] != undefined
+
+    else if dateFragments.length == 2
+      timelineObjects[dateFragments[0]][dateFragments[1]]['1st'] != undefined
+
+    else
+      true
+
   constructor: (anUrlManager) ->
     urlManager = anUrlManager
 
@@ -242,17 +255,3 @@ class EventsManager
 
           if dateToLoad and !dateTextFragments[2]
             @shouldFixDate(dateToLoad[dateState], dateState, dateToLoad, false) if dateToLoad[dateState]
-
-  hasDataFor = (dateFragments) ->
-    if _.isEmpty(timelineObjects)
-      false
-
-    else if dateFragments.length == 1
-      timelineObjects[dateFragments[0]]['January'] != undefined
-
-    else if dateFragments.length == 2
-      timelineObjects[dateFragments[0]][dateFragments[1]]['1st'] != undefined
-
-    else
-      true
-
