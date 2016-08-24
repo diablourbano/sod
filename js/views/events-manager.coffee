@@ -73,7 +73,22 @@ class EventsManager
       "#{date}rd"
     else
       "#{date}th"
-      
+
+  datesUrl = (dateFragments) ->
+    dates = []
+
+    if dateFragments.length > 0
+      dates.push(dateTextFragments[0]) if dateFragments[0]
+
+      if dateFragments[1]
+        month = dateFragments[1]
+
+        if month
+          month = (moment().month(month.toLowerCase()).month() + 1).toString()
+          month = "0#{month}" if month.length == 1
+          dates.push(month)
+
+    dates
 
   constructor: (anUrlManager) ->
     urlManager = anUrlManager
@@ -194,19 +209,50 @@ class EventsManager
     dateState
 
   getData: (callback, dateToLoad) ->
-    # first always brings all the years
-    d3.json 'data_sample_' + dateState + '.json', (error, data) =>
-      return printError(error) if error
+    dateFragments = _.filter(dateTextFragments, (textFragment) ->
+                              textFragment != null )
 
-      data.forEach( (d) ->
-        d.date = parseDate(d.date)
-        dateKey = utils.getFormattedDate(d.date, dateState)
-        timelineObjects[dateKey] = d if dateState == 'years'
-        timelineObjects[dateTextFragments[0]][dateKey] = d if dateState == 'months'
-        timelineObjects[dateTextFragments[0]][dateTextFragments[1]][dateKey] = d if dateState == 'days'
-      )
+    if dateFragments.length == 3
+        callback()
 
-      callback()
+        if dateToLoad and !dateTextFragments[2]
+          @shouldFixDate(dateToLoad[dateState], dateState, dateToLoad, false) if dateToLoad[dateState]
 
-      if dateToLoad != null and dateTextFragments[2] == undefined
-        @shouldFixDate(dateToLoad[dateState], dateState, dateToLoad, false) if dateToLoad[dateState] != null and dateToLoad[dateState] != undefined and dateToLoad[dateState] != ''
+    else
+
+      if hasDataFor(dateFragments)
+          callback()
+
+          if dateToLoad and !dateTextFragments[2]
+            @shouldFixDate(dateToLoad[dateState], dateState, dateToLoad, false) if dateToLoad[dateState]
+
+      else
+        d3.json "http://sodbk.quimera.suse:9292/#{datesUrl(dateFragments).join('/')}", (error, data) =>
+          return printError(error) if error
+
+          data.forEach( (d) ->
+            d.date = parseDate(d.date)
+            dateKey = utils.getFormattedDate(d.date, dateState)
+            timelineObjects[dateKey] = d if dateState == 'years'
+            timelineObjects[dateTextFragments[0]][dateKey] = d if dateState == 'months'
+            timelineObjects[dateTextFragments[0]][dateTextFragments[1]][dateKey] = d if dateState == 'days'
+          )
+
+          callback()
+
+          if dateToLoad and !dateTextFragments[2]
+            @shouldFixDate(dateToLoad[dateState], dateState, dateToLoad, false) if dateToLoad[dateState]
+
+  hasDataFor = (dateFragments) ->
+    if _.isEmpty(timelineObjects)
+      false
+
+    else if dateFragments.length == 1
+      timelineObjects[dateFragments[0]]['January'] != undefined
+
+    else if dateFragments.length == 2
+      timelineObjects[dateFragments[0]][dateFragments[1]]['1st'] != undefined
+
+    else
+      true
+
