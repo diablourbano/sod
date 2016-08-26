@@ -156,6 +156,8 @@ class EventsManager
       setSelectedDate(axisClass, date)
       dataSet = dataSetByDate()
 
+      return if !dataSet
+
       setDateTextFragments(dateClass, dateClass)
 
       (listener.unhighlight(dateClass, dataSet)

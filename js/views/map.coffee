@@ -18,7 +18,7 @@ class Map
             .append('svg')
             .attr('class', 'world-map')
             .attr('viewBox', '0 0 1000 730')
-            .attr('style', 'max-height: ' + (utils.height - timelineHeight()) + 'px;')
+            # .attr('style', 'max-height: ' + (utils.height - timelineHeight()) + 'px;')
 
   projection = d3.geo.mercator()
                  .translate([500, 500])
@@ -68,10 +68,14 @@ class Map
     setSvg()
 
   highlight: (dataClass, dataSet) ->
+    return if !dataSet
+
     d3.select('.country.' + country.country)
       .classed('highlight', true) for country in dataSet.countries
 
   unhighlight: (dataClass, dataSet) ->
+    return if !dataSet
+
     d3.select('.country.' + country.country)
         .classed('highlight', false) for country in dataSet.countries
 

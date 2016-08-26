@@ -66,6 +66,8 @@ class Transitions
     $('.statistics ul li.casualties span.definition').text(dataSet.casualties)
 
   displaySplitStats = (dotClasses, dataSet) ->
+    return if !dataSet
+
     dotClasses.push('dot', 'casualties') if !_.includes(dotClasses, 'dot')
 
     xPosition = parseInt($(".time-#{dotClasses.join('.')}").attr('cx')) + 15
@@ -99,6 +101,8 @@ class Transitions
     setScrollListeners(eventsManager.getDateState())
 
   highlight: (dateClasses, dataSet) ->
+    dataSet = {incidents: 0, casualties: 0} if !dataSet
+
     if $('.timeline-container').hasClass('collapsed')
       displaySplitStats(dateClasses, dataSet)
     else

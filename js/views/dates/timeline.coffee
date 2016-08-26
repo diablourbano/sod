@@ -24,6 +24,7 @@ class Timeline
            .append('g')
 
   toggleHighlight = (dataSet, highlight) ->
+    return if !dataSet
     dateClass = utils.getFormattedDate(dataSet.date, eventsManager.getDateState())
     svg.selectAll('.time-' + dateClass)
        .classed('highlight', highlight)
