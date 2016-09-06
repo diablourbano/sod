@@ -35,4 +35,4 @@ class MainController
 
 
 mainController = new MainController
-mainController.draw();
+mainController.draw()

@@ -18,7 +18,13 @@ class Map
             .append('svg')
             .attr('class', 'world-map')
             .attr('viewBox', '0 0 1000 730')
-            # .attr('style', 'max-height: ' + (utils.height - timelineHeight()) + 'px;')
+            .attr('width', '100%')
+            .attr('height', utils.height + 'px')
+            .call(d3.behavior.zoom().on('zoom', () ->
+              svg.attr('transform', "translate(#{d3.event.translate})scale(#{d3.event.scale})")
+            ))
+            .append('g')
+            .attr('style', 'max-height: ' + (utils.height - timelineHeight()) + 'px;')
 
   projection = d3.geo.mercator()
                  .translate([500, 500])
@@ -52,16 +58,7 @@ class Map
        .attr('d', path)
 
   configureMapPosition = ->
-    return if utils.windowRatio() >= 1
-
-    mapContainerHeight = parseInt(d3.select('.world-map-container')
-                                    .style('width')
-                                    .replace('px', ''))
-
-    topPosition = (mapContainerHeight / 2) - (utils.height / 2)
-    topPosition *= -1 if topPosition < 0
-
-    d3.select('.world-map-container').attr('style', 'margin-top: ' + topPosition + 'px;')
+    d3.select('.world-map-container').attr('style', 'padding-bottom: ' + utils.height + 'px;')
 
   constructor: (anEventsManager) ->
     eventsManager = anEventsManager
