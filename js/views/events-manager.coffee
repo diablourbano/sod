@@ -242,7 +242,7 @@ class EventsManager
             @shouldFixDate(dateToLoad[dateState], dateState, dateToLoad, false) if dateToLoad[dateState]
 
       else
-        d3.json "http://sodbk.quimera.suse:9292/#{datesUrl(dateFragments).join('/')}", (error, data) =>
+        d3.json "#{cors_origin}/#{datesUrl(dateFragments).join('/')}", (error, data) =>
           return printError(error) if error
 
           data.forEach( (d) ->

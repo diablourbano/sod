@@ -5,9 +5,10 @@ var concat = require('gulp-concat');
 var coffee = require('gulp-coffee');
 var sass = require('gulp-sass');
 var uglify = require('gulp-uglify');
+var rename = require('gulp-rename');
 
-gulp.task('default', ['addMap', 'sampleData', 'loadLibraries', 'coffee:watch', 'sass:watch', 'index:watch']);
-gulp.task('dist', ['map:dist', 'sampleData:dist', 'libraries:dist', 'js:dist', 'css:dist', 'index:dist']);
+gulp.task('default', ['addMap', 'variables:dev', 'loadLibraries', 'coffee:watch', 'sass:watch', 'index:watch']);
+gulp.task('dist', ['map:dist', 'variables:dist', 'libraries:dist', 'js:dist', 'css:dist', 'index:dist']);
 
 gulp.task('coffee', function() {
   return gulp.src('./js/**/**.coffee')
@@ -65,8 +66,9 @@ gulp.task('addMap', function() {
       .pipe(gulp.dest(('./build')))
 });
 
-gulp.task('sampleData', function() {
-  gulp.src('./js/data/sample/*.json')
+gulp.task('variables:dev', function() {
+  gulp.src('./js/dev_env_vars.js')
+      .pipe(rename('env_vars.js'))
       .pipe(gulp.dest(('./build')))
 });
 
@@ -102,8 +104,9 @@ gulp.task('map:dist', function() {
       .pipe(gulp.dest(('./dist')));
 });
 
-gulp.task('sampleData:dist', function() {
-  gulp.src('./build/data_sample_*.json')
+gulp.task('variables:dist', function() {
+  gulp.src('./js/dist_env_vars.js')
+      .pipe(rename('env_vars.js'))
       .pipe(gulp.dest(('./dist')));
 });
 
