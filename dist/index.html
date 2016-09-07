@@ -15,26 +15,48 @@
     <div class='legend'>
       <ul>
         <li>
-          <span class='color casualties'></span>
-          <span class='definition'>Casualties</span>
+          <span class='incidents'><i class='fa fa-globe'></i></span>
+          <span class='definition'>Incidents</span>
         </li>
         <li>
-          <span class='color incidents'></span>
-          <span class='definition'>Incidents</span>
+          <span class='casualties'><i class='fa fa-users'></i></span>
+          <span class='definition'>Casualties</span>
         </li>
       </ul>
     </div>
     <div class='statistics'>
-      <ul>
-        <li class='casualties'>
-          <span class='color casualties'></span>
-          <span class='definition'>650</span>
-        </li>
-        <li class='incidents'>
-          <span class='color incidents'></span>
-          <span class='definition'>1050</span>
-        </li>
-      </ul>
+      <div class='stats-detail'>
+        <ul>
+          <li class='incidents'>
+            <span class='incidents'><i class='fa fa-globe'></i></span>
+            <span class='definition'>1050</span>
+          </li>
+          <li class='casualties'>
+            <span class='casualties'><i class='fa fa-users'></i></span>
+            <span class='definition'>650</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class='stats-casualties'>
+      <div class='stats-detail'>
+        <ul>
+          <li class='casualties'>
+            <span class='casualties'><i class='fa fa-users'></i></span>
+            <span class='definition'>650</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class='stats-incidents'>
+      <div class='stats-detail'>
+        <ul>
+          <li class='incidents'>
+            <span class='incidents'><i class='fa fa-globe'></i></span>
+            <span class='definition'>1050</span>
+          </li>
+        </ul>
+      </div>
     </div>
     <div class='map-container fixed'></div>
 
@@ -62,6 +84,7 @@
 
     <script src="https://use.fontawesome.com/2259f3774b.js"></script>
     <script src='libraries.js'></script>
+    <script src='env_vars.js'></script>
     <script src='sod.js'></script>
   </body>
 </html>
