@@ -55,7 +55,7 @@ class Transitions
 
   displayStatisticsBox = (dateClasses, dataSet) ->
     left = $(".xaxis .time-#{dateClasses[0]}").parent().position().left
-    $('.statistics').css('left', "#{left}px")
+    $('.statistics').css('left', "#{left - 23}px")
 
     bottomPos = parseInt($(".xaxis .time-#{dateClasses[0]}").parents('.timeaxis').css('height').replace('px', ''))
     $('.statistics').css('bottom',  (bottomPos + 25) + 'px')
