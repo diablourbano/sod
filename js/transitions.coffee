@@ -70,7 +70,7 @@ class Transitions
 
     dotClasses.push('dot', 'casualties') if !_.includes(dotClasses, 'dot')
 
-    xPosition = parseInt($(".time-#{dotClasses.join('.')}").attr('cx')) + 15
+    xPosition = $(".xaxis .time-#{dotClasses[0]}").parent().position().left
     dotElements = {
       firstClasses: _.join(dotClasses, '.')
       secondClasses: _.join(dotClasses, '.')
@@ -89,7 +89,7 @@ class Transitions
       stat = dotElements["#{position}Stat"]
 
       $(".stats-#{stat}").css('top', "#{yPosition}px")
-      $(".stats-#{stat}").css('left',  "#{xPosition}px")
+      $(".stats-#{stat}").css('left',  "#{xPosition - 27}px")
       $(".stats-#{stat}").addClass('visible')
       $(".stats-#{stat} ul li.#{stat} span.definition").text(dataSet[stat])
 
