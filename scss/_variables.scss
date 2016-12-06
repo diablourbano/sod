@@ -2,11 +2,8 @@ $water: #fefefe;
 $dates-container: rgba(255, 255, 255, 0.7);
 $statistics-container: rgb(150, 150, 150);
 
-$countries: #EBE9E9;
+$countries: #ebe9e9;
 $highlight-countries: red;
-$years-countries: #BFBEBE;
-$months-countries: #7F7F7E;
-$days-countries: #403F3F;
 
 $date-headline: rgb(150, 150, 150);
 $date-headline-hover: rgb(80, 80, 80);
@@ -14,7 +11,7 @@ $date-headline-hover: rgb(80, 80, 80);
 $thin-separator: #a9a9a9;
 $thin-separator-light: #cacaca;
 $xaxis-fill: #cdcdcd;
-$yaxis-fill: #BFBEBE;
+$yaxis-fill: #bfbebe;
 
 $dashline: rgba(165, 165, 165, 0.8);
 $axis-dashline: rgba(165, 165, 165, 0.6);
@@ -28,8 +25,12 @@ $fix-unhighlight: rgb(230, 230, 230);
 
 $timeline-scroll-dot: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAFCAYAAAB8ZH1oAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4AYJBzAFgrvf8QAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAASElEQVQI122MMQ7AIAzEXEQ/2jkDLDyic+Z8tEuXgEKEl8iRdZeI3MALPIABQ1U/EtWj5j5vz2HxpUj2FVr62SmswAhLFnzjB3IqC9UOpJWAAAAAAElFTkSuQmCC";
 
-$legend: #9C989A;
-$statistics-legend: $months-countries;
+$legend: #9c989a;
+$statistics-legend: #7f7f7e;
+
+$years-highlights: $yaxis-fill;
+$months-highlights: #ffb14a;
+$days-highlights: #e5404c;
 
 @mixin border-radius($radius) {
   border-radius: $radius;

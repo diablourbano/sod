@@ -150,30 +150,30 @@ a, h1, h2, h3, p {
         fill: $countries;
 
         &.highlight {
-          fill: $years-countries;
+          fill: $years-highlights;
         }
 
         &.years {
-          fill: $years-countries;
+          fill: $years-highlights;
 
           &.highlight {
-            fill: $months-countries;
+            fill: $months-highlights;
           }
         }
 
         &.months {
-          fill: $months-countries;
+          fill: $months-highlights;
 
           &.highlight {
-            fill: $days-countries;
+            fill: $days-highlights;
           }
         }
 
         &.days {
-          fill: $days-countries;
+          fill: $days-highlights;
 
           &.highlight {
-            fill: $days-countries;
+            fill: $days-highlights;
           }
         }
       }
@@ -279,7 +279,6 @@ a, h1, h2, h3, p {
     border-top: solid 1px $thin-separator;
     color: $date-headline-hover;
     padding: 0.8em 1em 0;
-    // min-height: 50px;
     height: auto;
     width: 100%;
 
@@ -289,10 +288,6 @@ a, h1, h2, h3, p {
       margin-bottom: 10px;
       overflow-x: auto;
       width: 98%;
-    }
-
-    .years {
-
     }
 
     .months, .days {
@@ -326,6 +321,27 @@ a, h1, h2, h3, p {
             fill: $fix-unhighlight;
           }
         }
+      }
+    }
+
+    .years .xaxis .tick text {
+      &.highlight,
+      &.fix-highlight {
+        fill: $years-highlights;
+      }
+    }
+
+    .months .xaxis .tick text {
+      &.highlight,
+      &.fix-highlight {
+        fill: $months-highlights;
+      }
+    }
+
+    .days .xaxis .tick text {
+      &.highlight,
+      &.fix-highlight {
+        fill: $days-highlights;
       }
     }
   }
