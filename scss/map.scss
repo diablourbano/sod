@@ -318,6 +318,7 @@ a, h1, h2, h3, p {
           }
 
           &.fix-unhighlight {
+            cursor: default;
             fill: $fix-unhighlight;
           }
         }

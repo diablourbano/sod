@@ -36,7 +36,10 @@ class Axis
        .attr('class', 'x axis')
        .attr('transform', 'translate(' + axisProperties.x0 + ', 0)')
        .on('click', ->
-                        dateClass = d3.event.target.classList[0].replace('time-', '')
+                        clickedDateClasses = d3.event.target.classList
+                        return if _.includes(clickedDateClasses, 'fix-unhighlight')
+
+                        dateClass = clickedDateClasses[0].replace('time-', '')
                         eventsManager.shouldFixDate(dateClass, axisProperties.axisClass))
        .on('mouseover', ->
                         if isDateSelectedEvent(axisProperties.axisClass, eventsManager.getDateState())
