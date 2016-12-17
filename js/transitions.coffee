@@ -70,7 +70,12 @@ class Transitions
 
     dotClasses.push('dot', 'casualties') if !_.includes(dotClasses, 'dot')
 
-    xPosition = $(".xaxis .time-#{dotClasses[0]}").parent().position().left
+    scrollElement = $(".timeaxis.#{currentDateState} .ps-scrollbar-x-rail").attr('style')
+    deltaScroll = parseInt(scrollElement.split('; ')[0].split(': ')[1].replace('px', '')) if scrollElement
+
+    xPosition = parseInt($(".time-#{dotClasses.join('.')}").attr('cx')) + 15 - deltaScroll
+    xPosition = 0 if isNaN(xPosition)
+
     dotElements = {
       firstClasses: _.join(dotClasses, '.')
       secondClasses: _.join(dotClasses, '.')
@@ -85,6 +90,10 @@ class Transitions
     dotElements.secondClasses = _.replace(dotElements.firstClasses, dotElements.firstStat, dotElements.secondStat)
 
     for position in ['first', 'second']
+      dotPositionClasses = $(".time-#{dotElements["#{position}Classes"]}")
+
+      return if dotPositionClasses.length == 0
+
       yPosition = $(".time-#{dotElements["#{position}Classes"]}").position().top - 60
       stat = dotElements["#{position}Stat"]
 
