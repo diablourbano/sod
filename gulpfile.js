@@ -19,6 +19,8 @@ gulp.task('coffee', function() {
 
 gulp.task('merge-js', ['coffee'], function() {
   filesOrder = [
+    './tmp/es.js',
+    './tmp/fr.js',
     './tmp/utils.js',
     './tmp/url-manager.js',
     './tmp/events-manager.js',

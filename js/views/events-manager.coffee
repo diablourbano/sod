@@ -1,6 +1,7 @@
 'use strict'
 
 class EventsManager
+  dayEndingsFormat = /(st|nd|rd|th|er|ème)/
   listeners = []
   dateState = 'years'
   dateStates = ['years', 'months', 'days']
@@ -59,20 +60,12 @@ class EventsManager
     setSelectedDate('days', '01')
 
   dateClassWithouthDecoration = (dateClass) ->
-    dateClass = dateClass.replace(/(st|nd|rd|th)/, '') if dateClass.match(/(st|nd|rd|th)/) != null
+    dateClass = dateClass.replace(dayEndingsFormat, '') if dateClass.match(dayEndingsFormat) != null
     dateClass
 
   dateClassWithDecoration = (dateClass) ->
     date = parseInt(dateClass)
-
-    if date == 1 and date != 11
-      "#{date}st"
-    else if date == 2 and date != 12
-      "#{date}nd"
-    else if date == 3 and date != 13
-      "#{date}rd"
-    else
-      "#{date}th"
+    return moment.localeData().ordinal(date)
 
   datesUrl = (dateFragments) ->
     dates = []

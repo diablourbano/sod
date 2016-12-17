@@ -21,6 +21,7 @@ class Utils
     formatAxis = 'Y' if dateState == 'years'
     formatAxis = 'MMMM' if dateState == 'months'
     formatAxis = 'Do' if dateState == 'days'
+    moment.locale('es')
     moment(date).format(formatAxis)
 
   printLog: (logToPrint) ->
