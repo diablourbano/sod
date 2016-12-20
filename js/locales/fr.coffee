@@ -1,5 +1,5 @@
 moment.locale('fr', {
-  months: "janvier_février_mars_avril_mai_juin_juillet_août_septembre_octobre_novembre_décembre".split("_"),
+  months: "Janvier_Février_Mars_Avril_Mai_Juin_Juillet_Août_Septembre_Octobre_Novembre_Décembre".split("_"),
   monthsShort: "janv._févr._mars_avr._mai_juin_juil._août_sept._oct._nov._déc.".split("_"),
   weekdays: "dimanche_lundi_mardi_mercredi_jeudi_vendredi_samedi".split("_"),
   weekdaysShort: "dim._lun._mar._mer._jeu._ven._sam.".split("_"),
@@ -55,3 +55,12 @@ moment.locale('fr', {
     doy: 4
   }
 });
+
+sod_locale['fr'] = {
+  incidents: {
+    label: 'Incidentes'
+  },
+  casualties: {
+    label: 'Victimes'
+  }
+}

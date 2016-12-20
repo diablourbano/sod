@@ -15,6 +15,13 @@ class EventsManager
 
   timelineObject = (object, datesToGet) ->
     dateToGet = datesToGet.shift()
+
+    month = utils.monthIndex(dateToGet)
+    dateToGet = month if month > 0
+
+    if dateToGet.length > 0 and (isDay = dateToGet.match(/^\d{1,2}\D{2,3}$/)) != null
+      dateToGet = parseInt(dateToGet.replace(/\D{2,3}$/, ''))
+
     if object[dateToGet] != undefined
       if datesToGet.length == 0
         return object[dateToGet]
@@ -34,7 +41,7 @@ class EventsManager
     dateClass = '0' + dateClass if dateClass and dateClass.length == 1
     selectedDate[aDateState] = dateClass
 
-  setDateTextFragments = (dateClass, dateValue) ->
+  setDateTextFragments = (dateClass) ->
     dateClass = dateClass.trim()
     dateText = $('.graph-slot p.selected-date span').text().trim()
     
@@ -42,11 +49,11 @@ class EventsManager
       dateTextFragments = dateText.split(' ')
 
     if dateClass.match(/^\d{4}$/) != null
-      dateTextFragments[0] = dateValue
+      dateTextFragments[0] = dateClass
     else if dateClass.match(/^\D+$/) != null
-      dateTextFragments[1] = dateValue
-    else if dateClass.match(/^\d{1,2}\D{2}$/) != null
-      dateTextFragments[2] = dateValue
+      dateTextFragments[1] = dateClass
+    else if dateClass.match(/^\d{1,2}\D{2,3}$/) != null
+      dateTextFragments[2] = dateClass
 
   setNextDateState = (axisClass) ->
     return if dateState == 'days'
@@ -60,7 +67,7 @@ class EventsManager
     setSelectedDate('days', '01')
 
   dateClassWithouthDecoration = (dateClass) ->
-    dateClass = dateClass.replace(dayEndingsFormat, '') if dateClass.match(dayEndingsFormat) != null
+    dateClass = dateClass.replace(dayEndingsFormat, '') if dateClass.match(dayEndingsFormat) != null and dateState == 'days'
     dateClass
 
   dateClassWithDecoration = (dateClass) ->
@@ -77,7 +84,7 @@ class EventsManager
         month = dateFragments[1]
 
         if month
-          month = (moment().month(month.toLowerCase()).month() + 1).toString()
+          month = utils.monthIndex(month).toString()
           month = "0#{month}" if month.length == 1
           dates.push(month)
 
@@ -88,10 +95,12 @@ class EventsManager
       false
 
     else if dateFragments.length == 1
-      timelineObjects[dateFragments[0]]['January'] != undefined
+      # to avoid confusion, in this scenario [1] is the key, so it's january
+      timelineObjects[dateFragments[0]][1] != undefined
 
     else if dateFragments.length == 2
-      timelineObjects[dateFragments[0]][dateFragments[1]]['1st'] != undefined
+      month = utils.monthIndex(dateFragments[1])
+      timelineObjects[dateFragments[0]][month]['1st'] != undefined
 
     else
       true
@@ -151,7 +160,7 @@ class EventsManager
 
       return if !dataSet
 
-      setDateTextFragments(dateClass, dateClass)
+      setDateTextFragments(dateClass)
 
       (listener.unhighlight(dateClass, dataSet)
       listener.fixHighlight(axisClass, dataSet)) for listener in listeners
@@ -176,6 +185,15 @@ class EventsManager
 
   shouldRedraw: ->
     listener.redraw() for listener in listeners
+
+  shouldTranslate: (previousLocale) ->
+    parsedDate = moment(_.values(selectedDate).join('-'), 'YYYY-MMMM-DD', previousLocale)
+    month = moment.months()[parsedDate.month()]
+
+    setDateTextFragments(month)
+    setSelectedDate('months', month)
+
+    listener.translate() for listener in listeners
 
   shouldUnhighlightBasedOnCountry: (countryClasses) ->
     country = countryClasses[1]
@@ -235,15 +253,22 @@ class EventsManager
             @shouldFixDate(dateToLoad[dateState], dateState, dateToLoad, false) if dateToLoad[dateState]
 
       else
-        d3.json "#{cors_origin}/#{datesUrl(dateFragments).join('/')}", (error, data) =>
+        datesUrlFragments = datesUrl(dateFragments)
+        d3.json "#{cors_origin}/#{datesUrlFragments.join('/')}", (error, data) =>
           return printError(error) if error
 
           data.forEach( (d) ->
             d.date = parseDate(d.date)
             dateKey = utils.getFormattedDate(d.date, dateState)
             timelineObjects[dateKey] = d if dateState == 'years'
-            timelineObjects[dateTextFragments[0]][dateKey] = d if dateState == 'months'
-            timelineObjects[dateTextFragments[0]][dateTextFragments[1]][dateKey] = d if dateState == 'days'
+
+            if dateState == 'months'
+              month = utils.monthIndex(dateKey)
+              timelineObjects[datesUrlFragments[0]][month] = d
+
+            if dateState == 'days'
+              month = utils.monthIndex(dateTextFragments[1])
+              timelineObjects[datesUrlFragments[0]][month][dateClassWithouthDecoration(dateKey)] = d if dateState == 'days'
           )
 
           callback()

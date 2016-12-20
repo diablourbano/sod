@@ -20,6 +20,8 @@ class MainController
   timelineProperties = { width: 3000, height: utils.timelineHeight, x0: 60 }
   timeline = new Timeline(years, timelineProperties, eventsManager)
 
+  localUI = new LocaleUI('en', eventsManager)
+
   constructor: ->
     eventsManager.addListener(map)
     eventsManager.addListener(years)
@@ -32,7 +34,6 @@ class MainController
     map.draw( ->
       eventsManager.shouldRender()
     )
-
 
 mainController = new MainController
 mainController.draw()

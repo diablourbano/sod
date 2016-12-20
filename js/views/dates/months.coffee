@@ -63,3 +63,6 @@ class Months
 
   redraw: ->
     utils.printLog('{"listener.redraw()": "months function not implemented"}')
+
+  translate: ->
+    axis.translateAxis('months')

@@ -153,6 +153,13 @@ class Transitions
   redraw: ->
     utils.printLog('{"listener.redraw()": "transitions function not implemented"}')
 
+  translate: ->
+    localeToUse = moment.locale()
+
+    $('.graph-slot p.selected-date span').text(eventsManager.getDateTextFragments().join(' '))
+    $('.legend .for-incidents').text(sod_locale[localeToUse].incidents.label)
+    $('.legend .for-casualties').text(sod_locale[localeToUse].casualties.label)
+
   $('.graph-slot .toggle-timeline').click( ->
     $(@).children('p').children('i').toggleClass('fa-chevron-down')
     $(@).children('p').children('i').toggleClass('fa-chevron-up')

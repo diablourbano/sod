@@ -79,3 +79,6 @@ class Timeline
 
   redraw: ->
     utils.printLog('{"listener.redraw()": "timeline function not implemented"}')
+
+  translate: ->
+    utils.printLog('{"listener.translate()": "timeline function not implemented"}')

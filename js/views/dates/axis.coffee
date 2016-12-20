@@ -2,17 +2,21 @@
 
 class Axis
   utils = new Utils
+  svg = null
 
   isDateSelectedEvent = (dateClass, dateState) ->
     dateClass  == dateState
 
   setSvg: (axisProperties) ->
-    d3.select('body .dates-container .xaxis-container .' + axisProperties.axisClass)
-      .append('svg')
-      .attr('class', 'xaxis')
-      .attr('width', axisProperties.width)
-      .attr('height', axisProperties.height)
-      .append('g')
+    svg = d3.select('body .dates-container .xaxis-container .' + axisProperties.axisClass)
+            .append('svg')
+            .attr('class', 'xaxis')
+            .attr('width', axisProperties.width)
+            .attr('height', axisProperties.height)
+            .append('g')
+
+  getSvg: ->
+    svg
 
   setScale: (axisProperties) ->
     d3.time.scale().range([0, axisProperties.width - 100])
@@ -37,7 +41,17 @@ class Axis
        .attr('transform', 'translate(' + axisProperties.x0 + ', 0)')
        .on('click', ->
                         clickedDateClasses = d3.event.target.classList
-                        return if _.includes(clickedDateClasses, 'fix-unhighlight')
+
+                        isDaysClicked = d3.event.target
+                                          .parentElement
+                                          .parentElement
+                                          .parentElement
+                                          .parentElement
+                                          .parentElement
+                                          .classList
+                                          .value
+
+                        return if _.includes(clickedDateClasses, 'fix-unhighlight') or _.includes(isDaysClicked, 'days')
 
                         dateClass = clickedDateClasses[0].replace('time-', '')
                         eventsManager.shouldFixDate(dateClass, axisProperties.axisClass))
@@ -83,3 +97,12 @@ class Axis
       svg.select('.tick text.time-' + dateClassFragment)
          .classed('fix-unhighlight', false)
          .classed('fix-highlight', true)
+
+  translateAxis: (timeClass) ->
+    labels = d3.selectAll(".xaxis-container .timeaxis.#{timeClass} .x.axis .tick text")[0]
+
+    d3.select(textLabel)
+      .attr('class', (tl) ->
+                      timeContent = utils.getFormattedDate(tl, timeClass)
+                      @textContent = timeContent
+                      @classList.value.replace(/time-\w*/g, "time-#{timeContent}")) for textLabel in labels

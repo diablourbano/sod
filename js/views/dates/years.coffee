@@ -59,3 +59,6 @@ class Years
 
   redraw: ->
     utils.printLog('{"listener.redraw()": "years function not implemented"}')
+
+  translate: ->
+    utils.printLog('{"listener.translate()": "years function not implemented"}')

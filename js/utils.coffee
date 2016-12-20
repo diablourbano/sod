@@ -17,11 +17,13 @@ class Utils
       'height:' + aHeight
     ].join(';')
 
+  monthIndex: (month) ->
+    moment.months().indexOf(month) + 1
+
   getFormattedDate: (date, dateState) ->
     formatAxis = 'Y' if dateState == 'years'
     formatAxis = 'MMMM' if dateState == 'months'
     formatAxis = 'Do' if dateState == 'days'
-    moment.locale('es')
     moment(date).format(formatAxis)
 
   printLog: (logToPrint) ->
