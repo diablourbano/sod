@@ -26,6 +26,12 @@ class Dots
                  .orient('left')
                  .tickSize(2)
                  .ticks(5)
+                 .tickFormat((d) ->
+                    switch
+                      when d > 99 then (d / 1000).toString().replace(/^0\./, '.') + 'K'
+                      when d > 99000 then (d / 1000000).toString().replace(/^0\./, '.') + 'M'
+                      else d
+                 )
 
   drawLineFor = (lineChart, dotType, yAxis) ->
     timeline.getSvg().append('path')
