@@ -194,6 +194,64 @@ body {
 a, h1, h2, h3, p {
   font-family: 'Lato', sans-serif; }
 
+.language {
+  color: #9c989a;
+  left: 60px;
+  position: absolute;
+  top: 30px; }
+  .language .selected {
+    cursor: pointer;
+    font-size: 22px; }
+  .language .lang-options {
+    display: none;
+    list-style: none;
+    padding: 0 0 0 30px;
+    width: 80px;
+    position: relative;
+    background: #fefefe;
+    border: solid 1px #969696;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+    padding: 3px 0;
+    border-radius: 15px;
+    border-radius: 15px;
+    -webkit-border-radius: 15px;
+    -khtml-border-radius: 15px; }
+    .language .lang-options.visible {
+      display: block; }
+    .language .lang-options li {
+      border-bottom: solid 1px #9c989a;
+      height: 35px;
+      margin: 10px 0 10px 27px;
+      width: 31px; }
+      .language .lang-options li a {
+        cursor: pointer;
+        font-size: 20px; }
+        .language .lang-options li a:hover {
+          font-size: 24px; }
+    .language .lang-options:after, .language .lang-options:before {
+      top: -25px;
+      left: 64%;
+      border: solid 1px transparent;
+      content: " ";
+      height: 0;
+      width: 0;
+      position: absolute;
+      pointer-events: none;
+      transform: rotate(180deg); }
+    .language .lang-options:after {
+      border-color: rgba(136, 183, 213, 0);
+      border-top-color: #fefefe;
+      border-width: 9px;
+      margin-left: -23px;
+      top: -18px; }
+    .language .lang-options:before {
+      border-color: rgba(194, 225, 245, 0);
+      border-top-color: #969696;
+      border-width: 11px;
+      margin-left: -24px;
+      top: -22px; }
+
 .legend {
   position: absolute;
   top: 15px;
@@ -203,7 +261,7 @@ a, h1, h2, h3, p {
     .legend ul li {
       margin-bottom: 7px; }
       .legend ul li span {
-        color: #9C989A;
+        color: #9c989a;
         font-size: 1.5em; }
       .legend ul li .definition {
         margin-left: 10px;
@@ -255,7 +313,7 @@ a, h1, h2, h3, p {
       .statistics .stats-detail ul li, .stats-incidents .stats-detail ul li, .stats-casualties .stats-detail ul li {
         padding: 7px 0; }
         .statistics .stats-detail ul li span, .stats-incidents .stats-detail ul li span, .stats-casualties .stats-detail ul li span {
-          color: #7F7F7E; }
+          color: #7f7f7e; }
         .statistics .stats-detail ul li .definition, .stats-incidents .stats-detail ul li .definition, .stats-casualties .stats-detail ul li .definition {
           font-size: 1em;
           margin-left: 10px; }
@@ -278,21 +336,21 @@ a, h1, h2, h3, p {
       top: 10px;
       left: 0; }
       .map-container .world-map-container .world-map .country {
-        fill: #EBE9E9; }
+        fill: #ebe9e9; }
         .map-container .world-map-container .world-map .country.highlight {
-          fill: #BFBEBE; }
+          fill: #bfbebe; }
         .map-container .world-map-container .world-map .country.years {
-          fill: #BFBEBE; }
+          fill: #bfbebe; }
           .map-container .world-map-container .world-map .country.years.highlight {
-            fill: #7F7F7E; }
+            fill: #ffb14a; }
         .map-container .world-map-container .world-map .country.months {
-          fill: #7F7F7E; }
+          fill: #ffb14a; }
           .map-container .world-map-container .world-map .country.months.highlight {
-            fill: #403F3F; }
+            fill: #e5404c; }
         .map-container .world-map-container .world-map .country.days {
-          fill: #403F3F; }
+          fill: #e5404c; }
           .map-container .world-map-container .world-map .country.days.highlight {
-            fill: #403F3F; }
+            fill: #e5404c; }
 
 .graph-slot {
   height: 35px;
@@ -388,7 +446,16 @@ a, h1, h2, h3, p {
       .dates-container .xaxis-container .xaxis .tick text.fix-highlight {
         fill: #3c3c3c; }
       .dates-container .xaxis-container .xaxis .tick text.fix-unhighlight {
+        cursor: default;
         fill: #e6e6e6; }
+    .dates-container .xaxis-container .years .xaxis .tick text.highlight, .dates-container .xaxis-container .years .xaxis .tick text.fix-highlight {
+      fill: #bfbebe; }
+    .dates-container .xaxis-container .months .xaxis .tick text.highlight, .dates-container .xaxis-container .months .xaxis .tick text.fix-highlight {
+      fill: #ffb14a; }
+    .dates-container .xaxis-container .days .xaxis .tick text {
+      cursor: default; }
+      .dates-container .xaxis-container .days .xaxis .tick text.highlight, .dates-container .xaxis-container .days .xaxis .tick text.fix-highlight {
+        fill: #e5404c; }
   .dates-container .timeline-container {
     display: none;
     height: 230px;
@@ -402,7 +469,7 @@ a, h1, h2, h3, p {
     .dates-container .timeline-container .timeline .axis.x .domain {
       fill: #cdcdcd; }
     .dates-container .timeline-container .timeline .yaxis {
-      fill: #BFBEBE;
+      fill: #bfbebe;
       stroke: none; }
       .dates-container .timeline-container .timeline .yaxis .tick text {
         fill: #969696; }
