@@ -54,8 +54,8 @@ class Transitions
     $('.timeline-container').off('ps-scroll-x')
 
   displayStatisticsBox = (dateClasses, dataSet) ->
-    left = $(".xaxis .time-#{dateClasses[0]}").parent().position().left
-    $('.statistics').css('left', "#{left - 23}px")
+    left = $(".xaxis .time-#{dateClasses[0]}").parent().position().left - 35
+    $('.statistics').css('left', "#{left}px")
 
     bottomPos = parseInt($(".xaxis .time-#{dateClasses[0]}").parents('.timeaxis').css('height').replace('px', ''))
     $('.statistics').css('bottom',  (bottomPos + 25) + 'px')
@@ -73,7 +73,7 @@ class Transitions
     scrollElement = $(".timeaxis.#{currentDateState} .ps-scrollbar-x-rail").attr('style')
     deltaScroll = parseInt(scrollElement.split('; ')[0].split(': ')[1].replace('px', '')) if scrollElement
 
-    xPosition = parseInt($(".time-#{dotClasses.join('.')}").attr('cx')) + 15 - deltaScroll
+    xPosition = parseInt($(".time-#{dotClasses.join('.')}").attr('cx')) + 10 - deltaScroll
     xPosition = 0 if isNaN(xPosition)
 
     dotElements = {
