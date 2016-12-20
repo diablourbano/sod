@@ -128,6 +128,11 @@ gulp.task('libraries:dist', function() {
       .pipe(gulp.dest(('./dist')));
 });
 
+gulp.task('fonts:dist', function() {
+  gulp.src('./build/fonts/**/**.*')
+      .pipe(gulp.dest(('./dist/fonts')));
+});
+
 gulp.task('js:dist', function() {
   gulp.src('./build/sod.js')
       .pipe(uglify())
