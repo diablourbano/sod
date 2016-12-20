@@ -10,17 +10,30 @@
 
     <link href='https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
     <link rel='stylesheet' href='map.css' type='text/css'>
+    <link rel='stylesheet' href='iconmoon.css' type='text/css'>
   </head>
   <body>
+    <div class='language'>
+      <a class='selected'>
+        <span><i class='icon-sphere'></i></span>
+        <span class='lang-to-use'>en</span>
+      </a>
+
+      <ul class='lang-options'>
+        <li><a class='lang'>es</a></li>
+        <li><a class='lang'>fr</a></li>
+      </ul>
+    </div>
+
     <div class='legend'>
       <ul>
         <li>
-          <span class='incidents'><i class='fa fa-globe'></i></span>
-          <span class='definition'>Incidents</span>
+          <span class='incidents'><i class='icon-earth'></i></span>
+          <span class='definition for-incidents'>Incidents</span>
         </li>
         <li>
-          <span class='casualties'><i class='fa fa-users'></i></span>
-          <span class='definition'>Casualties</span>
+          <span class='casualties'><i class='icon-group'></i></span>
+          <span class='definition for-casualties'>Casualties</span>
         </li>
       </ul>
     </div>
@@ -28,11 +41,11 @@
       <div class='stats-detail'>
         <ul>
           <li class='incidents'>
-            <span class='incidents'><i class='fa fa-globe'></i></span>
+            <span class='incidents'><i class='icon-earth'></i></span>
             <span class='definition'>1050</span>
           </li>
           <li class='casualties'>
-            <span class='casualties'><i class='fa fa-users'></i></span>
+            <span class='casualties'><i class='icon-group'></i></span>
             <span class='definition'>650</span>
           </li>
         </ul>
@@ -42,7 +55,7 @@
       <div class='stats-detail'>
         <ul>
           <li class='casualties'>
-            <span class='casualties'><i class='fa fa-users'></i></span>
+            <span class='casualties'><i class='icon-group'></i></span>
             <span class='definition'>650</span>
           </li>
         </ul>
@@ -52,7 +65,7 @@
       <div class='stats-detail'>
         <ul>
           <li class='incidents'>
-            <span class='incidents'><i class='fa fa-globe'></i></span>
+            <span class='incidents'><i class='icon-earth'></i></span>
             <span class='definition'>1050</span>
           </li>
         </ul>
@@ -62,15 +75,17 @@
 
     <div class='pure-g graph-slot'>
       <p class='selected-date'>
-        <a class='breadcrumb-back'><i class='fa fa-angle-double-left'></i></a>
+        <a class='breadcrumb-back'><i class='icon-angle-double-left'></i></a>
         <span></span>
       </p>
       <div class='tab slot'>
-        <p><i class="fa fa-bar-chart" aria-hidden="true"></i></p>
+        <p><i class="icon-stats-dots" aria-hidden="true"></i></p>
       </div>
-      <div class='tab toggle-timeline'>
-        <p><i class="fa fa-chevron-down" aria-hidden="true"></i></p>
-      </div>
+      <!--
+        <div class='tab toggle-timeline'>
+          <p><i class="fa fa-chevron-down" aria-hidden="true"></i></p>
+        </div>
+      -->
     </div>
     <div class='pure-g dates-container'>
       <div class='pure-u-1 timeline-container'>
@@ -82,7 +97,6 @@
       </div>
     </div>
 
-    <script src="https://use.fontawesome.com/2259f3774b.js"></script>
     <script src='libraries.js'></script>
     <script src='env_vars.js'></script>
     <script src='sod.js'></script>
