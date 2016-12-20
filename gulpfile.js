@@ -108,7 +108,7 @@ gulp.task('index:dist', function() {
 });
 
 gulp.task('css:dist', function() {
-  gulp.src('./build/map.css')
+  gulp.src('./build/**.css')
       .pipe(gulp.dest(('./dist')));
 });
 
