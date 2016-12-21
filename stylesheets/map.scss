@@ -51,7 +51,7 @@ a, h1, h2, h3, p {
   top: 15px;
 
   ul {
-    color: $legend;
+    color: $blue;
     list-style: none;
 
     li {
@@ -77,6 +77,14 @@ a, h1, h2, h3, p {
 
   &.visible {
     display: block;
+  }
+
+  div {
+    display: none;
+
+    &.visible {
+      display: block;
+    }
   }
 
   .loading {
@@ -115,6 +123,41 @@ a, h1, h2, h3, p {
           animation-delay: 3s;
           color: $days-highlights;
         }
+      }
+    }
+  }
+
+  .box {
+    -webkit-box-shadow: 0px 4px 6px 0px rgba(0,0,0,0.1);
+    -moz-box-shadow: 0px 4px 6px 0px rgba(0,0,0,0.1);
+    background: $white;
+    box-shadow: 0px 4px 6px 0px rgba(0,0,0,0.1);
+    margin: 10% auto 0;
+    padding: 30px 50px;
+    min-height: 400px;
+    width: 30%;
+
+    .close {
+      color: $months-highlights;
+      cursor: pointer;
+      font-size: 30px;
+      position: absolute;
+      transform: translateX(-53px) translateY(-35px);
+    }
+
+    p {
+      color: $legend;
+      font-size: 24px;
+      line-height: 46px;
+
+      &.footnote,
+      &.related {
+        font-size: 18px;
+        line-height: 26px;
+      }
+
+      a {
+        color: $months-highlights;
       }
     }
   }
@@ -365,49 +408,36 @@ a, h1, h2, h3, p {
 
     a.breadcrumb-back {
       cursor: pointer;
-      color: $date-headline;
-
-      &:hover {
-        color: $date-headline-hover;
-      }
+      color: $blue;
     }
 
     span {
       color: $thin-separator;
     }
-
-    &:hover {
-      a.breadcrumb-back {
-        color: $date-headline-hover;
-      }
-    }
   }
 
   .tab {
-    width: auto;
+    width: 30px;
+    height: 30px;
 
     p {
       cursor: pointer;
       width: 60px;
-      text-align: center;
-      margin-top: 5px;
+      margin-top: 6px;
+      margin-left: 8px;
 
       i {
-        font-size: 1.5em;
+        font-size: 1em;
       }
     }
 
     &.slot {
-      background: $date-headline;
+      background: $blue;
       margin: 0 auto;
-      @include semicircle-radius(10px);
+      @include border-radius(40px);
 
       p {
         color: $water;
-
-        &:hover {
-          color: $date-headline-hover;
-        }
       }
     }
 
@@ -489,7 +519,7 @@ a, h1, h2, h3, p {
     .years .xaxis .tick text {
       &.highlight,
       &.fix-highlight {
-        fill: $years-highlights;
+        fill: $legend;
       }
     }
 

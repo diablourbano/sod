@@ -65,5 +65,23 @@ sod_locale['fr'] = {
   },
   loading: {
     label: 'chargement'
+  },
+  menu: {
+    info: 'info'
+  },
+  info: {
+    headline: "Ce n'est pas seulement le groupe de personnes ou la ville 
+          ou le bloc qui ont été attaqués qui souffrent, cela laisse une 
+          cicatrice parmi tous et si nous ne faisons pas attention à ces 
+          petits endroits où les médias ne rapportent pas, alors ces 
+          sentiments vont commencer à se répandre Plus vite que les 
+          médias peuvent attraper et il sera pire.",
+    related: "Il s'agit d'une chronologie liée aux attentats terroristes 
+          depuis 1970. Les données utilisées pour afficher l'information 
+          proviennent du projet 
+          <a href='https://www.start.umd.edu'>START's</a> 
+          <a href='https://www.start.umd.edu/gtd/'>Global Database Terrorism</a>",
+    footnote: "Si vous voulez signaler un bogue ou suggérer une idée, ou un RP, 
+          <a href='https://github.com/diablourbano/sod'>c'est le repo</a>."
   }
 }

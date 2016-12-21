@@ -102,6 +102,18 @@ class Transitions
       $(".stats-#{stat}").addClass('visible')
       $(".stats-#{stat} ul li.#{stat} span.definition").text(dataSet[stat])
 
+  loadBlurWindow = ->
+    $('.main-container').addClass('loading')
+    $('.overlay').addClass('visible')
+
+  unloadBlurWindow = ->
+    $('.main-container').removeClass('loading')
+    $('.overlay').removeClass('visible')
+
+  hideMenuBox = ->
+    if $('.overlay .box').hasClass('visible')
+      unloadBlurWindow()
+      $('.overlay .box').removeClass('visible')
 
   constructor: (anEventsManager) ->
     eventsManager = anEventsManager
@@ -154,12 +166,12 @@ class Transitions
     utils.printLog('{"listener.redraw()": "transitions function not implemented"}')
 
   isLoading: ->
-    $('.main-container').addClass('loading')
-    $('.overlay').addClass('visible')
+    loadBlurWindow()
+    $('.overlay .loading').addClass('visible')
 
   endLoading: ->
-    $('.main-container').removeClass('loading')
-    $('.overlay').removeClass('visible')
+    unloadBlurWindow()
+    $('.overlay .loading').removeClass('visible')
 
   translate: ->
     localeToUse = moment.locale()
@@ -169,6 +181,8 @@ class Transitions
     $('.legend .for-casualties').text(sod_locale[localeToUse].casualties.label)
 
     $('.overlay .loading .label').text(sod_locale[localeToUse].loading.label)
+
+    $(".menu .info .label").text(sod_locale[localeToUse].menu.info)
 
   $('.graph-slot .toggle-timeline').click( ->
     $(@).children('p').children('i').toggleClass('fa-chevron-down')
@@ -210,6 +224,28 @@ class Transitions
       $('.timeline-container').addClass('collapsed')
       $('.timeline-container').slideDown({ duration: 'slow', progress: (animation, progress, remainingMs) ->
                                                                           adjustTabBasedOnTimeline() })
+  )
+
+  $('.menu .info').on('click', ->
+    loadBlurWindow()
+
+    localeToUse = moment.locale()
+    $overlayBox = $('.overlay .box')
+
+    $overlayBox.find('.headline').html(sod_locale[localeToUse].info.headline)
+    $overlayBox.find('.related').html(sod_locale[localeToUse].info.related)
+    $overlayBox.find('.footnote').html(sod_locale[localeToUse].info.footnote)
+
+    $overlayBox.addClass('visible')
+  )
+
+  $(document).keyup((e) ->
+     if e.keyCode == 27
+       hideMenuBox()
+  )
+
+  $('.overlay .box .close').on('click', ->
+    hideMenuBox()
   )
 
   $(window).resize( ->
