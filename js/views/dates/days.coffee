@@ -61,3 +61,9 @@ class Days
 
   translate: ->
     axis.translateAxis('days')
+
+  isLoading: ->
+    utils.printLog('{"listener.isLoading()": "days function not implemented"}')
+
+  endLoading: ->
+    utils.printLog('{"listener.isLoading()": "days function not implemented"}')

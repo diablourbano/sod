@@ -39,6 +39,8 @@ class Months
   fixHighlight: (axisClass) ->
     return if axisClass != axisProperties.axisClass
 
+    eventsManager.endLoading()
+
     dateFragment = eventsManager.getDateTextFragments()[1]
     axis.fixHighlight(svg, axisClass, dateFragment)
 
@@ -66,3 +68,9 @@ class Months
 
   translate: ->
     axis.translateAxis('months')
+
+  isLoading: ->
+    utils.printLog('{"listener.isLoading()": "months function not implemented"}')
+
+  endLoading: ->
+    utils.printLog('{"listener.isLoading()": "months function not implemented"}')

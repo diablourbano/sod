@@ -113,3 +113,9 @@ class Map
 
   translate: ->
     utils.printLog('{"listener.translate()": "map function not implemented"}')
+
+  isLoading: ->
+    utils.printLog('{"listener.isLoading()": "map function not implemented"}')
+
+  endLoading: ->
+    utils.printLog('{"listener.isLoading()": "map function not implemented"}')

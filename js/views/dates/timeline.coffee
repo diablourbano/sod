@@ -82,3 +82,9 @@ class Timeline
 
   translate: ->
     utils.printLog('{"listener.translate()": "timeline function not implemented"}')
+
+  isLoading: ->
+    utils.printLog('{"listener.isLoading()": "timeline function not implemented"}')
+
+  endLoading: ->
+    utils.printLog('{"listener.isLoading()": "timeline function not implemented"}')

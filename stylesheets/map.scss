@@ -1,5 +1,6 @@
 @import "variables";
 @import "ps-main";
+@import "animations";
 
 .ps-theme-sod {
   @include ps-container(map-merge($ps-theme-default, (
@@ -29,6 +30,17 @@ body {
   padding: 0;
 }
 
+.main-container {
+  animation: blurOut 2s forwards;
+  height: 100vh;
+  position: absolute;
+  width: 100%;
+
+  &.loading {
+    animation: blurIn .4s forwards;
+  }
+}
+
 a, h1, h2, h3, p {
   font-family: 'Lato', sans-serif;
 }
@@ -48,6 +60,58 @@ a, h1, h2, h3, p {
       a {
         cursor: pointer;
         font-size: 22px;
+      }
+    }
+  }
+}
+
+.overlay {
+  background: rgba(255, 255, 255, .4);
+  display: none;
+  height: 100vh;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 9;
+
+  &.visible {
+    display: block;
+  }
+
+  .loading {
+    color: $legend;
+    margin-top: 15%;
+    text-align: center;
+
+    .label,
+    .loading-dots {
+      margin: 0;
+    }
+
+    .label {
+      font-size: 80px;
+    }
+
+    .loading-dots {
+      font-size: 180px;
+      line-height: 0;
+
+      span {
+        animation: loadingDot 5s infinite ease-in-out;
+        opacity: 0;
+
+        &:first-child {
+          animation-delay: 1s;
+        }
+
+        &:nth-child(2) {
+          animation-delay: 2s;
+        }
+
+        &:last-child {
+          animation-delay: 3s;
+        }
       }
     }
   }

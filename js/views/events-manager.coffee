@@ -220,6 +220,12 @@ class EventsManager
     datesClasses.unshift(countryClass) for countryClass in countryClasses
     listener.highlightByCountry(datesClasses, countrySet) for listener in listeners
 
+  isLoading: ->
+    listener.isLoading() for listener in listeners
+
+  endLoading: ->
+    listener.endLoading() for listener in listeners
+
   getDataSet: ->
     if selectedDate['years'] == null
       _.values(timelineObjects)
@@ -238,40 +244,38 @@ class EventsManager
     dateFragments = _.filter(dateTextFragments, (textFragment) ->
                               textFragment != null )
 
-    if dateFragments.length == 3
-        callback()
+    if dateFragments.length == 3 or hasDataFor(dateFragments)
+      callback()
 
-        if dateToLoad and !dateTextFragments[2]
-          @shouldFixDate(dateToLoad[dateState], dateState, dateToLoad, false) if dateToLoad[dateState]
+      if dateToLoad and !dateTextFragments[2]
+        @shouldFixDate(dateToLoad[dateState], dateState, dateToLoad, false) if dateToLoad[dateState]
 
     else
 
-      if hasDataFor(dateFragments)
-          callback()
+      @isLoading()
+      datesUrlFragments = datesUrl(dateFragments)
+      d3.json "#{cors_origin}/#{datesUrlFragments.join('/')}", (error, data) =>
+        return printError(error) if error
 
-          if dateToLoad and !dateTextFragments[2]
-            @shouldFixDate(dateToLoad[dateState], dateState, dateToLoad, false) if dateToLoad[dateState]
+        data.forEach( (d) ->
+          d.date = parseDate(d.date)
+          dateKey = utils.getFormattedDate(d.date, dateState)
+          timelineObjects[dateKey] = d if dateState == 'years'
 
-      else
-        datesUrlFragments = datesUrl(dateFragments)
-        d3.json "#{cors_origin}/#{datesUrlFragments.join('/')}", (error, data) =>
-          return printError(error) if error
+          if dateState == 'months'
+            month = utils.monthIndex(dateKey)
+            timelineObjects[datesUrlFragments[0]][month] = d
 
-          data.forEach( (d) ->
-            d.date = parseDate(d.date)
-            dateKey = utils.getFormattedDate(d.date, dateState)
-            timelineObjects[dateKey] = d if dateState == 'years'
+          if dateState == 'days'
+            month = utils.monthIndex(dateTextFragments[1])
+            timelineObjects[datesUrlFragments[0]][month][dateClassWithouthDecoration(dateKey)] = d
+        )
 
-            if dateState == 'months'
-              month = utils.monthIndex(dateKey)
-              timelineObjects[datesUrlFragments[0]][month] = d
+        callback()
 
-            if dateState == 'days'
-              month = utils.monthIndex(dateTextFragments[1])
-              timelineObjects[datesUrlFragments[0]][month][dateClassWithouthDecoration(dateKey)] = d if dateState == 'days'
-          )
+        _.delay( =>
+          @endLoading()
+        1000)
 
-          callback()
-
-          if dateToLoad and !dateTextFragments[2]
-            @shouldFixDate(dateToLoad[dateState], dateState, dateToLoad, false) if dateToLoad[dateState]
+        if dateToLoad and !dateTextFragments[2]
+          @shouldFixDate(dateToLoad[dateState], dateState, dateToLoad, false) if dateToLoad[dateState]

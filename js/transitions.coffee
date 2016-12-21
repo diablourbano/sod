@@ -153,6 +153,14 @@ class Transitions
   redraw: ->
     utils.printLog('{"listener.redraw()": "transitions function not implemented"}')
 
+  isLoading: ->
+    $('.main-container').addClass('loading')
+    $('.overlay').addClass('visible')
+
+  endLoading: ->
+    $('.main-container').removeClass('loading')
+    $('.overlay').removeClass('visible')
+
   translate: ->
     localeToUse = moment.locale()
 
