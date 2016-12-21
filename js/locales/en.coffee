@@ -4,5 +4,8 @@ sod_locale['en'] = {
   },
   casualties: {
     label: 'Casualties'
+  },
+  loading: {
+    label: 'loading'
   }
 }

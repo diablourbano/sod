@@ -58,5 +58,8 @@ sod_locale['es'] = {
   },
   casualties: {
     label: 'Víctimas'
+  },
+  loading: {
+    label: 'cargando'
   }
 }

@@ -168,6 +168,8 @@ class Transitions
     $('.legend .for-incidents').text(sod_locale[localeToUse].incidents.label)
     $('.legend .for-casualties').text(sod_locale[localeToUse].casualties.label)
 
+    $('.overlay .loading .label').text(sod_locale[localeToUse].loading.label)
+
   $('.graph-slot .toggle-timeline').click( ->
     $(@).children('p').children('i').toggleClass('fa-chevron-down')
     $(@).children('p').children('i').toggleClass('fa-chevron-up')

@@ -62,5 +62,8 @@ sod_locale['fr'] = {
   },
   casualties: {
     label: 'Victimes'
+  },
+  loading: {
+    label: 'chargement'
   }
 }
