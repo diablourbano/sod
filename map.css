@@ -260,11 +260,14 @@ a, h1, h2, h3, p {
         animation: loadingDot 5s infinite ease-in-out;
         opacity: 0; }
         .overlay .loading .loading-dots span:first-child {
-          animation-delay: 1s; }
+          animation-delay: 1s;
+          color: #bfbebe; }
         .overlay .loading .loading-dots span:nth-child(2) {
-          animation-delay: 2s; }
+          animation-delay: 2s;
+          color: #ffb14a; }
         .overlay .loading .loading-dots span:last-child {
-          animation-delay: 3s; }
+          animation-delay: 3s;
+          color: #e5404c; }
 
 .language .lang-options {
   display: none;
