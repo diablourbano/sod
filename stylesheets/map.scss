@@ -33,16 +33,27 @@ a, h1, h2, h3, p {
   font-family: 'Lato', sans-serif;
 }
 
-.language {
-  color: $legend;
-  left: 60px;
+.menu {
+  left: 30px;
   position: absolute;
-  top: 30px;
+  top: 15px;
 
-  .selected {
-    cursor: pointer;
-    font-size: 22px;
+  ul {
+    color: $legend;
+    list-style: none;
+
+    li {
+      margin: 25px 0;
+
+      a {
+        cursor: pointer;
+        font-size: 22px;
+      }
+    }
   }
+}
+
+.language {
 
   .lang-options {
     display: none;
@@ -50,35 +61,17 @@ a, h1, h2, h3, p {
     padding: 0 0 0 30px;
     width: 80px;
 
-    &.visible {
-      display: block;
-    }
 
-    li {
-      border-bottom: solid 1px $legend;
-      height: 35px;
-      margin: 10px 0 10px 27px;
-      width: 31px;
-
-      a {
-        cursor: pointer;
-        font-size: 20px;
-
-        &:hover {
-          font-size: 24px;
-        }
-      }
-    }
-
-
-    position: relative;
+    @include border-radius(15px);
+    position: absolute;
     background: $water;
     border: solid 1px $statistics-container;
     border-right-width: 2px;
     border-bottom-width: 2px;
 
     padding: 3px 0;
-    @include border-radius(15px);
+    top: 65px;
+
 
     &:after, &:before {
       top: -25px;
@@ -106,6 +99,29 @@ a, h1, h2, h3, p {
       border-width: 11px;
       margin-left: -24px;
       top: -22px;
+    }
+
+    &.visible {
+      display: block;
+    }
+
+    li {
+      height: 35px;
+      margin: 10px 0 10px 27px;
+      width: 31px;
+
+      &:first-child {
+        border-bottom: solid 1px $legend;
+      }
+
+      a {
+        cursor: pointer;
+        font-size: 20px;
+
+        &:hover {
+          font-size: 24px;
+        }
+      }
     }
   }
 }
