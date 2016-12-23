@@ -70,6 +70,7 @@ sod_locale['fr'] = {
     info: 'info'
   },
   info: {
+    title: "Symphonie de Mort",
     headline: "Ce n'est pas seulement le groupe de personnes ou la ville 
           ou le bloc qui ont été attaqués qui souffrent, cela laisse une 
           cicatrice parmi tous et si nous ne faisons pas attention à ces 

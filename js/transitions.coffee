@@ -138,6 +138,7 @@ class Transitions
     localeToUse = moment.locale()
     $overlayBox = $('.overlay .box')
 
+    $overlayBox.find('.title').html(sod_locale[localeToUse].info.title)
     $overlayBox.find('.headline').html(sod_locale[localeToUse].info.headline)
     $overlayBox.find('.related').html(sod_locale[localeToUse].info.related)
     $overlayBox.find('.footnote').html(sod_locale[localeToUse].info.footnote)

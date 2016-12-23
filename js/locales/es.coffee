@@ -66,6 +66,7 @@ sod_locale['es'] = {
     info: 'info'
   },
   info: {
+    title: "Sinfonía de Muerte",
     headline: "No es solo el grupo de gente, o la ciudad o el barrio
           que fue atacado quien sufre, aquel ataque deja un daño permanente
           en todos y si no damos la atención necesaria, la misma que no 

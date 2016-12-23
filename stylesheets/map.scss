@@ -133,31 +133,47 @@ a, h1, h2, h3, p {
     background: $white;
     box-shadow: 0px 4px 6px 0px rgba(0,0,0,0.1);
     margin: 10% auto 0;
-    padding: 30px 50px;
     min-height: 400px;
-    width: 30%;
+    width: 630px;
 
     .close {
       color: $months-highlights;
       cursor: pointer;
       font-size: 30px;
       position: absolute;
-      transform: translateX(-53px) translateY(-35px);
+      transform: translateX(610px) translateY(-35px);
+      z-index: 10;
     }
 
-    p {
-      color: $legend;
-      font-size: 24px;
-      line-height: 46px;
+    .title {
+      background: $days-highlights;
+      color: $white;
+      font-size: 34px;
+      height: 70px;
+      line-height: 65px;
+      margin: 0;
+      position: relative;
+      text-align: center;
+    }
 
-      &.footnote,
-      &.related {
-        font-size: 18px;
-        line-height: 26px;
-      }
+    .content {
+      display: block;
+      padding: 5px 50px 30px;
 
-      a {
-        color: $months-highlights;
+      p {
+        color: $legend;
+        font-size: 24px;
+        line-height: 46px;
+
+        &.footnote,
+        &.related {
+          font-size: 18px;
+          line-height: 26px;
+        }
+
+        a {
+          color: $months-highlights;
+        }
       }
     }
   }

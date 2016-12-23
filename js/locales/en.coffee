@@ -12,6 +12,7 @@ sod_locale['en'] = {
     info: 'info'
   },
   info: {
+    title: "Symphony of Death",
     headline: "It's not only the group of people or the city or the block
           that were attacked who suffer, this leaves an scar among everyone
           and if we don't pay attention to those little places where media don't
