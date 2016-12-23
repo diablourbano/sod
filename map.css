@@ -278,24 +278,36 @@ a, h1, h2, h3, p {
     background: #ffffff;
     box-shadow: 0px 4px 6px 0px rgba(0, 0, 0, 0.1);
     margin: 10% auto 0;
-    padding: 30px 50px;
     min-height: 400px;
-    width: 30%; }
+    width: 630px; }
     .overlay .box .close {
       color: #ffb14a;
       cursor: pointer;
       font-size: 30px;
       position: absolute;
-      transform: translateX(-53px) translateY(-35px); }
-    .overlay .box p {
-      color: #9c989a;
-      font-size: 24px;
-      line-height: 46px; }
-      .overlay .box p.footnote, .overlay .box p.related {
-        font-size: 18px;
-        line-height: 26px; }
-      .overlay .box p a {
-        color: #ffb14a; }
+      transform: translateX(610px) translateY(-35px);
+      z-index: 10; }
+    .overlay .box .title {
+      background: #e5404c;
+      color: #ffffff;
+      font-size: 34px;
+      height: 70px;
+      line-height: 65px;
+      margin: 0;
+      position: relative;
+      text-align: center; }
+    .overlay .box .content {
+      display: block;
+      padding: 5px 50px 30px; }
+      .overlay .box .content p {
+        color: #9c989a;
+        font-size: 24px;
+        line-height: 46px; }
+        .overlay .box .content p.footnote, .overlay .box .content p.related {
+          font-size: 18px;
+          line-height: 26px; }
+        .overlay .box .content p a {
+          color: #ffb14a; }
 
 .language .lang-options {
   display: none;
