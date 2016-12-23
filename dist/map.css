@@ -367,6 +367,7 @@ a, h1, h2, h3, p {
 .statistics, .stats-incidents, .stats-casualties {
   position: absolute;
   display: none;
+  height: 87px;
   margin: 0;
   min-width: 95px;
   width: auto;
@@ -436,6 +437,8 @@ a, h1, h2, h3, p {
         fill: #ebe9e9; }
         .map-container .world-map-container .world-map .country.highlight {
           fill: #bfbebe; }
+        .map-container .world-map-container .world-map .country.years, .map-container .world-map-container .world-map .country.months, .map-container .world-map-container .world-map .country.days {
+          cursor: pointer; }
         .map-container .world-map-container .world-map .country.years {
           fill: #bfbebe; }
           .map-container .world-map-container .world-map .country.years.highlight {
@@ -540,10 +543,8 @@ a, h1, h2, h3, p {
       fill: #9c989a; }
     .dates-container .xaxis-container .months .xaxis .tick text.highlight, .dates-container .xaxis-container .months .xaxis .tick text.fix-highlight {
       fill: #ffb14a; }
-    .dates-container .xaxis-container .days .xaxis .tick text {
-      cursor: default; }
-      .dates-container .xaxis-container .days .xaxis .tick text.highlight, .dates-container .xaxis-container .days .xaxis .tick text.fix-highlight {
-        fill: #e5404c; }
+    .dates-container .xaxis-container .days .xaxis .tick text.highlight, .dates-container .xaxis-container .days .xaxis .tick text.fix-highlight {
+      fill: #e5404c; }
   .dates-container .timeline-container {
     display: none;
     height: 230px;
