@@ -72,3 +72,6 @@ class Days
 
   endLoading: ->
     utils.printLog('{"listener.isLoading()": "days function not implemented"}')
+
+  highlightByCountry: (countryClasses, countrySet, cursorPosition) ->
+    utils.printLog('{"listener.highlightByCountry()": "days function not implemented"}')

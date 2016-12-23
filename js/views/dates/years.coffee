@@ -70,3 +70,6 @@ class Years
 
   endLoading: ->
     utils.printLog('{"listener.isLoading()": "years function not implemented"}')
+
+  highlightByCountry: (countryClasses, countrySet, cursorPosition) ->
+    utils.printLog('{"listener.highlightByCountry()": "years function not implemented"}')

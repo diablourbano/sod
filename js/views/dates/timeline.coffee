@@ -88,3 +88,6 @@ class Timeline
 
   endLoading: ->
     utils.printLog('{"listener.isLoading()": "timeline function not implemented"}')
+
+  highlightByCountry: (countryClasses, countrySet, cursorPosition) ->
+    utils.printLog('{"listener.highlightByCountry()": "timeline function not implemented"}')

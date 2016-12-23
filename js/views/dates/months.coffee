@@ -74,3 +74,6 @@ class Months
 
   endLoading: ->
     utils.printLog('{"listener.isLoading()": "months function not implemented"}')
+
+  highlightByCountry: (countryClasses, countrySet, cursorPosition) ->
+    utils.printLog('{"listener.highlightByCountry()": "months function not implemented"}')

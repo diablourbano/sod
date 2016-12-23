@@ -195,21 +195,8 @@ class EventsManager
 
     listener.translate() for listener in listeners
 
-  shouldUnhighlightBasedOnCountry: (countryClasses) ->
+  shouldHighlightBasedOnCountry: (countryClasses, cursorPosition) ->
     country = countryClasses[1]
-    datesToFilter = dateTextFragments.slice(0, dateStates.indexOf(dateState))
-
-    dateFragments = _.filter(dateTextFragments, (o) ->
-                                                     return o?)
-
-    countries = timelineObject(timelineObjects, dateFragments)
-    countrySet = _.find(countries.countries, (o) ->
-                                          return o.country == country)
-    listener.unhighlightByCountry(dateState, countrySet) for listener in listeners
-
-  shouldHighlightBasedOnCountry: (countryClasses) ->
-    country = countryClasses[1]
-    datesClasses = dateTextFragments.slice(0, dateStates.indexOf(dateState))
     dateFragments = _.filter(dateTextFragments, (o) ->
                                                      return o?)
 
@@ -217,8 +204,7 @@ class EventsManager
     countrySet = _.find(countries.countries, (o) ->
                                           return o.country == country)
 
-    datesClasses.unshift(countryClass) for countryClass in countryClasses
-    listener.highlightByCountry(datesClasses, countrySet) for listener in listeners
+    listener.highlightByCountry(countryClasses, countrySet, cursorPosition) for listener in listeners
 
   isLoading: ->
     listener.isLoading() for listener in listeners

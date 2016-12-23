@@ -53,6 +53,19 @@ class Transitions
     $('.timeaxis.' + currentDateState).off('ps-scroll-x')
     $('.timeline-container').off('ps-scroll-x')
 
+  configureStatisticsBox = (dataSet) ->
+    $('.statistics').addClass('visible')
+
+    if !dataSet
+      incidents = 0
+      casualties = 0
+    else
+      incidents = dataSet.incidents ? 0
+      casualties = dataSet.casualties ? 0
+
+    $('.statistics ul li.incidents span.definition').text(incidents)
+    $('.statistics ul li.casualties span.definition').text(casualties)
+
   displayStatisticsBox = (dateClasses, dataSet) ->
     left = $(".xaxis .time-#{dateClasses[0]}").parent().position().left - 35
     $('.statistics').css('left', "#{left}px")
@@ -60,10 +73,16 @@ class Transitions
     bottomPos = parseInt($(".xaxis .time-#{dateClasses[0]}").parents('.timeaxis').css('height').replace('px', ''))
     $('.statistics').css('bottom',  (bottomPos + 25) + 'px')
 
-    $('.statistics').addClass('visible')
+    configureStatisticsBox(dataSet)
 
-    $('.statistics ul li.incidents span.definition').text(dataSet.incidents)
-    $('.statistics ul li.casualties span.definition').text(dataSet.casualties)
+  displayStatisticsByCountry = (countryClasses, dataSet, mousePosition) ->
+    $country = $(".#{countryClasses.toString().replace(/\s/g, '.')}").position()
+
+    $('.statistics').css('left', "#{mousePosition.x - 45}px")
+    $('.statistics').css('top', "#{mousePosition.y - 80}px")
+    $('.statistics').css('bottom', "0")
+
+    configureStatisticsBox(dataSet)
 
   displaySplitStats = (dotClasses, dataSet) ->
     return if !dataSet
@@ -201,6 +220,9 @@ class Transitions
     $('.overlay .loading .label').text(sod_locale[localeToUse].loading.label)
 
     $(".menu .info .label").text(sod_locale[localeToUse].menu.info)
+
+  highlightByCountry: (countryClasses, countrySet, mousePosition) ->
+    displayStatisticsByCountry(countryClasses, countrySet, mousePosition)
 
   $('.graph-slot .toggle-timeline').click( ->
     $(@).children('p').children('i').toggleClass('fa-chevron-down')
