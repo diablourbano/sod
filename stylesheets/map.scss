@@ -357,6 +357,12 @@ a, h1, h2, h3, p {
           fill: $years-highlights;
         }
 
+        &.years,
+        &.months,
+        &.days {
+          cursor: pointer;
+        }
+
         &.years {
           fill: $years-highlights;
 
@@ -531,8 +537,6 @@ a, h1, h2, h3, p {
     }
 
     .days .xaxis .tick text {
-      cursor: default;
-
       &.highlight,
       &.fix-highlight {
         fill: $days-highlights;

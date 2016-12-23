@@ -42,16 +42,7 @@ class Axis
        .on('click', ->
                         clickedDateClasses = d3.event.target.classList
 
-                        isDaysClicked = d3.event.target
-                                          .parentElement
-                                          .parentElement
-                                          .parentElement
-                                          .parentElement
-                                          .parentElement
-                                          .classList
-                                          .value
-
-                        return if _.includes(clickedDateClasses, 'fix-unhighlight') or _.includes(isDaysClicked, 'days')
+                        return if _.includes(clickedDateClasses, 'fix-unhighlight')
 
                         dateClass = clickedDateClasses[0].replace('time-', '')
                         eventsManager.shouldFixDate(dateClass, axisProperties.axisClass))

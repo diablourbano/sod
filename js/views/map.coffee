@@ -77,15 +77,11 @@ class Map
         .classed('highlight', false) for country in dataSet.countries
 
   unfixHighlight: (axisClass) ->
-    return if eventsManager.getDateState() == 'days'
-
     axisIndex = dateStates.indexOf(axisClass)
     (svg.selectAll('.country.' + dateStates[classToRemove])
         .classed(dateStates[classToRemove], false)) for classToRemove in [axisIndex..2]
 
   fixHighlight: (axisClass, dataSet) ->
-    return if eventsManager.getDateState() == 'days'
-
     svg.select('.country.' + country.country)
        .classed(axisClass, true) for country in dataSet.countries
 

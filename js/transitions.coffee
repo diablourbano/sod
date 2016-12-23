@@ -115,6 +115,16 @@ class Transitions
       unloadBlurWindow()
       $('.overlay .box').removeClass('visible')
 
+  loadInfo = ->
+    localeToUse = moment.locale()
+    $overlayBox = $('.overlay .box')
+
+    $overlayBox.find('.headline').html(sod_locale[localeToUse].info.headline)
+    $overlayBox.find('.related').html(sod_locale[localeToUse].info.related)
+    $overlayBox.find('.footnote').html(sod_locale[localeToUse].info.footnote)
+
+    $overlayBox.addClass('visible')
+
   constructor: (anEventsManager) ->
     eventsManager = anEventsManager
 
@@ -167,9 +177,17 @@ class Transitions
 
   isLoading: ->
     loadBlurWindow()
-    $('.overlay .loading').addClass('visible')
+
+    if localStorage.getItem('showInfoFirstTime') and !$('.overlay .box').hasClass('visible')
+      $('.overlay .loading').addClass('visible')
+
+    else
+      loadInfo()
+      localStorage.setItem('showInfoFirstTime', true)
 
   endLoading: ->
+    $('.overlay .box').removeClass('visible') if $('.overlay .box').hasClass('visible')
+
     unloadBlurWindow()
     $('.overlay .loading').removeClass('visible')
 
@@ -228,15 +246,7 @@ class Transitions
 
   $('.menu .info').on('click', ->
     loadBlurWindow()
-
-    localeToUse = moment.locale()
-    $overlayBox = $('.overlay .box')
-
-    $overlayBox.find('.headline').html(sod_locale[localeToUse].info.headline)
-    $overlayBox.find('.related').html(sod_locale[localeToUse].info.related)
-    $overlayBox.find('.footnote').html(sod_locale[localeToUse].info.footnote)
-
-    $overlayBox.addClass('visible')
+    loadInfo()
   )
 
   $(document).keyup((e) ->

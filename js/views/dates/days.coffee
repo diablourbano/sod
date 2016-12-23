@@ -32,10 +32,15 @@ class Days
     axis.toggleHighlight(svg, dateClass, false)
 
   unfixHighlight: (axisClass) ->
-    utils.printLog('{"listener.redraw()": "days function not implemented"}')
+    return if !isThisDateState()
+
+    axis.unfixHighlight(svg, axisClass)
 
   fixHighlight: (axisClass) ->
-    utils.printLog('{"listener.redraw()": "days function not implemented"}')
+    return if !isThisDateState()
+
+    dateFragment = eventsManager.getDateTextFragments()[2]
+    axis.fixHighlight(svg, axisClass, dateFragment)
 
   exploreDate: ->
     return if renderedAxis

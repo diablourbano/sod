@@ -252,7 +252,7 @@ class EventsManager
 
     else
 
-      @isLoading()
+      @isLoading() unless dateState == 'days'
       datesUrlFragments = datesUrl(dateFragments)
       d3.json "#{cors_origin}/#{datesUrlFragments.join('/')}", (error, data) =>
         return printError(error) if error

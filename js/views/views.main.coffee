@@ -31,6 +31,8 @@ class MainController
     eventsManager.addListener(timeline)
 
   draw: ->
+    eventsManager.isLoading()
+
     map.draw( ->
       eventsManager.shouldRender()
     )
