@@ -72,6 +72,7 @@ class Transitions
 
     bottomPos = parseInt($(".xaxis .time-#{dateClasses[0]}").parents('.timeaxis').css('height').replace('px', ''))
     $('.statistics').css('bottom',  (bottomPos + 25) + 'px')
+    $('.statistics').css('top', "inherit")
 
     configureStatisticsBox(dataSet)
 
