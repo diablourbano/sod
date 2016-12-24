@@ -146,6 +146,17 @@ class Transitions
 
     $overlayBox.addClass('visible')
 
+  buildBreadcrumb = ->
+    $graphSlot = $('.graph-slot p.selected-date')
+    $breadcrumbEl = $graphSlot.find('.breadcrumb-back')
+    dateTextFragments = eventsManager.getDateTextFragments()
+
+    breadcrumDate = _.zipObject(['year', 'month', 'day'], dateTextFragments)
+
+    _.each(breadcrumDate, (value, key) ->
+      $breadcrumbEl.find("span.#{key}").text(value)
+    )
+
   constructor: (anEventsManager) ->
     eventsManager = anEventsManager
 
@@ -168,19 +179,21 @@ class Transitions
     $('.stats-casualties').removeClass('visible')
 
   unfixHighlight: (axisClass) ->
-    $('.graph-slot p.selected-date span').text(eventsManager.getDateTextFragments().join(' '))
+    buildBreadcrumb()
 
-    if $('.graph-slot p.selected-date span').text().trim() == ''
-      $('.graph-slot p.selected-date').removeClass('visible')
+    dateTextFragments = eventsManager.getDateTextFragments()
+    $graphSlot = $('.graph-slot p.selected-date')
+
+    if dateTextFragments[0]
+      $graphSlot.addClass('visible')
+    else
+      $graphSlot.removeClass('visible')
 
     unsetScrollListeners()
     setScrollListeners(eventsManager.getDateState())
 
   fixHighlight: (axisClass) ->
-    $('.graph-slot p.selected-date span').text(eventsManager.getDateTextFragments().join(' '))
-    $('.graph-slot p.selected-date').addClass('visible')
-    unsetScrollListeners()
-    setScrollListeners(nextDateState())
+    @unfixHighlight(axisClass)
 
   exploreDate: ->
     @render()
@@ -215,7 +228,7 @@ class Transitions
   translate: ->
     localeToUse = moment.locale()
 
-    $('.graph-slot p.selected-date span').text(eventsManager.getDateTextFragments().join(' '))
+    buildBreadcrumb()
     $('.legend .for-incidents').text(sod_locale[localeToUse].incidents.label)
     $('.legend .for-casualties').text(sod_locale[localeToUse].casualties.label)
 
@@ -248,8 +261,13 @@ class Transitions
 
   $('.breadcrumb-back').click( ->
     axisClasses = ['years', 'months', 'days']
+    dateFragments = []
 
-    dateFragments = $('.graph-slot p.selected-date span').text().trim().split(' ')
+    _.each(['year', 'month', 'day'], (timeDate) =>
+      breadcrumbText = $(@).find("span.#{timeDate}").text()
+      dateFragments.push(breadcrumbText) if breadcrumbText
+    )
+
     axisIndex = dateFragments.length - 1
 
     eventsManager.shouldFixDate(dateFragments[axisIndex], axisClasses[axisIndex])

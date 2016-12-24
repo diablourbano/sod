@@ -182,21 +182,19 @@ a, h1, h2, h3, p {
 .language {
 
   .lang-options {
-    display: none;
-    list-style: none;
-    padding: 0 0 0 30px;
-    width: 80px;
-
-
     @include border-radius(15px);
-    position: absolute;
+
     background: $water;
     border: solid 1px $statistics-container;
     border-right-width: 2px;
     border-bottom-width: 2px;
-
+    display: none;
+    list-style: none;
     padding: 3px 0;
+    position: absolute;
     top: 65px;
+    width: 80px;
+    z-index: 10;
 
 
     &:after, &:before {
@@ -432,6 +430,10 @@ a, h1, h2, h3, p {
     a.breadcrumb-back {
       cursor: pointer;
       color: $blue;
+
+      span {
+        color: $blue;
+      }
     }
 
     span {

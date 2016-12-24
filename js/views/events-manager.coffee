@@ -43,10 +43,16 @@ class EventsManager
 
   setDateTextFragments = (dateClass) ->
     dateClass = dateClass.trim()
-    dateText = $('.graph-slot p.selected-date span').text().trim()
+    $breadcrumbEl = $('.breadcrumb-back')
+    dateBreadcrumb = []
+
+    _.each(['year', 'month', 'day'], (dateTime) ->
+      dateText = $breadcrumbEl.find("span.#{dateTime}").text().trim()
+
+      dateBreadcrumb.push(dateText) if dateText != ''
+    )
     
-    if dateText != ""
-      dateTextFragments = dateText.split(' ')
+    dateTextFragments = dateBreadcrumb if dateBreadcrumb[0]
 
     if dateClass.match(/^\d{4}$/) != null
       dateTextFragments[0] = dateClass
