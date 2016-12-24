@@ -84,7 +84,7 @@ class EventsManager
         month = dateFragments[1]
 
         if month
-          month = utils.monthIndex(month).toString()
+          month = utils.monthIndex(month)
           month = "0#{month}" if month.length == 1
           dates.push(month)
 
@@ -196,13 +196,27 @@ class EventsManager
     listener.translate() for listener in listeners
 
   shouldHighlightBasedOnCountry: (countryClasses, cursorPosition) ->
+    dateTextFragmentsToUse = []
     country = countryClasses[1]
-    dateFragments = _.filter(dateTextFragments, (o) ->
+    classDateState = _.last(countryClasses)
+
+    if _.includes(countryClasses, 'years')
+      dateTextFragmentsToUse.push(dateTextFragments[0])
+
+    if _.includes(countryClasses, 'months')
+      dateTextFragmentsToUse.push(dateTextFragments[1])
+
+    if _.includes(countryClasses, 'days')
+      dateTextFragmentsToUse.push(dateTextFragments[2])
+
+    dateFragments = _.filter(dateTextFragmentsToUse, (o) ->
                                                      return o?)
 
-    countries = timelineObject(timelineObjects, dateFragments)
-    countrySet = _.find(countries.countries, (o) ->
-                                          return o.country == country)
+    objects = timelineObject(timelineObjects, dateFragments)
+    countrySet = _.find(objects.countries, (o) ->
+                                          countryList = o.country.split(',')
+                                          return _.includes(countryList, country))
+
 
     listener.highlightByCountry(countryClasses, countrySet, cursorPosition) for listener in listeners
 
