@@ -1,5 +1,6 @@
 @import "variables";
 @import "ps-main";
+@import "animations";
 
 .ps-theme-sod {
   @include ps-container(map-merge($ps-theme-default, (
@@ -29,8 +30,224 @@ body {
   padding: 0;
 }
 
+.main-container {
+  animation: blurOut 2s forwards;
+  height: 100vh;
+  position: absolute;
+  width: 100%;
+
+  &.loading {
+    animation: blurIn .4s forwards;
+  }
+}
+
 a, h1, h2, h3, p {
   font-family: 'Lato', sans-serif;
+}
+
+.menu {
+  left: 30px;
+  position: absolute;
+  top: 15px;
+
+  ul {
+    color: $blue;
+    list-style: none;
+
+    li {
+      margin: 25px 0;
+
+      a {
+        cursor: pointer;
+        font-size: 22px;
+      }
+    }
+  }
+}
+
+.overlay {
+  background: rgba(255, 255, 255, .4);
+  display: none;
+  height: 100vh;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 9;
+
+  &.visible {
+    display: block;
+  }
+
+  div {
+    display: none;
+
+    &.visible {
+      display: block;
+    }
+  }
+
+  .loading {
+    color: $legend;
+    margin-top: 15%;
+    text-align: center;
+
+    .label,
+    .loading-dots {
+      margin: 0;
+    }
+
+    .label {
+      font-size: 80px;
+    }
+
+    .loading-dots {
+      font-size: 180px;
+      line-height: 0;
+
+      span {
+        animation: loadingDot 5s infinite ease-in-out;
+        opacity: 0;
+
+        &:first-child {
+          animation-delay: 1s;
+          color: $years-highlights;
+        }
+
+        &:nth-child(2) {
+          animation-delay: 2s;
+          color: $months-highlights;
+        }
+
+        &:last-child {
+          animation-delay: 3s;
+          color: $days-highlights;
+        }
+      }
+    }
+  }
+
+  .box {
+    -webkit-box-shadow: 0px 4px 6px 0px rgba(0,0,0,0.1);
+    -moz-box-shadow: 0px 4px 6px 0px rgba(0,0,0,0.1);
+    background: $white;
+    box-shadow: 0px 4px 6px 0px rgba(0,0,0,0.1);
+    margin: 10% auto 0;
+    min-height: 400px;
+    width: 630px;
+
+    .close {
+      color: $months-highlights;
+      cursor: pointer;
+      font-size: 30px;
+      position: absolute;
+      transform: translateX(610px) translateY(-35px);
+      z-index: 10;
+    }
+
+    .title {
+      background: $days-highlights;
+      color: $white;
+      font-size: 34px;
+      height: 70px;
+      line-height: 65px;
+      margin: 0;
+      position: relative;
+      text-align: center;
+    }
+
+    .content {
+      display: block;
+      padding: 5px 50px 30px;
+
+      p {
+        color: $legend;
+        font-size: 24px;
+        line-height: 46px;
+
+        &.footnote,
+        &.related {
+          font-size: 18px;
+          line-height: 26px;
+        }
+
+        a {
+          color: $months-highlights;
+        }
+      }
+    }
+  }
+}
+
+.language {
+
+  .lang-options {
+    @include border-radius(15px);
+
+    background: $water;
+    border: solid 1px $statistics-container;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+    display: none;
+    list-style: none;
+    padding: 3px 0;
+    position: absolute;
+    top: 65px;
+    width: 80px;
+    z-index: 10;
+
+
+    &:after, &:before {
+      top: -25px;
+      left: 64%;
+      border: solid 1px transparent;
+      content: " ";
+      height: 0;
+      width: 0;
+      position: absolute;
+      pointer-events: none;
+      transform: rotate(180deg);
+    }
+
+    &:after {
+      border-color: rgba(136, 183, 213, 0);
+      border-top-color: $water;
+      border-width: 9px;
+      margin-left: -23px;
+      top: -18px;
+    }
+
+    &:before {
+      border-color: rgba(194, 225, 245, 0);
+      border-top-color: $statistics-container;
+      border-width: 11px;
+      margin-left: -24px;
+      top: -22px;
+    }
+
+    &.visible {
+      display: block;
+    }
+
+    li {
+      height: 35px;
+      margin: 10px 0 10px 27px;
+      width: 31px;
+
+      &:first-child {
+        border-bottom: solid 1px $legend;
+      }
+
+      a {
+        cursor: pointer;
+        font-size: 20px;
+
+        &:hover {
+          font-size: 24px;
+        }
+      }
+    }
+  }
 }
 
 .legend {
@@ -60,6 +277,7 @@ a, h1, h2, h3, p {
 .statistics, .stats-incidents, .stats-casualties {
   position: absolute;
   display: none;
+  height: 87px;
   margin: 0;
   min-width: 95px;
   width: auto;
@@ -96,6 +314,7 @@ a, h1, h2, h3, p {
       border-width: 9px;
       margin-left: -23px;
     }
+
     &:before {
       border-color: rgba(194, 225, 245, 0);
       border-top-color: $statistics-container;
@@ -150,30 +369,36 @@ a, h1, h2, h3, p {
         fill: $countries;
 
         &.highlight {
-          fill: $years-countries;
+          fill: $years-highlights;
+        }
+
+        &.years,
+        &.months,
+        &.days {
+          cursor: pointer;
         }
 
         &.years {
-          fill: $years-countries;
+          fill: $years-highlights;
 
           &.highlight {
-            fill: $months-countries;
+            fill: $months-highlights;
           }
         }
 
         &.months {
-          fill: $months-countries;
+          fill: $months-highlights;
 
           &.highlight {
-            fill: $days-countries;
+            fill: $days-highlights;
           }
         }
 
         &.days {
-          fill: $days-countries;
+          fill: $days-highlights;
 
           &.highlight {
-            fill: $days-countries;
+            fill: $days-highlights;
           }
         }
       }
@@ -204,49 +429,40 @@ a, h1, h2, h3, p {
 
     a.breadcrumb-back {
       cursor: pointer;
-      color: $date-headline;
+      color: $blue;
 
-      &:hover {
-        color: $date-headline-hover;
+      span {
+        color: $blue;
       }
     }
 
     span {
       color: $thin-separator;
     }
-
-    &:hover {
-      a.breadcrumb-back {
-        color: $date-headline-hover;
-      }
-    }
   }
 
   .tab {
-    width: auto;
+    width: 30px;
+    height: 30px;
 
     p {
       cursor: pointer;
       width: 60px;
-      text-align: center;
-      margin-top: 5px;
+      margin-top: 6px;
+      margin-left: 8px;
 
       i {
-        font-size: 1.5em;
+        font-size: 1em;
       }
     }
 
     &.slot {
-      background: $date-headline;
+      background: $blue;
       margin: 0 auto;
-      @include semicircle-radius(10px);
+      @include border-radius(40px);
 
       p {
         color: $water;
-
-        &:hover {
-          color: $date-headline-hover;
-        }
       }
     }
 
@@ -279,7 +495,6 @@ a, h1, h2, h3, p {
     border-top: solid 1px $thin-separator;
     color: $date-headline-hover;
     padding: 0.8em 1em 0;
-    // min-height: 50px;
     height: auto;
     width: 100%;
 
@@ -289,10 +504,6 @@ a, h1, h2, h3, p {
       margin-bottom: 10px;
       overflow-x: auto;
       width: 98%;
-    }
-
-    .years {
-
     }
 
     .months, .days {
@@ -323,9 +534,31 @@ a, h1, h2, h3, p {
           }
 
           &.fix-unhighlight {
+            cursor: default;
             fill: $fix-unhighlight;
           }
         }
+      }
+    }
+
+    .years .xaxis .tick text {
+      &.highlight,
+      &.fix-highlight {
+        fill: $legend;
+      }
+    }
+
+    .months .xaxis .tick text {
+      &.highlight,
+      &.fix-highlight {
+        fill: $months-highlights;
+      }
+    }
+
+    .days .xaxis .tick text {
+      &.highlight,
+      &.fix-highlight {
+        fill: $days-highlights;
       }
     }
   }

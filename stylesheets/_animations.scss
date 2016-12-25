@@ -1,0 +1,29 @@
+@keyframes blurIn {
+  from {
+    filter: blur(0px);
+  }
+
+  to {
+    filter: blur(2px);
+  }
+}
+
+@keyframes blurOut {
+  from {
+    filter: blur(2px);
+  }
+
+  to {
+    filter: blur(0px);
+  }
+}
+
+@keyframes loadingDot {
+  0%, 100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: .1;
+  }
+}

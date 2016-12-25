@@ -53,24 +53,49 @@ class Transitions
     $('.timeaxis.' + currentDateState).off('ps-scroll-x')
     $('.timeline-container').off('ps-scroll-x')
 
+  configureStatisticsBox = (dataSet) ->
+    $('.statistics').addClass('visible')
+
+    if !dataSet
+      incidents = 0
+      casualties = 0
+    else
+      incidents = dataSet.incidents ? 0
+      casualties = dataSet.casualties ? 0
+
+    $('.statistics ul li.incidents span.definition').text(incidents)
+    $('.statistics ul li.casualties span.definition').text(casualties)
+
   displayStatisticsBox = (dateClasses, dataSet) ->
-    left = $(".xaxis .time-#{dateClasses[0]}").parent().position().left
-    $('.statistics').css('left', "#{left - 23}px")
+    left = $(".xaxis .time-#{dateClasses[0]}").parent().position().left - 35
+    $('.statistics').css('left', "#{left}px")
 
     bottomPos = parseInt($(".xaxis .time-#{dateClasses[0]}").parents('.timeaxis').css('height').replace('px', ''))
     $('.statistics').css('bottom',  (bottomPos + 25) + 'px')
+    $('.statistics').css('top', "inherit")
 
-    $('.statistics').addClass('visible')
+    configureStatisticsBox(dataSet)
 
-    $('.statistics ul li.incidents span.definition').text(dataSet.incidents)
-    $('.statistics ul li.casualties span.definition').text(dataSet.casualties)
+  displayStatisticsByCountry = (countryClasses, dataSet, mousePosition) ->
+    $country = $(".#{countryClasses.toString().replace(/\s/g, '.')}").position()
+
+    $('.statistics').css('left', "#{mousePosition.x - 45}px")
+    $('.statistics').css('top', "#{mousePosition.y - 80}px")
+    $('.statistics').css('bottom', "0")
+
+    configureStatisticsBox(dataSet)
 
   displaySplitStats = (dotClasses, dataSet) ->
     return if !dataSet
 
     dotClasses.push('dot', 'casualties') if !_.includes(dotClasses, 'dot')
 
-    xPosition = $(".xaxis .time-#{dotClasses[0]}").parent().position().left
+    scrollElement = $(".timeaxis.#{currentDateState} .ps-scrollbar-x-rail").attr('style')
+    deltaScroll = parseInt(scrollElement.split('; ')[0].split(': ')[1].replace('px', '')) if scrollElement
+
+    xPosition = parseInt($(".time-#{dotClasses.join('.')}").attr('cx')) + 10 - deltaScroll
+    xPosition = 0 if isNaN(xPosition)
+
     dotElements = {
       firstClasses: _.join(dotClasses, '.')
       secondClasses: _.join(dotClasses, '.')
@@ -85,6 +110,10 @@ class Transitions
     dotElements.secondClasses = _.replace(dotElements.firstClasses, dotElements.firstStat, dotElements.secondStat)
 
     for position in ['first', 'second']
+      dotPositionClasses = $(".time-#{dotElements["#{position}Classes"]}")
+
+      return if dotPositionClasses.length == 0
+
       yPosition = $(".time-#{dotElements["#{position}Classes"]}").position().top - 60
       stat = dotElements["#{position}Stat"]
 
@@ -93,6 +122,40 @@ class Transitions
       $(".stats-#{stat}").addClass('visible')
       $(".stats-#{stat} ul li.#{stat} span.definition").text(dataSet[stat])
 
+  loadBlurWindow = ->
+    $('.main-container').addClass('loading')
+    $('.overlay').addClass('visible')
+
+  unloadBlurWindow = ->
+    $('.main-container').removeClass('loading')
+    $('.overlay').removeClass('visible')
+
+  hideMenuBox = ->
+    if $('.overlay .box').hasClass('visible')
+      unloadBlurWindow()
+      $('.overlay .box').removeClass('visible')
+
+  loadInfo = ->
+    localeToUse = moment.locale()
+    $overlayBox = $('.overlay .box')
+
+    $overlayBox.find('.title').html(sod_locale[localeToUse].info.title)
+    $overlayBox.find('.headline').html(sod_locale[localeToUse].info.headline)
+    $overlayBox.find('.related').html(sod_locale[localeToUse].info.related)
+    $overlayBox.find('.footnote').html(sod_locale[localeToUse].info.footnote)
+
+    $overlayBox.addClass('visible')
+
+  buildBreadcrumb = ->
+    $graphSlot = $('.graph-slot p.selected-date')
+    $breadcrumbEl = $graphSlot.find('.breadcrumb-back')
+    dateTextFragments = eventsManager.getDateTextFragments()
+
+    breadcrumDate = _.zipObject(['year', 'month', 'day'], dateTextFragments)
+
+    _.each(breadcrumDate, (value, key) ->
+      $breadcrumbEl.find("span.#{key}").text(value)
+    )
 
   constructor: (anEventsManager) ->
     eventsManager = anEventsManager
@@ -116,19 +179,21 @@ class Transitions
     $('.stats-casualties').removeClass('visible')
 
   unfixHighlight: (axisClass) ->
-    $('.graph-slot p.selected-date span').text(eventsManager.getDateTextFragments().join(' '))
+    buildBreadcrumb()
 
-    if $('.graph-slot p.selected-date span').text().trim() == ''
-      $('.graph-slot p.selected-date').removeClass('visible')
+    dateTextFragments = eventsManager.getDateTextFragments()
+    $graphSlot = $('.graph-slot p.selected-date')
+
+    if dateTextFragments[0]
+      $graphSlot.addClass('visible')
+    else
+      $graphSlot.removeClass('visible')
 
     unsetScrollListeners()
     setScrollListeners(eventsManager.getDateState())
 
   fixHighlight: (axisClass) ->
-    $('.graph-slot p.selected-date span').text(eventsManager.getDateTextFragments().join(' '))
-    $('.graph-slot p.selected-date').addClass('visible')
-    unsetScrollListeners()
-    setScrollListeners(nextDateState())
+    @unfixHighlight(axisClass)
 
   exploreDate: ->
     @render()
@@ -143,6 +208,36 @@ class Transitions
 
   redraw: ->
     utils.printLog('{"listener.redraw()": "transitions function not implemented"}')
+
+  isLoading: ->
+    loadBlurWindow()
+
+    if localStorage.getItem('showInfoFirstTime') and !$('.overlay .box').hasClass('visible')
+      $('.overlay .loading').addClass('visible')
+
+    else
+      loadInfo()
+      localStorage.setItem('showInfoFirstTime', true)
+
+  endLoading: ->
+    $('.overlay .box').removeClass('visible') if $('.overlay .box').hasClass('visible')
+
+    unloadBlurWindow()
+    $('.overlay .loading').removeClass('visible')
+
+  translate: ->
+    localeToUse = moment.locale()
+
+    buildBreadcrumb()
+    $('.legend .for-incidents').text(sod_locale[localeToUse].incidents.label)
+    $('.legend .for-casualties').text(sod_locale[localeToUse].casualties.label)
+
+    $('.overlay .loading .label').text(sod_locale[localeToUse].loading.label)
+
+    $(".menu .info .label").text(sod_locale[localeToUse].menu.info)
+
+  highlightByCountry: (countryClasses, countrySet, mousePosition) ->
+    displayStatisticsByCountry(countryClasses, countrySet, mousePosition)
 
   $('.graph-slot .toggle-timeline').click( ->
     $(@).children('p').children('i').toggleClass('fa-chevron-down')
@@ -166,8 +261,13 @@ class Transitions
 
   $('.breadcrumb-back').click( ->
     axisClasses = ['years', 'months', 'days']
+    dateFragments = []
 
-    dateFragments = $('.graph-slot p.selected-date span').text().trim().split(' ')
+    _.each(['year', 'month', 'day'], (timeDate) =>
+      breadcrumbText = $(@).find("span.#{timeDate}").text()
+      dateFragments.push(breadcrumbText) if breadcrumbText
+    )
+
     axisIndex = dateFragments.length - 1
 
     eventsManager.shouldFixDate(dateFragments[axisIndex], axisClasses[axisIndex])
@@ -184,6 +284,20 @@ class Transitions
       $('.timeline-container').addClass('collapsed')
       $('.timeline-container').slideDown({ duration: 'slow', progress: (animation, progress, remainingMs) ->
                                                                           adjustTabBasedOnTimeline() })
+  )
+
+  $('.menu .info').on('click', ->
+    loadBlurWindow()
+    loadInfo()
+  )
+
+  $(document).keyup((e) ->
+     if e.keyCode == 27
+       hideMenuBox()
+  )
+
+  $('.overlay .box .close').on('click', ->
+    hideMenuBox()
   )
 
   $(window).resize( ->

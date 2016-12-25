@@ -6,6 +6,13 @@ class Map
   eventsManager = null
   svg = null
 
+  shouldSelectCountry = (countryClasses) ->
+    hasYears = _.includes(countryClasses, 'years')
+    hasMonths = _.includes(countryClasses, 'months')
+    hasDays = _.includes(countryClasses, 'days')
+
+    hasYears || hasMonths || hasDays
+
   dateStates = ['years', 'months', 'days']
 
   timelineHeight = ->
@@ -25,26 +32,19 @@ class Map
             ))
             .append('g')
             .attr('style', 'max-height: ' + (utils.height - timelineHeight()) + 'px;')
+            .on('click', ->
+              targetClasses = d3.event.target.classList
+              
+              if shouldSelectCountry(targetClasses)
+                mousePosition = {x: d3.event.screenX, y: d3.event.clientY}
+                eventsManager.shouldHighlightBasedOnCountry(targetClasses, mousePosition)
+            )
 
   projection = d3.geo.mercator()
                  .translate([500, 500])
 
   path = d3.geo.path()
            .projection(projection)
-
-
-  shouldHighlightCountryStats = (callback) ->
-    countryClasses = d3.event.target.classList
-
-    return if _.indexOf(countryClasses, 'years') == -1
-
-    axisClass = _.last(countryClasses)
-    dateState = eventsManager.getDateState()
-    previousAxisIndex = dateStates.indexOf(dateState) - 1
-
-    return if axisClass != dateStates[previousAxisIndex] and !(axisClass == dateState == 'days')
-
-    callback(countryClasses)
 
   renderWith = (datum) ->
     configureMapPosition()
@@ -106,3 +106,15 @@ class Map
   redraw: ->
     configureMapPosition()
     svg.attr('style', 'max-height: ' + (utils.height - timelineHeight()) + 'px;')
+
+  translate: ->
+    utils.printLog('{"listener.translate()": "map function not implemented"}')
+
+  isLoading: ->
+    utils.printLog('{"listener.isLoading()": "map function not implemented"}')
+
+  endLoading: ->
+    utils.printLog('{"listener.isLoading()": "map function not implemented"}')
+
+  highlightByCountry: (countryClasses, countrySet, cursorPosition) ->
+    utils.printLog('{"listener.highlightByCountry()": "map function not implemented"}')

@@ -7,8 +7,8 @@ var sass = require('gulp-sass');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 
-gulp.task('default', ['addMap', 'variables:dev', 'loadLibraries', 'coffee:watch', 'sass:watch', 'index:watch']);
-gulp.task('dist', ['map:dist', 'variables:dist', 'libraries:dist', 'js:dist', 'css:dist', 'index:dist']);
+gulp.task('default', ['addMap', 'variables:dev', 'loadLibraries', 'coffee:watch', 'sass:watch', 'fonts:watch', 'icon', 'index:watch']);
+gulp.task('dist', ['map:dist', 'variables:dist', 'libraries:dist', 'js:dist', 'css:dist', 'fonts:dist', 'icon:dist', 'index:dist']);
 
 gulp.task('coffee', function() {
   return gulp.src('./js/**/**.coffee')
@@ -19,6 +19,10 @@ gulp.task('coffee', function() {
 
 gulp.task('merge-js', ['coffee'], function() {
   filesOrder = [
+    './tmp/en.js',
+    './tmp/es.js',
+    './tmp/fr.js',
+    './tmp/locale_ui.js',
     './tmp/utils.js',
     './tmp/url-manager.js',
     './tmp/events-manager.js',
@@ -43,13 +47,27 @@ gulp.task('coffee:watch', function() {
 });
 
 gulp.task('sass', function () {
-  gulp.src('./scss/**/**.scss')
+  gulp.src('./stylesheets/**/**.scss')
       .pipe(sass().on('error', sass.logError))
-      .pipe(gulp.dest(('./build')));
+      .pipe(gulp.dest('./build'));
 });
      
 gulp.task('sass:watch', function () {
-  gulp.watch('./scss/**/**.scss', ['sass']);
+  gulp.watch('./stylesheets/**/**.scss', ['sass']);
+});
+
+gulp.task('fonts:build', function() {
+  gulp.src('./fonts/**/**.*')
+      .pipe(gulp.dest('./build/fonts'));
+});
+
+gulp.task('fonts:watch', function() {
+  gulp.watch('./fonts/**/**.*', ['fonts:build']);
+});
+
+gulp.task('icon', function() {
+  gulp.src('./icon.png')
+      .pipe(gulp.dest(('./build')));
 });
 
 gulp.task('index', function() {
@@ -89,13 +107,18 @@ gulp.task('loadLibraries', function() {
 
 /* DIST  */
 
+gulp.task('icon:dist', function() {
+  gulp.src('./build/icon.png')
+      .pipe(gulp.dest(('./dist')));
+});
+
 gulp.task('index:dist', function() {
   gulp.src('./build/index.html')
       .pipe(gulp.dest(('./dist')));
 });
 
 gulp.task('css:dist', function() {
-  gulp.src('./build/map.css')
+  gulp.src('./build/**.css')
       .pipe(gulp.dest(('./dist')));
 });
 
@@ -113,6 +136,11 @@ gulp.task('variables:dist', function() {
 gulp.task('libraries:dist', function() {
   gulp.src('./build/libraries.js')
       .pipe(gulp.dest(('./dist')));
+});
+
+gulp.task('fonts:dist', function() {
+  gulp.src('./build/fonts/**/**.*')
+      .pipe(gulp.dest(('./dist/fonts')));
 });
 
 gulp.task('js:dist', function() {

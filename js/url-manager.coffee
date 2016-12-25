@@ -74,3 +74,6 @@ class UrlManager
 
     selectedDate[dateFragment] = date
     setUrlHash()
+
+  urlHash: ->
+    window.location.hash.replace(/(^#\/|\/$)/g, '').split('/')

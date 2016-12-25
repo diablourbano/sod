@@ -79,3 +79,15 @@ class Timeline
 
   redraw: ->
     utils.printLog('{"listener.redraw()": "timeline function not implemented"}')
+
+  translate: ->
+    utils.printLog('{"listener.translate()": "timeline function not implemented"}')
+
+  isLoading: ->
+    utils.printLog('{"listener.isLoading()": "timeline function not implemented"}')
+
+  endLoading: ->
+    utils.printLog('{"listener.isLoading()": "timeline function not implemented"}')
+
+  highlightByCountry: (countryClasses, countrySet, cursorPosition) ->
+    utils.printLog('{"listener.highlightByCountry()": "timeline function not implemented"}')

@@ -39,6 +39,8 @@ class Months
   fixHighlight: (axisClass) ->
     return if axisClass != axisProperties.axisClass
 
+    eventsManager.endLoading()
+
     dateFragment = eventsManager.getDateTextFragments()[1]
     axis.fixHighlight(svg, axisClass, dateFragment)
 
@@ -63,3 +65,15 @@ class Months
 
   redraw: ->
     utils.printLog('{"listener.redraw()": "months function not implemented"}')
+
+  translate: ->
+    axis.translateAxis('months')
+
+  isLoading: ->
+    utils.printLog('{"listener.isLoading()": "months function not implemented"}')
+
+  endLoading: ->
+    utils.printLog('{"listener.isLoading()": "months function not implemented"}')
+
+  highlightByCountry: (countryClasses, countrySet, cursorPosition) ->
+    utils.printLog('{"listener.highlightByCountry()": "months function not implemented"}')
