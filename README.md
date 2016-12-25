@@ -16,7 +16,7 @@ It's a timeline, dot chart and map visualizations. The variables involved are
   at that specic moment.
 
 ## Where data comes from?
-For this project there's a [backend server](https://bitbucket.org/diablourbano/sod_backend) 
+For this project there's a [backend server](https://github.com/diablourbano/sod_backend) 
 (you'll need it if you want to run this localy) which has loaded part of the data from
 [Global Database Terrorism](https://www.start.umd.edu/gtd/)
 
@@ -38,7 +38,7 @@ Two reasons
 
 #### Requirements
 
-- [SoD back-end](https://bitbucket.org/diablourbano/sod_backend)
+- [SoD back-end](https://github.com/diablourbano/sod_backend)
 - [Sass](http://sass-lang.com/)
 - [node & npm](https://nodejs.org/en/)
 - Apache or nginx or your favorite HTTP server
