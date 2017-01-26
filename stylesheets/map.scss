@@ -134,14 +134,15 @@ a, h1, h2, h3, p {
     box-shadow: 0px 4px 6px 0px rgba(0,0,0,0.1);
     margin: 10% auto 0;
     min-height: 400px;
-    width: 630px;
+    width: 93%;;
 
     .close {
       color: $months-highlights;
       cursor: pointer;
       font-size: 30px;
       position: absolute;
-      transform: translateX(610px) translateY(-35px);
+      right: 0;
+      transform: translateY(-.5em);
       z-index: 10;
     }
 
@@ -227,6 +228,7 @@ a, h1, h2, h3, p {
 
     &.visible {
       display: block;
+      position: relative;
     }
 
     li {
