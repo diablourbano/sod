@@ -279,13 +279,14 @@ a, h1, h2, h3, p {
     box-shadow: 0px 4px 6px 0px rgba(0, 0, 0, 0.1);
     margin: 10% auto 0;
     min-height: 400px;
-    width: 630px; }
+    width: 93%; }
     .overlay .box .close {
       color: #ffb14a;
       cursor: pointer;
       font-size: 30px;
       position: absolute;
-      transform: translateX(610px) translateY(-35px);
+      right: 0;
+      transform: translateY(-0.5em);
       z-index: 10; }
     .overlay .box .title {
       background: #e5404c;
@@ -348,7 +349,8 @@ a, h1, h2, h3, p {
     margin-left: -24px;
     top: -22px; }
   .language .lang-options.visible {
-    display: block; }
+    display: block;
+    position: relative; }
   .language .lang-options li {
     height: 35px;
     margin: 10px 0 10px 27px;
